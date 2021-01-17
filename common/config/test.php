@@ -1,6 +1,7 @@
 <?php
 return [
     'id' => 'app-common-tests',
+    'language' => 'en-US',
     'basePath' => dirname(__DIR__),
     'components' => [
         'user' => [

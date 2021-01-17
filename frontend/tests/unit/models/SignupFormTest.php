@@ -16,7 +16,7 @@ class SignupFormTest extends \Codeception\Test\Unit
     {
         $this->tester->haveFixtures([
             'user' => [
-                'class' => UserFixture::className(),
+                'class' => UserFixture::class,
                 'dataFile' => codecept_data_dir() . 'user.php'
             ]
         ]);
@@ -64,8 +64,8 @@ class SignupFormTest extends \Codeception\Test\Unit
         expect_that($model->getErrors('email'));
 
         expect($model->getFirstError('username'))
-            ->equals('This username has already been taken.');
+            ->equals('This username has already been taken');
         expect($model->getFirstError('email'))
-            ->equals('This email address has already been taken.');
+            ->equals('This email address has already been taken');
     }
 }

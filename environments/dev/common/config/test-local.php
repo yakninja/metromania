@@ -2,7 +2,7 @@
 return [
     'components' => [
         'db' => [
-            'dsn' => 'mysql:host=mysql;dbname=metro',
+            'dsn' => 'mysql:host=mysqltest;dbname=metro',
         ],
     ],
 ];

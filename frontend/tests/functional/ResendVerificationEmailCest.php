@@ -21,7 +21,7 @@ class ResendVerificationEmailCest
     {
         return [
             'user' => [
-                'class' => UserFixture::className(),
+                'class' => UserFixture::class,
                 'dataFile' => codecept_data_dir() . 'user.php',
             ],
         ];
@@ -42,31 +42,31 @@ class ResendVerificationEmailCest
     public function checkPage(FunctionalTester $I)
     {
         $I->see('Resend verification email', 'h1');
-        $I->see('Please fill out your email. A verification email will be sent there.');
+        $I->see('Please fill out your email. A verification email will be sent there');
     }
 
     public function checkEmptyField(FunctionalTester $I)
     {
         $I->submitForm($this->formId, $this->formParams(''));
-        $I->seeValidationError('Email cannot be blank.');
+        $I->seeValidationError('Email cannot be blank');
     }
 
     public function checkWrongEmailFormat(FunctionalTester $I)
     {
         $I->submitForm($this->formId, $this->formParams('abcd.com'));
-        $I->seeValidationError('Email is not a valid email address.');
+        $I->seeValidationError('Email is not a valid email address');
     }
 
     public function checkWrongEmail(FunctionalTester $I)
     {
         $I->submitForm($this->formId, $this->formParams('wrong@email.com'));
-        $I->seeValidationError('There is no user with this email address.');
+        $I->seeValidationError('There is no user with this email address');
     }
 
     public function checkAlreadyVerifiedEmail(FunctionalTester $I)
     {
         $I->submitForm($this->formId, $this->formParams('test2@mail.com'));
-        $I->seeValidationError('There is no user with this email address.');
+        $I->seeValidationError('There is no user with this email address');
     }
 
     public function checkSendSuccessfully(FunctionalTester $I)
@@ -78,6 +78,6 @@ class ResendVerificationEmailCest
             'username' => 'test.test',
             'status' => \common\models\User::STATUS_INACTIVE
         ]);
-        $I->see('Check your email for further instructions.');
+        $I->see('Check your email for further instructions');
     }
 }

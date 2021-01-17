@@ -19,7 +19,7 @@ class ResendVerificationEmailFormTest extends Unit
     {
         $this->tester->haveFixtures([
             'user' => [
-                'class' => UserFixture::className(),
+                'class' => UserFixture::class,
                 'dataFile' => codecept_data_dir() . 'user.php'
             ]
         ]);
@@ -34,7 +34,7 @@ class ResendVerificationEmailFormTest extends Unit
 
         expect($model->validate())->false();
         expect($model->hasErrors())->true();
-        expect($model->getFirstError('email'))->equals('There is no user with this email address.');
+        expect($model->getFirstError('email'))->equals('There is no user with this email address');
     }
 
     public function testEmptyEmailAddress()
@@ -58,7 +58,7 @@ class ResendVerificationEmailFormTest extends Unit
 
         expect($model->validate())->false();
         expect($model->hasErrors())->true();
-        expect($model->getFirstError('email'))->equals('There is no user with this email address.');
+        expect($model->getFirstError('email'))->equals('There is no user with this email address');
     }
 
     public function testSuccessfullyResend()

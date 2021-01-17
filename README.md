@@ -6,4 +6,12 @@
 - `php init`
 - Edit `common/config/main-local.php`
 - `php yii migrate`
+- Connect the Google Docs API: https://developers.google.com/docs/api/quickstart/php
+    - Enable the Google Docs API
+    - Choose Desktop App
+    - Download credentials.json and save the file to `common/config`
 
+### Developer?
+
+- `php yii_test migrate`
+- `codecept run`

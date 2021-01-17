@@ -11,6 +11,9 @@ services:
       - ~/.composer-docker/cache:/root/.composer/cache:delegated
       # Mount source-code for development
       - ./:/app
+    depends_on:
+      - mysql
+      - redis
 
   mysql:
     image: mysql:5.7
@@ -20,9 +23,35 @@ services:
       - MYSQL_USER=metro
       - MYSQL_PASSWORD=metro
 
-  #pgsql:
-  #  image: postgres:9.5
-  #  environment:
-  #    - POSTGRES_DB=yii2advanced
-  #    - POSTGRES_USER=yii2advanced
-  #    - POSTGRES_PASSWORD=secret
+  mysqltest:
+    image: mysql:5.7
+    environment:
+      - MYSQL_ROOT_PASSWORD=metro
+      - MYSQL_DATABASE=metro
+      - MYSQL_USER=metro
+      - MYSQL_PASSWORD=metro
+
+  redis:
+    image: redis
+    command: redis-server
+    ports:
+      - "6379"
+    volumes:
+      - ./redis/data:/data
+      - ./redis/conf:/etc/redis/conf.d
+
+  supervisord:
+    build:
+      context: .
+      dockerfile: supervisord/Dockerfile
+    restart: always
+    volumes:
+      # Re-use local composer cache via host-volume
+      - ~/.composer-docker/cache:/root/.composer/cache:delegated
+      # Mount source-code for development
+      - ./:/app
+      # config/logs
+      - ./supervisord/conf:/etc/supervisord.d
+      - ./supervisord/logs:/var/log/supervisor
+    depends_on:
+      - frontend

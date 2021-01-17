@@ -18,7 +18,7 @@ class VerifyEmailCest
     {
         return [
             'user' => [
-                'class' => UserFixture::className(),
+                'class' => UserFixture::class,
                 'dataFile' => codecept_data_dir() . 'user.php',
             ],
         ];
@@ -28,14 +28,14 @@ class VerifyEmailCest
     {
         $I->amOnRoute('site/verify-email', ['token' => '']);
         $I->canSee('Bad Request', 'h1');
-        $I->canSee('Verify email token cannot be blank.');
+        $I->canSee('Verify email token cannot be blank');
     }
 
     public function checkInvalidToken(FunctionalTester $I)
     {
         $I->amOnRoute('site/verify-email', ['token' => 'wrong_token']);
         $I->canSee('Bad Request', 'h1');
-        $I->canSee('Wrong verify email token.');
+        $I->canSee('Wrong verify email token');
     }
 
     public function checkNoToken(FunctionalTester $I)
@@ -49,7 +49,7 @@ class VerifyEmailCest
     {
         $I->amOnRoute('site/verify-email', ['token' => 'already_used_token_1548675330']);
         $I->canSee('Bad Request', 'h1');
-        $I->canSee('Wrong verify email token.');
+        $I->canSee('Wrong verify email token');
     }
 
     public function checkSuccessVerification(FunctionalTester $I)
