@@ -1,10 +1,13 @@
 # Metromania
 
+Cross-posting your works to multiple publishing sites
+
 ## Installation
 
 - `composer install --prefer-dist`
 - `php init`
 - Edit `common/config/main-local.php`
+- Edit `common/config/params-local.php`
 - `php yii migrate`
 - Connect the Google Docs API: https://developers.google.com/docs/api/quickstart/php
     - Enable the Google Docs API

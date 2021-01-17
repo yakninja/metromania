@@ -4,6 +4,7 @@ namespace common\models\project;
 
 use common\models\User;
 use Yii;
+use yii\behaviors\TimestampBehavior;
 
 /**
  * This is the model class for table "project".
@@ -27,14 +28,21 @@ class Project extends \yii\db\ActiveRecord
         return 'project';
     }
 
+    public function behaviors()
+    {
+        return [
+            'timestamp' => TimestampBehavior::class,
+        ];
+    }
+
     /**
      * {@inheritdoc}
      */
     public function rules()
     {
         return [
-            [['name', 'owner_id', 'created_at', 'updated_at'], 'required'],
-            [['owner_id', 'created_at', 'updated_at'], 'integer'],
+            [['name', '!owner_id'], 'required'],
+            [['owner_id'], 'integer'],
             [['name'], 'string', 'max' => 128],
             [['owner_id'], 'exist', 'skipOnError' => true, 'targetClass' => User::class, 'targetAttribute' => ['owner_id' => 'id']],
         ];

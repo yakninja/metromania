@@ -22,7 +22,8 @@
     "kartik-v/yii2-builder": "@dev",
     "kartik-v/yii2-widgets": "*",
     "voskobovich/yii2-linker-behavior": "^4.1",
-    "yiisoft/yii2-redis": "^2.0"
+    "yiisoft/yii2-redis": "^2.0",
+    "kartik-v/yii2-icons": "^1.4"
   },
   "require-dev": {
     "yiisoft/yii2-debug": "~2.1.0",

@@ -4,14 +4,17 @@
 
 /* @var $content string */
 
-use common\widgets\Alert;
 use frontend\assets\AppAsset;
+use kartik\icons\FontAwesomeAsset;
+use yii\bootstrap4\Alert;
 use yii\bootstrap4\Breadcrumbs;
+use yii\bootstrap4\Html;
 use yii\bootstrap4\Nav;
 use yii\bootstrap4\NavBar;
-use yii\helpers\Html;
 
 AppAsset::register($this);
+FontAwesomeAsset::register($this);
+
 ?>
 <?php $this->beginPage() ?>
 <!DOCTYPE html>
@@ -61,7 +64,14 @@ AppAsset::register($this);
         <?= Breadcrumbs::widget([
             'links' => isset($this->params['breadcrumbs']) ? $this->params['breadcrumbs'] : [],
         ]) ?>
-        <?= Alert::widget() ?>
+
+        <?php foreach (['primary', 'secondary', 'success', 'danger', 'warning', 'info', 'light', 'dark'] as $alertType) {
+            if (Yii::$app->session->hasFlash($alertType)) {
+                echo Alert::widget(['options' => ['class' => 'alert alert-' . $alertType],
+                    'body' => Yii::$app->session->getFlash($alertType)]);
+            }
+        } ?>
+
         <?= $content ?>
     </div>
 </div>

@@ -7,4 +7,5 @@ return [
     'user.passwordResetTokenExpire' => 3600,
     'user.passwordMinLength' => 8,
     'googleDocsApiCredentials' => __DIR__ . '/credentials.json',
+    'bsVersion' => '4.x',
 ];
