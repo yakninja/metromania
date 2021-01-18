@@ -6,9 +6,9 @@ use yii\base\Model;
 use yii\data\ActiveDataProvider;
 
 /**
- * ProjectSearch represents the model behind the search form of `common\models\project\Project`.
+ * SourceSearch represents the model behind the search form of `common\models\project\Source`.
  */
-class ProjectSearch extends Project
+class SourceSearch extends Source
 {
     /**
      * {@inheritdoc}
@@ -16,7 +16,7 @@ class ProjectSearch extends Project
     public function rules()
     {
         return [
-            [['owner_id'], 'integer'],
+            [['project_id', 'status'], 'integer'],
             [['name'], 'safe'],
         ];
     }
@@ -39,7 +39,7 @@ class ProjectSearch extends Project
      */
     public function search($params)
     {
-        $query = Project::find();
+        $query = Source::find();
 
         // add conditions that should always apply here
 
@@ -58,10 +58,11 @@ class ProjectSearch extends Project
         // grid filtering conditions
         $query->andFilterWhere([
             'id' => $this->id,
-            'owner_id' => $this->owner_id,
+            'project_id' => $this->project_id,
+            'status' => $this->status,
         ]);
 
-        $query->andFilterWhere(['like', 'name', $this->name]);
+        $query->andFilterWhere(['like', 'title', $this->title]);
 
         return $dataProvider;
     }

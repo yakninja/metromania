@@ -4,6 +4,8 @@ namespace frontend\controllers;
 
 use common\models\project\Project;
 use common\models\project\ProjectSearch;
+use common\models\project\Source;
+use common\models\project\SourceSearch;
 use Yii;
 use yii\filters\AccessControl;
 use yii\filters\VerbFilter;
@@ -62,8 +64,13 @@ class ProjectController extends Controller
      */
     public function actionView($id)
     {
+        $searchModel = new SourceSearch(['project_id' => $id]);
+        $dataProvider = $searchModel->search(Yii::$app->request->queryParams);
+
         return $this->render('view', [
             'model' => $this->findModel($id),
+            'searchModel' => $searchModel,
+            'dataProvider' => $dataProvider,
         ]);
     }
 
@@ -77,10 +84,33 @@ class ProjectController extends Controller
         $model = new Project(['owner_id' => Yii::$app->user->id]);
 
         if ($model->load(Yii::$app->request->post()) && $model->save()) {
+            Yii::$app->session->addFlash('success', Yii::t('app', 'Project created'));
             return $this->redirect(['view', 'id' => $model->id]);
         }
 
         return $this->render('create', [
+            'model' => $model,
+        ]);
+    }
+
+    /**
+     * Adds source to the project.
+     * If creation is successful, the browser will be redirected to the 'view' page.
+     * @param integer $project_id
+     * @return mixed
+     */
+    public function actionCreateSource($project_id)
+    {
+        $project = $this->findModel($project_id);
+        $model = new Source(['project_id' => $project_id]);
+
+        if ($model->load(Yii::$app->request->post()) && $model->save()) {
+            Yii::$app->session->addFlash('success', Yii::t('app', 'Source added'));
+            return $this->redirect(['view', 'id' => $project_id]);
+        }
+
+        return $this->render('source/create', [
+            'project' => $project,
             'model' => $model,
         ]);
     }
@@ -97,6 +127,7 @@ class ProjectController extends Controller
         $model = $this->findModel($id);
 
         if ($model->load(Yii::$app->request->post()) && $model->save()) {
+            Yii::$app->session->addFlash('success', Yii::t('app', 'Project saved'));
             return $this->redirect(['view', 'id' => $model->id]);
         }
 
@@ -115,7 +146,7 @@ class ProjectController extends Controller
     public function actionDelete($id)
     {
         $this->findModel($id)->delete();
-
+        Yii::$app->session->addFlash('success', Yii::t('app', 'Project deleted'));
         return $this->redirect(['index']);
     }
 

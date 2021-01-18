@@ -67,8 +67,11 @@ FontAwesomeAsset::register($this);
 
         <?php foreach (['primary', 'secondary', 'success', 'danger', 'warning', 'info', 'light', 'dark'] as $alertType) {
             if (Yii::$app->session->hasFlash($alertType)) {
-                echo Alert::widget(['options' => ['class' => 'alert alert-' . $alertType],
-                    'body' => Yii::$app->session->getFlash($alertType)]);
+                $flash = Yii::$app->session->getFlash($alertType);
+                $flash = is_array($flash) ? $flash : [$flash];
+                foreach ($flash as $message) {
+                    echo Alert::widget(['options' => ['class' => 'alert alert-' . $alertType], 'body' => $message]);
+                }
             }
         } ?>
 

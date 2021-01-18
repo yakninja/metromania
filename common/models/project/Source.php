@@ -3,6 +3,8 @@
 namespace common\models\project;
 
 use Yii;
+use yii\behaviors\TimestampBehavior;
+use yii\db\Expression;
 
 /**
  * This is the model class for table "source".
@@ -22,6 +24,8 @@ use Yii;
  */
 class Source extends \yii\db\ActiveRecord
 {
+    const STATUS_NEW = 0;
+
     /**
      * {@inheritdoc}
      */
@@ -30,17 +34,25 @@ class Source extends \yii\db\ActiveRecord
         return 'source';
     }
 
+    public function behaviors()
+    {
+        return [
+            'timestamp' => TimestampBehavior::class,
+        ];
+    }
+
     /**
      * {@inheritdoc}
      */
     public function rules()
     {
         return [
-            [['project_id', 'created_at', 'updated_at', 'priority', 'status', 'url'], 'required'],
-            [['project_id', 'created_at', 'updated_at', 'locked_until', 'priority', 'status'], 'integer'],
+            [['!project_id', 'url'], 'required'],
+            [['project_id', 'priority', '!status'], 'integer'],
             [['title'], 'string', 'max' => 128],
             [['url'], 'string', 'max' => 255],
             [['project_id'], 'exist', 'skipOnError' => true, 'targetClass' => Project::class, 'targetAttribute' => ['project_id' => 'id']],
+            ['status', 'default', 'value' => self::STATUS_NEW],
         ];
     }
 
@@ -60,6 +72,21 @@ class Source extends \yii\db\ActiveRecord
             'status' => Yii::t('app', 'Status'),
             'url' => Yii::t('app', 'Url'),
         ];
+    }
+
+    public function beforeSave($insert)
+    {
+        if (!parent::beforeSave($insert)) {
+            return false;
+        }
+        if ($insert) {
+            $this->priority = self::find()
+                    ->select(new Expression('max(priority)'))
+                    ->where(['project_id' => $this->project_id])
+                    ->createCommand()
+                    ->queryScalar() + 1;
+        }
+        return true;
     }
 
     /**

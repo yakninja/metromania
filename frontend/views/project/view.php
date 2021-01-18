@@ -1,10 +1,12 @@
 <?php
 
+use kartik\grid\GridView;
 use yii\helpers\Html;
-use yii\widgets\DetailView;
 
 /* @var $this yii\web\View */
 /* @var $model common\models\project\Project */
+/* @var $searchModel common\models\project\SourceSearch */
+/* @var $dataProvider yii\data\ActiveDataProvider */
 
 $this->title = $model->name;
 $this->params['breadcrumbs'][] = ['label' => Yii::t('app', 'Projects'), 'url' => ['index']];
@@ -26,15 +28,19 @@ $this->params['breadcrumbs'][] = $this->title;
         ]) ?>
     </p>
 
-    <?= DetailView::widget([
-        'model' => $model,
-        'attributes' => [
-            'id',
-            'name',
-            'owner_id',
-            'created_at',
-            'updated_at',
+    <p>
+        <?= Html::a(Yii::t('app', 'Add Source'), ['create-source', 'project_id' => $model->id], ['class' => 'btn btn-success']) ?>
+    </p>
+
+    <?= GridView::widget([
+        'dataProvider' => $dataProvider,
+        'filterModel' => $searchModel,
+        'resizableColumns' => false,
+        'columns' => [
+            'title',
+            'updated_at:datetime',
+            ['class' => 'kartik\grid\ActionColumn'],
         ],
-    ]) ?>
+    ]); ?>
 
 </div>
