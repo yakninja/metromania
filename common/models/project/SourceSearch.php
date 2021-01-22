@@ -16,8 +16,8 @@ class SourceSearch extends Source
     public function rules()
     {
         return [
-            [['project_id', 'status'], 'integer'],
-            [['name'], 'safe'],
+            [['id', 'project_id', 'created_at', 'updated_at', 'locked_until', 'priority', 'status'], 'integer'],
+            [['title', 'url'], 'safe'],
         ];
     }
 
@@ -59,10 +59,15 @@ class SourceSearch extends Source
         $query->andFilterWhere([
             'id' => $this->id,
             'project_id' => $this->project_id,
+            'created_at' => $this->created_at,
+            'updated_at' => $this->updated_at,
+            'locked_until' => $this->locked_until,
+            'priority' => $this->priority,
             'status' => $this->status,
         ]);
 
-        $query->andFilterWhere(['like', 'title', $this->title]);
+        $query->andFilterWhere(['like', 'title', $this->title])
+            ->andFilterWhere(['like', 'url', $this->url]);
 
         return $dataProvider;
     }

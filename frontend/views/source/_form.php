@@ -1,18 +1,21 @@
 <?php
 
+use yii\helpers\Html;
+use yii\widgets\ActiveForm;
+
 /* @var $this yii\web\View */
 /* @var $model common\models\project\Source */
 /* @var $form yii\widgets\ActiveForm */
-
-use kartik\widgets\ActiveForm;
-use yii\bootstrap4\Html;
-
 ?>
 
 <div class="source-form">
 
     <?php $form = ActiveForm::begin(); ?>
-<?= Html::errorSummary($model) ?>
+
+    <?= $form->field($model, 'title')->textInput(['maxlength' => true]) ?>
+
+    <?= $form->field($model, 'priority')->textInput() ?>
+
     <?= $form->field($model, 'url')->textInput(['maxlength' => true]) ?>
 
     <div class="form-group">

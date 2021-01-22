@@ -25,6 +25,15 @@ use yii\db\Expression;
 class Source extends \yii\db\ActiveRecord
 {
     const STATUS_NEW = 0;
+    const STATUS_SYNC = 1;
+
+    public static function statusLabels()
+    {
+        return [
+            self::STATUS_NEW => Yii::t('app', 'Status: new'),
+            self::STATUS_SYNC => Yii::t('app', 'Status: sync'),
+        ];
+    }
 
     /**
      * {@inheritdoc}
@@ -53,6 +62,7 @@ class Source extends \yii\db\ActiveRecord
             [['url'], 'string', 'max' => 255],
             [['project_id'], 'exist', 'skipOnError' => true, 'targetClass' => Project::class, 'targetAttribute' => ['project_id' => 'id']],
             ['status', 'default', 'value' => self::STATUS_NEW],
+            ['status', 'in', 'range' => array_keys(self::statusLabels())],
         ];
     }
 

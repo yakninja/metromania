@@ -1,18 +1,17 @@
 <?php
 
 use yii\helpers\Html;
+use yii\widgets\DetailView;
 
 /* @var $this yii\web\View */
-/* @var $model common\models\project\Project */
-/* @var $sourceSearchModel common\models\project\SourceSearch */
-/* @var $sourceDataProvider yii\data\ActiveDataProvider */
+/* @var $model common\models\project\Source */
 
-$this->title = $model->name;
-$this->params['breadcrumbs'][] = ['label' => Yii::t('app', 'Projects'), 'url' => ['index']];
+$this->title = $model->title;
+$this->params['breadcrumbs'][] = ['label' => Yii::t('app', 'Sources'), 'url' => ['index']];
 $this->params['breadcrumbs'][] = $this->title;
 \yii\web\YiiAsset::register($this);
 ?>
-<div class="project-view">
+<div class="source-view">
 
     <h1><?= Html::encode($this->title) ?></h1>
 
@@ -27,10 +26,19 @@ $this->params['breadcrumbs'][] = $this->title;
         ]) ?>
     </p>
 
-    <?= $this->render('/source/_index', [
-        'project' => $model,
-        'dataProvider' => $sourceDataProvider,
-        'searchModel' => $sourceSearchModel,
+    <?= DetailView::widget([
+        'model' => $model,
+        'attributes' => [
+            'id',
+            'project_id',
+            'title',
+            'created_at',
+            'updated_at',
+            'locked_until',
+            'priority',
+            'status',
+            'url:url',
+        ],
     ]) ?>
 
 </div>
