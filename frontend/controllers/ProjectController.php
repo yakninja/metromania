@@ -5,6 +5,9 @@ namespace frontend\controllers;
 use common\models\project\Project;
 use common\models\project\ProjectSearch;
 use common\models\project\SourceSearch;
+use frontend\models\GoogleAuthForm;
+use Google_Client;
+use Google_Service_Docs;
 use Yii;
 use yii\filters\AccessControl;
 use yii\filters\VerbFilter;
@@ -111,6 +114,35 @@ class ProjectController extends Controller
 
         return $this->render('update', [
             'model' => $model,
+        ]);
+    }
+
+    /**
+     * @param $project_id
+     * @throws NotFoundHttpException if the model cannot be found
+     */
+    public function actionCreateAccessToken($project_id)
+    {
+        $project = $this->findModel($project_id);
+
+        $model = new GoogleAuthForm(['project_id' => $project_id]);
+        if ($model->load(Yii::$app->request->post()) && $model->save()) {
+            Yii::$app->session->addFlash('success', Yii::t('app', 'Project access token created'));
+            return $this->redirect(['view', 'id' => $project->id]);
+        }
+
+        $client = new Google_Client();
+        $client->setScopes(Google_Service_Docs::DOCUMENTS_READONLY);
+        $client->setAuthConfig(Yii::getAlias('@common/config/credentials.json'));
+        $client->setAccessType('offline');
+
+        // Request authorization from the user.
+        $authUrl = $client->createAuthUrl();
+
+        return $this->render('create_access_token', [
+            'model' => $model,
+            'project' => $project,
+            'authUrl' => $authUrl,
         ]);
     }
 

@@ -2,11 +2,13 @@
 
 namespace frontend\controllers;
 
+use common\jobs\SourceSyncJob;
 use common\models\project\Project;
 use common\models\project\Source;
 use Yii;
 use yii\filters\AccessControl;
 use yii\filters\VerbFilter;
+use yii\queue\Queue;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 
@@ -73,6 +75,16 @@ class SourceController extends Controller
         return $this->render('create', [
             'model' => $model,
         ]);
+    }
+
+    public function actionSync($id)
+    {
+        $model = $this->findModel($id);
+        /** @var Queue $queue */
+        $queue = Yii::$app->get('queue');
+        $queue->push(new SourceSyncJob(['source_id' => $id]));
+        Yii::$app->session->addFlash('success', Yii::t('app', 'Source sync queued'));
+        return $this->redirect(['/project/view', 'id' => $model->project_id]);
     }
 
     /**

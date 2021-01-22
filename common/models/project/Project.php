@@ -3,6 +3,8 @@
 namespace common\models\project;
 
 use common\models\User;
+use Google_Client;
+use Google_Service_Docs;
 use Yii;
 use yii\behaviors\TimestampBehavior;
 
@@ -16,6 +18,7 @@ use yii\behaviors\TimestampBehavior;
  * @property int $updated_at
  *
  * @property User $owner
+ * @property ProjectAccessToken $accessToken
  * @property Source[] $sources
  */
 class Project extends \yii\db\ActiveRecord
@@ -73,6 +76,16 @@ class Project extends \yii\db\ActiveRecord
     }
 
     /**
+     * Gets query for [[ProjectAccessToken]].
+     *
+     * @return \yii\db\ActiveQuery
+     */
+    public function getAccessToken()
+    {
+        return $this->hasOne(ProjectAccessToken::class, ['project_id' => 'id']);
+    }
+
+    /**
      * Gets query for [[Sources]].
      *
      * @return \yii\db\ActiveQuery
@@ -80,5 +93,30 @@ class Project extends \yii\db\ActiveRecord
     public function getSources()
     {
         return $this->hasMany(Source::class, ['project_id' => 'id']);
+    }
+
+    public function getGoogleClient()
+    {
+        if (!$this->accessToken) {
+            return null;
+        }
+
+        $client = new Google_Client();
+        $client->setScopes(Google_Service_Docs::DOCUMENTS_READONLY);
+        $client->setAuthConfig(Yii::getAlias('@common/config/credentials.json'));
+        $client->setAccessType('offline');
+        $client->setAccessToken($this->accessToken->token);
+
+        // Refresh the token if it's expired.
+        if ($client->isAccessTokenExpired()) {
+            $client->fetchAccessTokenWithRefreshToken($client->getRefreshToken());
+            $this->accessToken->token = $client->getAccessToken();
+            if (!$this->accessToken->save()) {
+                Yii::error('Could not save project access token: ' .
+                    implode(', ', $this->accessToken->firstErrors));
+                return null;
+            }
+        }
+        return $client;
     }
 }

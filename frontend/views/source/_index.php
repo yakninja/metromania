@@ -37,13 +37,14 @@ use yii\helpers\Url;
                     'sync' => function ($url, $model) {
                         return Html::a('<span class="fas fa-sync"></span>', $url, [
                             'title' => Yii::t('app', 'Sync'),
+                            'data-method' => 'post',
                         ]);
 
                     }
                 ],
                 'urlCreator' => function ($action, $model, $key, $index) {
                     if ($action == 'sync') {
-                        return Url::to(['/source/sync', 'site_id' => $model->id]);
+                        return Url::to(['/source/sync', 'id' => $model->id]);
                     }
                     $url = Url::to(['/source/' . $action, 'id' => $model->id]);
                     return $url;

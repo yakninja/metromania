@@ -22,6 +22,7 @@ services:
       - MYSQL_DATABASE=metro
       - MYSQL_USER=metro
       - MYSQL_PASSWORD=metro
+    command: [ 'mysqld', '--character-set-server=utf8mb4', '--collation-server=utf8mb4_unicode_ci' ]
 
   mysqltest:
     image: mysql:5.7
@@ -30,6 +31,7 @@ services:
       - MYSQL_DATABASE=metro
       - MYSQL_USER=metro
       - MYSQL_PASSWORD=metro
+    command: [ 'mysqld', '--character-set-server=utf8mb4', '--collation-server=utf8mb4_unicode_ci' ]
 
   redis:
     image: redis

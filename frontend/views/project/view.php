@@ -18,6 +18,10 @@ $this->params['breadcrumbs'][] = $this->title;
 
     <p>
         <?= Html::a(Yii::t('app', 'Update'), ['update', 'id' => $model->id], ['class' => 'btn btn-primary']) ?>
+        <?php if (!$model->accessToken) {
+            echo Html::a(Yii::t('app', 'Create access token'),
+                ['create-access-token', 'project_id' => $model->id], ['class' => 'btn btn-info']);
+        } ?>
         <?= Html::a(Yii::t('app', 'Delete'), ['delete', 'id' => $model->id], [
             'class' => 'btn btn-danger',
             'data' => [
