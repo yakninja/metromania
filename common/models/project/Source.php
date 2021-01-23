@@ -25,13 +25,13 @@ use yii\db\Expression;
 class Source extends \yii\db\ActiveRecord
 {
     const STATUS_NEW = 0;
-    const STATUS_SYNC = 1;
+    const STATUS_GET = 1;
 
     public static function statusLabels()
     {
         return [
             self::STATUS_NEW => Yii::t('app', 'Status: new'),
-            self::STATUS_SYNC => Yii::t('app', 'Status: sync'),
+            self::STATUS_GET => Yii::t('app', 'Status: get'),
         ];
     }
 

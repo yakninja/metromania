@@ -32,20 +32,22 @@ use yii\helpers\Url;
             'updated_at:datetime',
             [
                 'class' => 'kartik\grid\ActionColumn',
-                'template' => '{sync} {update} {delete}',
+                'template' => '{get} {put} {update} {delete}',
                 'buttons' => [
-                    'sync' => function ($url, $model) {
-                        return Html::a('<span class="fas fa-sync"></span>', $url, [
-                            'title' => Yii::t('app', 'Sync'),
+                    'get' => function ($url, $model) {
+                        return Html::a('<span class="fas fa-file-download"></span>', $url, [
+                            'title' => Yii::t('app', 'Get source'),
                             'data-method' => 'post',
                         ]);
-
-                    }
+                    },
+                    'put' => function ($url, $model) {
+                        return Html::a('<span class="fas fa-file-export"></span>', $url, [
+                            'title' => Yii::t('app', 'Export'),
+                            'data-method' => 'post',
+                        ]);
+                    },
                 ],
                 'urlCreator' => function ($action, $model, $key, $index) {
-                    if ($action == 'sync') {
-                        return Url::to(['/source/sync', 'id' => $model->id]);
-                    }
                     $url = Url::to(['/source/' . $action, 'id' => $model->id]);
                     return $url;
                 }

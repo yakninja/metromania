@@ -6,7 +6,7 @@
     "yiisoft/yii2": "~2.0.14",
     "yiisoft/yii2-bootstrap4": "^2.0.9",
     "yiisoft/yii2-swiftmailer": "~2.0.0 || ~2.1.0",
-    "yiisoft/yii2-httpclient": "~2.0.12",
+    "yiisoft/yii2-httpclient": "^2.0",
     "yiisoft/yii2-queue": "~2.3.0",
     "yiisoft/yii2-shell": "~2.0.0",
     "google/apiclient": "^2.0",
@@ -23,7 +23,9 @@
     "kartik-v/yii2-widgets": "*",
     "voskobovich/yii2-linker-behavior": "^4.1",
     "yiisoft/yii2-redis": "^2.0",
-    "kartik-v/yii2-icons": "^1.4"
+    "kartik-v/yii2-icons": "^1.4",
+    "guzzlehttp/guzzle": "^7.0",
+    "paquettg/php-html-parser": "^3.1"
   },
   "require-dev": {
     "yiisoft/yii2-debug": "~2.1.0",

@@ -2,7 +2,7 @@
 
 namespace frontend\controllers;
 
-use common\jobs\SourceSyncJob;
+use common\jobs\SourceGetJob;
 use common\models\project\Project;
 use common\models\project\Source;
 use Yii;
@@ -36,7 +36,8 @@ class SourceController extends Controller
                 'class' => VerbFilter::class,
                 'actions' => [
                     'delete' => ['POST'],
-                    'sync' => ['POST'],
+                    'get' => ['POST'],
+                    'put' => ['POST'],
                 ],
             ],
         ];
@@ -77,14 +78,26 @@ class SourceController extends Controller
         ]);
     }
 
-    public function actionSync($id)
+    /**
+     * Get source from Google docs (aget)
+     * @param $id
+     * @return \yii\web\Response
+     * @throws NotFoundHttpException
+     * @throws \yii\base\InvalidConfigException
+     */
+    public function actionGet($id)
     {
         $model = $this->findModel($id);
         /** @var Queue $queue */
         $queue = Yii::$app->get('queue');
-        $queue->push(new SourceSyncJob(['source_id' => $id]));
-        Yii::$app->session->addFlash('success', Yii::t('app', 'Source sync queued'));
+        $queue->push(new SourceGetJob(['source_id' => $id]));
+        Yii::$app->session->addFlash('success', Yii::t('app', 'Source get queued'));
         return $this->redirect(['/project/view', 'id' => $model->project_id]);
+    }
+
+    public function actionPut($id)
+    {
+        $model = $this->findModel($id);
     }
 
     /**
