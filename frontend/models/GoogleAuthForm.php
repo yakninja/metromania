@@ -8,6 +8,7 @@ use Google_Client;
 use Google_Service_Docs;
 use Yii;
 use yii\base\Model;
+use yii\helpers\Json;
 
 class GoogleAuthForm extends Model
 {
@@ -37,7 +38,7 @@ class GoogleAuthForm extends Model
         if (!$accessToken) {
             $accessToken = new ProjectAccessToken(['project_id' => $this->project_id]);
         }
-        $accessToken->token = $token;
+        $accessToken->token = Json::encode($token);
         if (!$accessToken->save()) {
             $this->addErrors($accessToken->errors);
             return false;

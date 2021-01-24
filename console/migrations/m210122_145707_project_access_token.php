@@ -17,7 +17,7 @@ class m210122_145707_project_access_token extends Migration
             'project_id' => $this->integer()->notNull()->unique(),
             'created_at' => $this->integer()->notNull(),
             'updated_at' => $this->integer()->notNull(),
-            'token' => $this->json(),
+            'token' => $this->text(),
         ]);
         $this->addForeignKey('fk-project_access_token-project', 'project_access_token', 'project_id',
             'project', 'id', 'CASCADE', 'CASCADE');

@@ -8,6 +8,7 @@ use Google_Service_Docs;
 use Yii;
 use yii\behaviors\TimestampBehavior;
 use yii\db\Expression;
+use yii\helpers\Json;
 
 /**
  * This is the model class for table "project".
@@ -114,12 +115,12 @@ class Project extends \yii\db\ActiveRecord
         $client->setScopes(Google_Service_Docs::DOCUMENTS_READONLY);
         $client->setAuthConfig(Yii::getAlias('@common/config/credentials.json'));
         $client->setAccessType('offline');
-        $client->setAccessToken($this->accessToken->token);
+        $client->setAccessToken(Json::decode($this->accessToken->token));
 
         // Refresh the token if it's expired.
         if ($client->isAccessTokenExpired()) {
             $client->fetchAccessTokenWithRefreshToken($client->getRefreshToken());
-            $this->accessToken->token = $client->getAccessToken();
+            $this->accessToken->token = Json::encode($client->getAccessToken());
             if (!$this->accessToken->save()) {
                 Yii::error('Could not save project access token: ' .
                     implode(', ', $this->accessToken->firstErrors));
