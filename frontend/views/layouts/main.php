@@ -41,9 +41,14 @@ FontAwesomeAsset::register($this);
     $menuItems = [
     ];
     if (Yii::$app->user->isGuest) {
-        $menuItems[] = ['label' => Yii::t('app', 'Signup'), 'url' => ['/site/signup']];
+        if (Yii::$app->params['user.registrationEnabled']) {
+            $menuItems[] = ['label' => Yii::t('app', 'Signup'), 'url' => ['/site/signup']];
+        }
         $menuItems[] = ['label' => Yii::t('app', 'Login'), 'url' => ['/site/login']];
     } else {
+        if (Yii::$app->user->can('userManager')) {
+            $menuItems[] = ['label' => Yii::t('app', 'Users'), 'url' => ['/user/index']];
+        }
         $menuItems[] = '<li>'
             . Html::beginForm(['/site/logout'], 'post')
             . Html::submitButton(

@@ -15,6 +15,7 @@ use yii\filters\AccessControl;
 use yii\filters\VerbFilter;
 use yii\web\BadRequestHttpException;
 use yii\web\Controller;
+use yii\web\ForbiddenHttpException;
 
 /**
  * Site controller
@@ -75,6 +76,9 @@ class SiteController extends Controller
      */
     public function actionIndex()
     {
+        if (!Yii::$app->user->isGuest) {
+            return $this->redirect('/project/index');
+        }
         return $this->render('index');
     }
 
@@ -120,6 +124,9 @@ class SiteController extends Controller
      */
     public function actionSignup()
     {
+        if (!Yii::$app->params['user.registrationEnabled']) {
+            throw new ForbiddenHttpException(Yii::t('app', 'Registration disabled'));
+        }
         $model = new SignupForm();
         if ($model->load(Yii::$app->request->post()) && $model->signup()) {
             Yii::$app->session->setFlash('success',

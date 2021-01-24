@@ -55,6 +55,14 @@ class SourceImportForm extends Model
                 }
             }
         }
+        // reindex
+        $i = 0;
+        /** @var Source[] $sources */
+        $sources = Source::find()->where(['project_id' => $this->project_id])->orderBy(['priority' => SORT_ASC])->all();
+        foreach ($sources as $source) {
+            $source->priority = ++$i;
+            $source->save();
+        }
         return $n;
     }
 

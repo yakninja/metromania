@@ -48,7 +48,7 @@ class SourceGetJob extends BaseObject implements JobInterface
         $service = new Google_Service_Docs($client);
 
         $doc = $service->documents->get($documentId);
-        $source->title = $doc->getTitle();
+        $source->title = null;
 
         $content = $doc->getBody()->getContent();
         $paragraphs = [];
@@ -72,9 +72,17 @@ class SourceGetJob extends BaseObject implements JobInterface
 
                     $pContent .= $textRun->getContent();
                 }
-                if (trim($pContent)) {
-                    $paragraphs[] = $pContent;
+
+                if (trim($pContent) == '') {
+                    continue;
                 }
+
+                if (!$source->title) {
+                    $source->title = $pContent;
+                    continue;
+                }
+
+                $paragraphs[] = $pContent;
             }
         }
 

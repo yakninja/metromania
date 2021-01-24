@@ -9,17 +9,23 @@ return [
     'vendorPath' => dirname(dirname(__DIR__)) . '/vendor',
     'components' => [
         'redis' => [
-            'class' => \yii\redis\Connection::class,
+            'class' => 'yii\redis\Connection',
             'hostname' => 'redis',
             'retries' => 1,
+            'database' => 0,
         ],
         'queue' => [
-            'class' => \yii\queue\redis\Queue::class,
-            'redis' => 'redis', // Redis connection component or its config
+            'class' => 'yii\queue\redis\Queue',
             'channel' => 'metromaniaQueue', // Queue channel key
         ],
         'cache' => [
             'class' => 'yii\redis\Cache',
+        ],
+        'mutex' => [
+            'class' => 'yii\redis\Mutex',
+        ],
+        'authManager' => [
+            'class' => 'yii\rbac\DbManager',
         ],
         'i18n' => [
             'translations' => [

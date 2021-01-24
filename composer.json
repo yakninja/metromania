@@ -51,7 +51,7 @@
     }
   ],
   "scripts": {
-    "post-update-cmd": "Google\\Task\\Composer::cleanup"
+    "post-update-cmd": ["Google\\Task\\Composer::cleanup", "php yii rbac/init --interactive=0"]
   },
   "extra": {
     "google/apiclient-services": [

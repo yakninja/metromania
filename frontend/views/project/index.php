@@ -1,5 +1,6 @@
 <?php
 
+use common\models\project\Project;
 use kartik\grid\GridView;
 use yii\helpers\Html;
 
@@ -21,11 +22,20 @@ $this->params['breadcrumbs'][] = $this->title;
         'filterModel' => $searchModel,
         'resizableColumns' => false,
         'columns' => [
-            'name',
+            [
+                'attribute' => 'name',
+                'value' => function (Project $model) {
+                    return Html::a($model->name, ['/project/view', 'id' => $model->id]);
+                },
+                'format' => 'raw',
+            ],
             'word_count:integer',
             'edit_count:integer',
             'updated_at:datetime',
-            ['class' => 'kartik\grid\ActionColumn'],
+            [
+                'class' => 'kartik\grid\ActionColumn',
+                'template' => '{update} {delete}',
+            ],
         ],
     ]); ?>
 

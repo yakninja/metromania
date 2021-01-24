@@ -1,14 +1,14 @@
 <?php
 
-namespace common\models\project;
+namespace common\models;
 
 use yii\base\Model;
 use yii\data\ActiveDataProvider;
 
 /**
- * SourceSearch represents the model behind the search form of `common\models\project\Source`.
+ * UserSearch represents the model behind the search form of `common\models\User`.
  */
-class SourceSearch extends Source
+class UserSearch extends User
 {
     /**
      * {@inheritdoc}
@@ -16,8 +16,8 @@ class SourceSearch extends Source
     public function rules()
     {
         return [
-            [['id', 'project_id', 'status'], 'integer'],
-            [['title', 'url'], 'safe'],
+            [['id', 'status', 'created_at', 'updated_at'], 'integer'],
+            [['username', 'auth_key', 'password_hash', 'password_reset_token', 'email', 'verification_token'], 'safe'],
         ];
     }
 
@@ -39,7 +39,7 @@ class SourceSearch extends Source
      */
     public function search($params)
     {
-        $query = Source::find();
+        $query = User::find();
 
         // add conditions that should always apply here
 
@@ -58,12 +58,17 @@ class SourceSearch extends Source
         // grid filtering conditions
         $query->andFilterWhere([
             'id' => $this->id,
-            'project_id' => $this->project_id,
             'status' => $this->status,
+            'created_at' => $this->created_at,
+            'updated_at' => $this->updated_at,
         ]);
 
-        $query->andFilterWhere(['like', 'title', $this->title])
-            ->andFilterWhere(['like', 'url', $this->url]);
+        $query->andFilterWhere(['like', 'username', $this->username])
+            ->andFilterWhere(['like', 'auth_key', $this->auth_key])
+            ->andFilterWhere(['like', 'password_hash', $this->password_hash])
+            ->andFilterWhere(['like', 'password_reset_token', $this->password_reset_token])
+            ->andFilterWhere(['like', 'email', $this->email])
+            ->andFilterWhere(['like', 'verification_token', $this->verification_token]);
 
         return $dataProvider;
     }

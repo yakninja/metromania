@@ -15,11 +15,11 @@ $this->params['breadcrumbs'][] = $this->title;
 ?>
 <div class="source-create">
 
-    <h1><?= Html::encode($this->title) ?></h1>
-
     <?php $form = ActiveForm::begin(); ?>
 
-    <?= $form->field($model, 'urls')->textarea(['rows' => 10])->hint(Yii::t('app', 'One URL per line')) ?>
+    <?= $form->field($model, 'urls')->textarea(['rows' => 10])
+        ->label(false)
+        ->hint(Yii::t('app', 'One URL per line')) ?>
 
     <div class="form-group">
         <?= Html::submitButton(Yii::t('app', 'Save'), ['class' => 'btn btn-success']) ?>

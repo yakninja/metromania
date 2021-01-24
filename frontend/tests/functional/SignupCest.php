@@ -3,6 +3,7 @@
 namespace frontend\tests\functional;
 
 use frontend\tests\FunctionalTester;
+use Yii;
 
 class SignupCest
 {
@@ -29,10 +30,10 @@ class SignupCest
     {
         $I->submitForm(
             $this->formId, [
-            'SignupForm[username]'  => 'tester',
-            'SignupForm[email]'     => 'ttttt',
-            'SignupForm[password]'  => 'tester_password',
-        ]
+                'SignupForm[username]' => 'tester',
+                'SignupForm[email]' => 'ttttt',
+                'SignupForm[password]' => 'tester_password',
+            ]
         );
         $I->dontSee('Username cannot be blank', '.invalid-feedback');
         $I->dontSee('Password cannot be blank', '.invalid-feedback');
@@ -55,5 +56,21 @@ class SignupCest
 
         $I->seeEmailIsSent();
         $I->see('Thank you for registration. Please check your inbox for verification email');
+    }
+
+    public function signupDisabled(FunctionalTester $I)
+    {
+        Yii::$app->params['user.registrationEnabled'] = false;
+        $I->submitForm($this->formId, [
+            'SignupForm[username]' => 'tester',
+            'SignupForm[email]' => 'tester.email@example.com',
+            'SignupForm[password]' => 'tester_password',
+        ]);
+
+        $I->dontSeeRecord('common\models\User', [
+            'username' => 'tester',
+        ]);
+
+        $I->see('Registration disabled');
     }
 }
