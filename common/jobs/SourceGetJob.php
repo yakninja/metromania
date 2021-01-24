@@ -55,17 +55,34 @@ class SourceGetJob extends BaseObject implements JobInterface
         }
 
         if (!($accessToken = $source->project->accessToken)) {
-            Yii::error('Project has no access token');
+
+            $error_message = 'Project has no access token';
+            Yii::error($error_message);
+            $source->error_message = $error_message;
+            $source->status = Source::STATUS_ERROR;
+            $source->locked_until = 0;
+            $source->save();
+
             return;
         }
 
         if (!($client = $source->project->getGoogleClient())) {
-            Yii::error('Could not get project google client');
+            $error_message = 'Could not get project google client';
+            Yii::error($error_message);
+            $source->error_message = $error_message;
+            $source->status = Source::STATUS_ERROR;
+            $source->locked_until = 0;
+            $source->save();
             return;
         }
 
         if (!preg_match('`/document/d/([^/&?]+)`', $source->url, $r)) {
-            Yii::error('Invalid source URL');
+            $error_message = 'Invalid source URL';
+            Yii::error($error_message);
+            $source->error_message = $error_message;
+            $source->status = Source::STATUS_ERROR;
+            $source->locked_until = 0;
+            $source->save();
             return;
         }
 

@@ -9,6 +9,7 @@ Cross-posting your works to multiple publishing sites
 - Edit `common/config/main-local.php`
 - Edit `common/config/params-local.php`
 - `php yii migrate`
+- `php yii rbac/init`
 - Connect the Google Docs API: https://developers.google.com/docs/api/quickstart/php
     - Enable the Google Docs API
     - Choose "Desktop App"
