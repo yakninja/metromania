@@ -44,8 +44,15 @@ use yii\helpers\Url;
             [
                 'attribute' => 'status',
                 'value' => function (Source $model) {
-                    return Source::statusLabels()[$model->status];
-                }
+                    $value = Source::statusLabels()[$model->status];
+                    if ($model->status == Source::STATUS_ERROR) {
+                        $value = Html::tag('span', $value,
+                            ['class' => 'badge badge-danger', 'title' => $model->error_message]);
+                    }
+                    return $value;
+                },
+                'filter' => Source::statusLabels(),
+                'format' => 'raw',
             ],
             'updated_at:datetime',
             [

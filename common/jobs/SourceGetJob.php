@@ -8,6 +8,7 @@ use Google_Service_Docs;
 use Yii;
 use yii\base\BaseObject;
 use yii\base\Exception;
+use yii\helpers\Json;
 use yii\queue\JobInterface;
 
 /**
@@ -17,6 +18,8 @@ use yii\queue\JobInterface;
  */
 class SourceGetJob extends BaseObject implements JobInterface
 {
+    const LOCK_TIME = 60;
+
     /** @var integer */
     public int $source_id;
 
@@ -25,6 +28,29 @@ class SourceGetJob extends BaseObject implements JobInterface
         $source = Source::findOne($this->source_id);
         if (!$source) {
             Yii::error('Could not find source ' . $this->source_id);
+            return;
+        }
+
+        if ($source->locked_until > time()) {
+            // locked by another job
+            return;
+        }
+
+        $rowCount = Source::updateAll(
+            [
+                'locked_until' => time() + self::LOCK_TIME,
+                'updated_at' => time(),
+                'status' => Source::STATUS_GET,
+                'error_message' => null,
+            ],
+            [
+                'id' => $source->id,
+                'updated_at' => $source->updated_at,
+            ],
+        );
+
+        if (!$rowCount) {
+            Yii::error('Lock failed: ' . $this->source_id);
             return;
         }
 
@@ -47,7 +73,25 @@ class SourceGetJob extends BaseObject implements JobInterface
 
         $service = new Google_Service_Docs($client);
 
-        $doc = $service->documents->get($documentId);
+        try {
+            $doc = $service->documents->get($documentId);
+        } catch (\Google\Service\Exception $e) {
+            $error_message = $e->getMessage();
+            try {
+                $data = Json::decode($error_message);
+                $error_message = $data['error']['message'];
+            } catch (\Exception $e) {
+            }
+
+            Yii::error($error_message);
+            $source->error_message = $error_message;
+            $source->status = Source::STATUS_ERROR;
+            $source->locked_until = 0;
+            $source->save();
+
+            return;
+        }
+
         $source->title = null;
 
         $content = $doc->getBody()->getContent();
@@ -101,10 +145,20 @@ class SourceGetJob extends BaseObject implements JobInterface
             $transaction->commit();
         } catch (Exception $e) {
             $transaction->rollBack();
+
+            Yii::error($e->getMessage());
+            $source->error_message = $e->getMessage();
+            $source->status = Source::STATUS_ERROR;
+            $source->locked_until = 0;
+            $source->save();
+
+            return;
         }
 
         $source->word_count = $wordCount;
         $source->edit_count = count(array_unique($suggestionIds));
+        $source->status = Source::STATUS_OK;
+        $source->locked_until = 0;
         $source->save();
     }
 }

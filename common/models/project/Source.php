@@ -20,6 +20,7 @@ use yii\db\Expression;
  * @property string $url
  * @property int $edit_count
  * @property int $word_count
+ * @property string $error_message
  *
  * @property Project $project
  * @property SourceParagraph[] $sourceParagraphs
@@ -28,12 +29,16 @@ class Source extends \yii\db\ActiveRecord
 {
     const STATUS_NEW = 0;
     const STATUS_GET = 1;
+    const STATUS_OK = 2;
+    const STATUS_ERROR = -1;
 
     public static function statusLabels()
     {
         return [
             self::STATUS_NEW => Yii::t('app', 'Status: new'),
             self::STATUS_GET => Yii::t('app', 'Status: get'),
+            self::STATUS_ERROR => Yii::t('app', 'Status: error'),
+            self::STATUS_OK => Yii::t('app', 'Status: OK'),
         ];
     }
 
@@ -65,6 +70,7 @@ class Source extends \yii\db\ActiveRecord
             [['project_id'], 'exist', 'skipOnError' => true, 'targetClass' => Project::class, 'targetAttribute' => ['project_id' => 'id']],
             ['status', 'default', 'value' => self::STATUS_NEW],
             ['status', 'in', 'range' => array_keys(self::statusLabels())],
+            ['error_message', 'string'],
         ];
     }
 
@@ -85,6 +91,7 @@ class Source extends \yii\db\ActiveRecord
             'url' => Yii::t('app', 'Url'),
             'word_count' => Yii::t('app', 'Word Count'),
             'edit_count' => Yii::t('app', 'Edit Count'),
+            'error_message' => Yii::t('app', 'Error Message'),
         ];
     }
 
