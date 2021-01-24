@@ -22,6 +22,8 @@ $this->params['breadcrumbs'][] = $this->title;
         'resizableColumns' => false,
         'columns' => [
             'name',
+            'word_count:integer',
+            'edit_count:integer',
             'updated_at:datetime',
             ['class' => 'kartik\grid\ActionColumn'],
         ],

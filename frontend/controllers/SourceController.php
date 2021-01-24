@@ -5,6 +5,7 @@ namespace frontend\controllers;
 use common\jobs\SourceGetJob;
 use common\models\project\Project;
 use common\models\project\Source;
+use frontend\models\SourceImportForm;
 use Yii;
 use yii\filters\AccessControl;
 use yii\filters\VerbFilter;
@@ -74,6 +75,28 @@ class SourceController extends Controller
         }
 
         return $this->render('create', [
+            'model' => $model,
+        ]);
+    }
+
+    /**
+     * Import multiple sources.
+     * If import is successful, the browser will be redirected to the 'view' page.
+     * @param $project_id
+     * @return mixed
+     * @throws NotFoundHttpException if the model cannot be found
+     */
+    public function actionImport($project_id)
+    {
+        $this->findProjectModel($project_id);
+        $model = new SourceImportForm(['project_id' => $project_id]);
+
+        if ($model->load(Yii::$app->request->post()) && ($n = $model->save()) !== false) {
+            Yii::$app->session->addFlash('success', Yii::t('app', '{n} sources imported', ['n' => $n]));
+            return $this->redirect(['/project/view', 'id' => $model->project_id]);
+        }
+
+        return $this->render('import', [
             'model' => $model,
         ]);
     }

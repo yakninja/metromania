@@ -49,15 +49,28 @@ class SourceGetJob extends BaseObject implements JobInterface
 
         $doc = $service->documents->get($documentId);
         $source->title = $doc->getTitle();
-        $source->save();
 
         $content = $doc->getBody()->getContent();
         $paragraphs = [];
+        $suggestionIds = [];
+        $wordCount = 0;
         foreach ($content as $contentElement) {
             if ($p = $contentElement->getParagraph()) {
                 $pContent = '';
                 foreach ($p->getElements() as $element) {
-                    $pContent .= $element->getTextRun()->getContent();
+                    $textRun = $element->getTextRun();
+
+                    if ($textRun->suggestedInsertionIds) {
+                        $suggestionIds = array_merge($suggestionIds, $textRun->suggestedInsertionIds);
+                        // suggested fragment, ignore
+                        continue;
+                    }
+
+                    if ($textRun->suggestedDeletionIds) {
+                        $suggestionIds = array_merge($suggestionIds, $textRun->suggestedDeletionIds);
+                    }
+
+                    $pContent .= $textRun->getContent();
                 }
                 if (trim($pContent)) {
                     $paragraphs[] = $pContent;
@@ -75,10 +88,15 @@ class SourceGetJob extends BaseObject implements JobInterface
                     'content' => $paragraph,
                 ]);
                 $sp->save();
+                $wordCount += count(preg_split('~[^\p{L}\p{N}\']+~u', $paragraph));
             }
             $transaction->commit();
         } catch (Exception $e) {
             $transaction->rollBack();
         }
+
+        $source->word_count = $wordCount;
+        $source->edit_count = count(array_unique($suggestionIds));
+        $source->save();
     }
 }

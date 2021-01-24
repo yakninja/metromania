@@ -15,6 +15,7 @@ use yii\helpers\Url;
 <div class="project-index">
     <p>
         <?= Html::a(Yii::t('app', 'Add Source'), ['/source/create', 'project_id' => $project->id], ['class' => 'btn btn-success']) ?>
+        <?= Html::a(Yii::t('app', 'Import'), ['/source/import', 'project_id' => $project->id], ['class' => 'btn btn-success']) ?>
     </p>
 
     <?= GridView::widget([
@@ -22,7 +23,24 @@ use yii\helpers\Url;
         'filterModel' => $searchModel,
         'resizableColumns' => false,
         'columns' => [
-            'title',
+            [
+                'attribute' => 'priority',
+                'label' => '#',
+            ],
+            [
+                'attribute' => 'title',
+                'value' => function (Source $model) {
+                    $title = $model->title ? $model->title : Yii::$app->formatter->nullDisplay;
+                    if ($model->url) {
+                        $title .= "&nbsp;" . Html::a('<span class="fas fa-file-alt"></span>', $model->url,
+                                ['target' => '_blank']);
+                    }
+                    return $title;
+                },
+                'format' => 'raw',
+            ],
+            'word_count:integer',
+            'edit_count:integer',
             [
                 'attribute' => 'status',
                 'value' => function (Source $model) {

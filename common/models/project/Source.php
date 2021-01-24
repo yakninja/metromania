@@ -18,6 +18,8 @@ use yii\db\Expression;
  * @property int $priority
  * @property int $status
  * @property string $url
+ * @property int $edit_count
+ * @property int $word_count
  *
  * @property Project $project
  * @property SourceParagraph[] $sourceParagraphs
@@ -57,7 +59,7 @@ class Source extends \yii\db\ActiveRecord
     {
         return [
             [['!project_id', 'url'], 'required'],
-            [['project_id', 'priority', '!status'], 'integer'],
+            [['project_id', 'priority', '!status', '!edit_count', '!word_count'], 'integer'],
             [['title'], 'string', 'max' => 128],
             [['url'], 'string', 'max' => 255],
             [['project_id'], 'exist', 'skipOnError' => true, 'targetClass' => Project::class, 'targetAttribute' => ['project_id' => 'id']],
@@ -81,6 +83,8 @@ class Source extends \yii\db\ActiveRecord
             'priority' => Yii::t('app', 'Priority'),
             'status' => Yii::t('app', 'Status'),
             'url' => Yii::t('app', 'Url'),
+            'word_count' => Yii::t('app', 'Word Count'),
+            'edit_count' => Yii::t('app', 'Edit Count'),
         ];
     }
 
@@ -97,6 +101,14 @@ class Source extends \yii\db\ActiveRecord
                     ->queryScalar() + 1;
         }
         return true;
+    }
+
+    public function afterSave($insert, $changedAttributes)
+    {
+        if (array_key_exists('edit_count', $changedAttributes)
+            || array_key_exists('word_count', $changedAttributes)) {
+            $this->project->summarize();
+        }
     }
 
     /**

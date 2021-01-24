@@ -7,6 +7,7 @@ use Google_Client;
 use Google_Service_Docs;
 use Yii;
 use yii\behaviors\TimestampBehavior;
+use yii\db\Expression;
 
 /**
  * This is the model class for table "project".
@@ -16,6 +17,8 @@ use yii\behaviors\TimestampBehavior;
  * @property int $owner_id
  * @property int $created_at
  * @property int $updated_at
+ * @property int $edit_count
+ * @property int $word_count
  *
  * @property User $owner
  * @property ProjectAccessToken $accessToken
@@ -45,7 +48,7 @@ class Project extends \yii\db\ActiveRecord
     {
         return [
             [['name', '!owner_id'], 'required'],
-            [['owner_id'], 'integer'],
+            [['owner_id', '!edit_count', '!word_count'], 'integer'],
             [['name'], 'string', 'max' => 128],
             [['owner_id'], 'exist', 'skipOnError' => true, 'targetClass' => User::class, 'targetAttribute' => ['owner_id' => 'id']],
         ];
@@ -62,6 +65,8 @@ class Project extends \yii\db\ActiveRecord
             'owner_id' => Yii::t('app', 'Owner ID'),
             'created_at' => Yii::t('app', 'Created At'),
             'updated_at' => Yii::t('app', 'Updated At'),
+            'word_count' => Yii::t('app', 'Word Count'),
+            'edit_count' => Yii::t('app', 'Edit Count'),
         ];
     }
 
@@ -95,6 +100,10 @@ class Project extends \yii\db\ActiveRecord
         return $this->hasMany(Source::class, ['project_id' => 'id']);
     }
 
+    /**
+     * @return Google_Client|null
+     * @throws \Google\Exception
+     */
     public function getGoogleClient()
     {
         if (!$this->accessToken) {
@@ -118,5 +127,23 @@ class Project extends \yii\db\ActiveRecord
             }
         }
         return $client;
+    }
+
+    /**
+     * Summarize counters from all sources
+     *
+     * @return bool
+     * @throws \yii\db\Exception
+     */
+    public function summarize()
+    {
+        $counters = Source::find()
+            ->select(['edit_count' => new Expression('sum(edit_count)'), 'word_count' => new Expression('sum(word_count)')])
+            ->where(['project_id' => $this->id])
+            ->createCommand()
+            ->queryOne();
+        $this->word_count = $counters['word_count'];
+        $this->edit_count = $counters['edit_count'];
+        return $this->save();
     }
 }
