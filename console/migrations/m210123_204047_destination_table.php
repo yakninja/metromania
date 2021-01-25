@@ -5,7 +5,7 @@ use yii\db\Migration;
 /**
  * Class m210123_204047_export_table
  */
-class m210123_204047_destination_table extends Migration
+class m210123_204047_export_table extends Migration
 {
     /**
      * {@inheritdoc}
@@ -61,9 +61,9 @@ class m210123_204047_destination_table extends Migration
      */
     public function safeDown()
     {
-        $this->dropTable('destination');
-        $this->dropTable('project_destination_settings');
-        $this->dropTable('destination_provider');
+        $this->dropTable('export');
+        $this->dropTable('project_export_settings');
+        $this->dropTable('export_provider');
     }
 
     /*
