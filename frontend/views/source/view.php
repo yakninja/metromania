@@ -7,7 +7,9 @@ use yii\widgets\DetailView;
 /* @var $model common\models\project\Source */
 
 $this->title = $model->title;
-$this->params['breadcrumbs'][] = ['label' => Yii::t('app', 'Sources'), 'url' => ['index']];
+$this->params['breadcrumbs'][] = ['label' => Yii::t('app', 'Projects'), 'url' => ['/project/index']];
+$this->params['breadcrumbs'][] = ['label' => $model->project->name,
+    'url' => ['/project/view', 'id' => $model->project_id]];
 $this->params['breadcrumbs'][] = $this->title;
 \yii\web\YiiAsset::register($this);
 ?>
@@ -32,13 +34,19 @@ $this->params['breadcrumbs'][] = $this->title;
             'id',
             'project_id',
             'title',
-            'created_at',
-            'updated_at',
-            'locked_until',
+            'created_at:datetime',
+            'updated_at:datetime',
+            'locked_until:datetime',
             'priority',
             'status',
             'url:url',
         ],
     ]) ?>
+
+    <h3><?= Yii::t('app', 'Content Preview') ?></h3>
+
+    <?php foreach ($model->paragraphs as $p): ?>
+        <p><?= Html::encode($p->content) ?><code>¶</code></p>
+    <?php endforeach ?>
 
 </div>

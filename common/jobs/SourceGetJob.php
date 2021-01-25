@@ -94,7 +94,18 @@ class SourceGetJob extends BaseObject implements JobInterface
                         $suggestionIds = array_merge($suggestionIds, $textRun->suggestedDeletionIds);
                     }
 
-                    $pContent .= $textRun->getContent();
+                    $style = $textRun->getTextStyle();
+                    $c = $textRun->getContent();
+                    if ($style->bold) {
+                        $c = '<b>' . $c . '</b>';
+                    }
+                    if ($style->italic) {
+                        $c = '<em>' . $c . '</em>';
+                    }
+                    if ($style->underline) {
+                        $c = '<u>' . $c . '</u>';
+                    }
+                    $pContent .= $c;
                 }
 
                 if (trim($pContent) == '') {

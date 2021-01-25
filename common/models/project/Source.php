@@ -23,7 +23,7 @@ use yii\db\Expression;
  * @property string $error_message
  *
  * @property Project $project
- * @property SourceParagraph[] $sourceParagraphs
+ * @property SourceParagraph[] $paragraphs
  */
 class Source extends \yii\db\ActiveRecord
 {
@@ -135,9 +135,10 @@ class Source extends \yii\db\ActiveRecord
      *
      * @return \yii\db\ActiveQuery
      */
-    public function getSourceParagraphs()
+    public function getParagraphs()
     {
-        return $this->hasMany(SourceParagraph::class, ['source_id' => 'id']);
+        return $this->hasMany(SourceParagraph::class, ['source_id' => 'id'])
+            ->orderBy(['priority' => SORT_ASC]);
     }
 
     /**

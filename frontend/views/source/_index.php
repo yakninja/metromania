@@ -49,6 +49,10 @@ use yii\helpers\Url;
                         $value = Html::tag('span', $value,
                             ['class' => 'badge badge-danger', 'title' => $model->error_message]);
                     }
+                    if ($model->status == Source::STATUS_OK) {
+                        $value .= ' ' . Html::a('<span class="fas fa-eye"></span>',
+                                ['/source/view', 'id' => $model->id]);
+                    }
                     return $value;
                 },
                 'filter' => Source::statusLabels(),
