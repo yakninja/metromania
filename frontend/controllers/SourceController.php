@@ -111,6 +111,8 @@ class SourceController extends Controller
     public function actionGet($id)
     {
         $model = $this->findModel($id);
+        $model->status = Source::STATUS_WAITING;
+        $model->save();
         /** @var Queue $queue */
         $queue = Yii::$app->get('queue');
         $queue->push(new SourceGetJob(['source_id' => $id]));

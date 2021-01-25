@@ -2,8 +2,10 @@
 
 namespace frontend\controllers;
 
+use common\jobs\SourceGetJob;
 use common\models\project\Project;
 use common\models\project\ProjectSearch;
+use common\models\project\Source;
 use common\models\project\SourceSearch;
 use frontend\models\GoogleAuthForm;
 use Google_Client;
@@ -11,6 +13,7 @@ use Google_Service_Docs;
 use Yii;
 use yii\filters\AccessControl;
 use yii\filters\VerbFilter;
+use yii\queue\Queue;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 
@@ -38,6 +41,7 @@ class ProjectController extends Controller
                 'class' => VerbFilter::class,
                 'actions' => [
                     'delete' => ['POST'],
+                    'get-all-sources' => ['POST'],
                 ],
             ],
         ];
@@ -115,6 +119,24 @@ class ProjectController extends Controller
         return $this->render('update', [
             'model' => $model,
         ]);
+    }
+
+    /**
+     * @param $project_id
+     * @throws NotFoundHttpException if the model cannot be found
+     */
+    public function actionGetAllSources($project_id)
+    {
+        $project = $this->findModel($project_id);
+        Source::updateAll(['status' => Source::STATUS_WAITING], ['project_id' => $project_id]);
+        /** @var Queue $queue */
+        $queue = Yii::$app->get('queue');
+        foreach ($project->sources as $source) {
+            $queue->push(new SourceGetJob(['source_id' => $source->id]));
+        }
+        Yii::$app->session->addFlash('success', Yii::t('app', '{n} tasks queued',
+            ['n' => count($project->sources)]));
+        return $this->redirect(['view', 'id' => $project_id]);
     }
 
     /**

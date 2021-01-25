@@ -7,7 +7,6 @@ use common\models\project\SourceParagraph;
 use Google_Service_Docs;
 use Yii;
 use yii\base\BaseObject;
-use yii\base\Exception;
 use yii\helpers\Json;
 use yii\queue\JobInterface;
 
@@ -28,62 +27,32 @@ class SourceGetJob extends BaseObject implements JobInterface
         $source = Source::findOne($this->source_id);
         if (!$source) {
             Yii::error('Could not find source ' . $this->source_id);
-            return;
+            return false;
         }
 
         if ($source->locked_until > time()) {
             // locked by another job
-            return;
+            return false;
         }
 
-        $rowCount = Source::updateAll(
-            [
-                'locked_until' => time() + self::LOCK_TIME,
-                'updated_at' => time(),
-                'status' => Source::STATUS_GET,
-                'error_message' => null,
-            ],
-            [
-                'id' => $source->id,
-                'updated_at' => $source->updated_at,
-            ],
-        );
-
-        if (!$rowCount) {
+        if (!$source->lock(self::LOCK_TIME)) {
             Yii::error('Lock failed: ' . $this->source_id);
-            return;
+            return false;
         }
 
         if (!($accessToken = $source->project->accessToken)) {
-
-            $error_message = 'Project has no access token';
-            Yii::error($error_message);
-            $source->error_message = $error_message;
-            $source->status = Source::STATUS_ERROR;
-            $source->locked_until = 0;
-            $source->save();
-
-            return;
+            $source->setError('Project has no access token');
+            return false;
         }
 
         if (!($client = $source->project->getGoogleClient())) {
-            $error_message = 'Could not get project google client';
-            Yii::error($error_message);
-            $source->error_message = $error_message;
-            $source->status = Source::STATUS_ERROR;
-            $source->locked_until = 0;
-            $source->save();
-            return;
+            $source->setError('Could not get project google client');
+            return false;
         }
 
         if (!preg_match('`/document/d/([^/&?]+)`', $source->url, $r)) {
-            $error_message = 'Invalid source URL';
-            Yii::error($error_message);
-            $source->error_message = $error_message;
-            $source->status = Source::STATUS_ERROR;
-            $source->locked_until = 0;
-            $source->save();
-            return;
+            $source->setError('Invalid source URL');
+            return false;
         }
 
         $documentId = $r[1];
@@ -99,14 +68,8 @@ class SourceGetJob extends BaseObject implements JobInterface
                 $error_message = $data['error']['message'];
             } catch (\Exception $e) {
             }
-
-            Yii::error($error_message);
-            $source->error_message = $error_message;
-            $source->status = Source::STATUS_ERROR;
-            $source->locked_until = 0;
-            $source->save();
-
-            return;
+            $source->setError($error_message);
+            return false;
         }
 
         $source->title = null;
@@ -144,32 +107,18 @@ class SourceGetJob extends BaseObject implements JobInterface
                 }
 
                 $paragraphs[] = $pContent;
+                $wordCount += count(preg_split('~[^\p{L}\p{N}\']+~u', $pContent));
             }
         }
 
-        $transaction = SourceParagraph::getDb()->beginTransaction();
-        try {
-            SourceParagraph::deleteAll(['source_id' => $source->id]);
-            foreach ($paragraphs as $i => $paragraph) {
-                $sp = new SourceParagraph([
-                    'source_id' => $source->id,
-                    'priority' => $i + 1,
-                    'content' => $paragraph,
-                ]);
-                $sp->save();
-                $wordCount += count(preg_split('~[^\p{L}\p{N}\']+~u', $paragraph));
-            }
-            $transaction->commit();
-        } catch (Exception $e) {
-            $transaction->rollBack();
-
-            Yii::error($e->getMessage());
-            $source->error_message = $e->getMessage();
-            $source->status = Source::STATUS_ERROR;
-            $source->locked_until = 0;
-            $source->save();
-
-            return;
+        SourceParagraph::deleteAll(['source_id' => $source->id]);
+        foreach ($paragraphs as $i => $paragraph) {
+            $sp = new SourceParagraph([
+                'source_id' => $source->id,
+                'priority' => $i + 1,
+                'content' => $paragraph,
+            ]);
+            $sp->save();
         }
 
         $source->word_count = $wordCount;
@@ -177,5 +126,7 @@ class SourceGetJob extends BaseObject implements JobInterface
         $source->status = Source::STATUS_OK;
         $source->locked_until = 0;
         $source->save();
+
+        return true;
     }
 }

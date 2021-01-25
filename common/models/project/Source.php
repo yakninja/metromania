@@ -28,14 +28,16 @@ use yii\db\Expression;
 class Source extends \yii\db\ActiveRecord
 {
     const STATUS_NEW = 0;
-    const STATUS_GET = 1;
-    const STATUS_OK = 2;
+    const STATUS_WAITING = 1;
+    const STATUS_GET = 2;
+    const STATUS_OK = 10;
     const STATUS_ERROR = -1;
 
     public static function statusLabels()
     {
         return [
             self::STATUS_NEW => Yii::t('app', 'Status: new'),
+            self::STATUS_WAITING => Yii::t('app', 'Status: waiting'),
             self::STATUS_GET => Yii::t('app', 'Status: get'),
             self::STATUS_ERROR => Yii::t('app', 'Status: error'),
             self::STATUS_OK => Yii::t('app', 'Status: OK'),
@@ -136,5 +138,46 @@ class Source extends \yii\db\ActiveRecord
     public function getSourceParagraphs()
     {
         return $this->hasMany(SourceParagraph::class, ['source_id' => 'id']);
+    }
+
+    /**
+     * Lock this record for $time seconds. Using updated_at to avoid concurrent locking
+     *
+     * @param int $time
+     * @param int $lock_status
+     * @return bool true if lock was successful
+     */
+    public function lock(int $time, $lock_status = Source::STATUS_GET)
+    {
+        $row_count = Source::updateAll(
+            [
+                'locked_until' => time() + $time,
+                'updated_at' => time(),
+                'status' => $lock_status,
+                'error_message' => null,
+            ],
+            [
+                'id' => $this->id,
+                'updated_at' => $this->updated_at,
+            ],
+        );
+        if ($row_count) {
+            $this->refresh();
+            return true;
+        }
+        return false;
+    }
+
+    /**
+     * @param $error_message
+     * @return bool
+     */
+    public function setError($error_message)
+    {
+        Yii::error($error_message);
+        $this->error_message = $error_message;
+        $this->status = Source::STATUS_ERROR;
+        $this->locked_until = 0;
+        return $this->save();
     }
 }
