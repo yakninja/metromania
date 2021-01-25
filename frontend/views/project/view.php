@@ -32,6 +32,8 @@ $this->params['breadcrumbs'][] = $this->title;
                 ]);
         }
         ?>
+        <?= Html::a(Yii::t('app', 'Export Settings'),
+                ['export-settings', 'project_id' => $model->id], ['class' => 'btn btn-info']) ?>
         <?= Html::a(Yii::t('app', 'Delete'), ['delete', 'id' => $model->id], [
             'class' => 'btn btn-danger',
             'data' => [
