@@ -5,26 +5,26 @@ namespace common\models\project;
 use Yii;
 
 /**
- * This is the model class for table "destination_provider".
+ * This is the model class for table "export_provider".
  *
  * @property int $id
  * @property string $name
  * @property string|null $url
  * @property string $api_class
  *
- * @property Destination[] $destinations
+ * @property Export[] $exports
  * @property Source[] $sources
- * @property ProjectDestinationSettings[] $projectDestinationSettings
+ * @property ProjectExportSettings[] $projectExportSettings
  * @property Project[] $projects
  */
-class DestinationProvider extends \yii\db\ActiveRecord
+class ExportProvider extends \yii\db\ActiveRecord
 {
     /**
      * {@inheritdoc}
      */
     public static function tableName()
     {
-        return 'destination_provider';
+        return 'export_provider';
     }
 
     /**
@@ -53,13 +53,13 @@ class DestinationProvider extends \yii\db\ActiveRecord
     }
 
     /**
-     * Gets query for [[Destinations]].
+     * Gets query for [[Exports]].
      *
      * @return \yii\db\ActiveQuery
      */
-    public function getDestinations()
+    public function getExports()
     {
-        return $this->hasMany(Destination::class, ['provider_id' => 'id']);
+        return $this->hasMany(Export::class, ['provider_id' => 'id']);
     }
 
     /**
@@ -69,17 +69,18 @@ class DestinationProvider extends \yii\db\ActiveRecord
      */
     public function getSources()
     {
-        return $this->hasMany(Source::class, ['id' => 'source_id'])->viaTable('destination', ['provider_id' => 'id']);
+        return $this->hasMany(Source::class, ['id' => 'source_id'])
+            ->viaTable('export', ['provider_id' => 'id']);
     }
 
     /**
-     * Gets query for [[ProjectDestinationSettings]].
+     * Gets query for [[ProjectExportSettings]].
      *
      * @return \yii\db\ActiveQuery
      */
-    public function getProjectDestinationSettings()
+    public function getProjectExportSettings()
     {
-        return $this->hasMany(ProjectDestinationSettings::class, ['provider_id' => 'id']);
+        return $this->hasMany(ProjectExportSettings::class, ['provider_id' => 'id']);
     }
 
     /**
@@ -89,6 +90,7 @@ class DestinationProvider extends \yii\db\ActiveRecord
      */
     public function getProjects()
     {
-        return $this->hasMany(Project::class, ['id' => 'project_id'])->viaTable('project_destination_settings', ['provider_id' => 'id']);
+        return $this->hasMany(Project::class, ['id' => 'project_id'])
+            ->viaTable('project_export_settings', ['provider_id' => 'id']);
     }
 }

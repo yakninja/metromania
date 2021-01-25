@@ -5,7 +5,7 @@ namespace common\models\project;
 use Yii;
 
 /**
- * This is the model class for table "project_destination_settings".
+ * This is the model class for table "project_export_settings".
  *
  * @property int $id
  * @property int $project_id
@@ -13,17 +13,17 @@ use Yii;
  * @property string|null $username
  * @property string|null $password
  *
- * @property DestinationProvider $provider
+ * @property ExportProvider $provider
  * @property Project $project
  */
-class ProjectDestinationSettings extends \yii\db\ActiveRecord
+class ProjectExportSettings extends \yii\db\ActiveRecord
 {
     /**
      * {@inheritdoc}
      */
     public static function tableName()
     {
-        return 'project_destination_settings';
+        return 'project_export_settings';
     }
 
     /**
@@ -32,11 +32,11 @@ class ProjectDestinationSettings extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
-            [['project_id', 'provider_id'], 'required'],
+            [['!project_id', 'provider_id'], 'required'],
             [['project_id', 'provider_id'], 'integer'],
             [['username', 'password'], 'string', 'max' => 128],
             [['project_id', 'provider_id'], 'unique', 'targetAttribute' => ['project_id', 'provider_id']],
-            [['provider_id'], 'exist', 'skipOnError' => true, 'targetClass' => DestinationProvider::class, 'targetAttribute' => ['provider_id' => 'id']],
+            [['provider_id'], 'exist', 'skipOnError' => true, 'targetClass' => ExportProvider::class, 'targetAttribute' => ['provider_id' => 'id']],
             [['project_id'], 'exist', 'skipOnError' => true, 'targetClass' => Project::class, 'targetAttribute' => ['project_id' => 'id']],
         ];
     }
@@ -62,7 +62,7 @@ class ProjectDestinationSettings extends \yii\db\ActiveRecord
      */
     public function getProvider()
     {
-        return $this->hasOne(DestinationProvider::class, ['id' => 'provider_id']);
+        return $this->hasOne(ExportProvider::class, ['id' => 'provider_id']);
     }
 
     /**

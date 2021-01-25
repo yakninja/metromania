@@ -5,7 +5,7 @@ namespace common\models\project;
 use Yii;
 
 /**
- * This is the model class for table "destination".
+ * This is the model class for table "export".
  *
  * @property int $id
  * @property int $source_id
@@ -16,17 +16,17 @@ use Yii;
  * @property int $status
  * @property string $url
  *
- * @property DestinationProvider $provider
+ * @property ExportProvider $provider
  * @property Source $source
  */
-class Destination extends \yii\db\ActiveRecord
+class Export extends \yii\db\ActiveRecord
 {
     /**
      * {@inheritdoc}
      */
     public static function tableName()
     {
-        return 'destination';
+        return 'export';
     }
 
     /**
@@ -39,7 +39,7 @@ class Destination extends \yii\db\ActiveRecord
             [['source_id', 'provider_id', 'created_at', 'updated_at', 'locked_until', 'status'], 'integer'],
             [['url'], 'string', 'max' => 255],
             [['source_id', 'provider_id'], 'unique', 'targetAttribute' => ['source_id', 'provider_id']],
-            [['provider_id'], 'exist', 'skipOnError' => true, 'targetClass' => DestinationProvider::class, 'targetAttribute' => ['provider_id' => 'id']],
+            [['provider_id'], 'exist', 'skipOnError' => true, 'targetClass' => ExportProvider::class, 'targetAttribute' => ['provider_id' => 'id']],
             [['source_id'], 'exist', 'skipOnError' => true, 'targetClass' => Source::class, 'targetAttribute' => ['source_id' => 'id']],
         ];
     }
@@ -68,7 +68,7 @@ class Destination extends \yii\db\ActiveRecord
      */
     public function getProvider()
     {
-        return $this->hasOne(DestinationProvider::class, ['id' => 'provider_id']);
+        return $this->hasOne(ExportProvider::class, ['id' => 'provider_id']);
     }
 
     /**
