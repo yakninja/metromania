@@ -20,3 +20,7 @@ Cross-posting your works to multiple publishing sites
 - `php yii_test migrate`
 - `php yii_test rbac/init`
 - `codecept run`
+
+### Production?
+
+- Add to cron once per minute: `php yii source-get`
