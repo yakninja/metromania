@@ -35,6 +35,7 @@ return [
     'Enter the code in the field below' => 'Введите код доступа в поле ниже',
     'Error Message' => 'Сообщение об ошибке',
     'Export' => 'Экспорт',
+    'Get all sources' => 'Загрузить все источники',
     'Get source' => 'Загрузить источник',
     'ID' => 'ID',
     'If you forgot your password you can {reset_it}' => 'Если вы забыли пароль, можете {reset_it}',
@@ -83,7 +84,6 @@ return [
     'Source deleted' => 'Источник удален',
     'Source get queued' => 'Источник поставлен в очередь на скачивание',
     'Source saved' => 'Источник сохранен',
-    'Sources' => 'Источники',
     'Status' => 'Статус',
     'Status: OK' => 'OK',
     'Status: error' => 'Ошибка',
@@ -117,6 +117,6 @@ return [
     'reset it' => 'сбросить его',
     '{app_name} robot' => 'Робот {app_name}',
     '{n} sources imported' => '{n, plural, one{# источник импортирован} few{# источника импортировано} many{# источников импортировано} other{# источника импортировано}}',
-    'Get all sources' => 'Загрузить все источники',
     '{n} tasks queued' => '{n, plural, one{# задача} few{# задачи} many{# задач} other{# задачи}} в очереди',
+    'Content Preview' => 'Предпросмотр контента',
 ];

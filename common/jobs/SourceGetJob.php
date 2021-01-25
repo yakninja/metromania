@@ -96,14 +96,16 @@ class SourceGetJob extends BaseObject implements JobInterface
 
                     $style = $textRun->getTextStyle();
                     $c = $textRun->getContent();
-                    if ($style->bold) {
-                        $c = '<b>' . $c . '</b>';
-                    }
-                    if ($style->italic) {
-                        $c = '<em>' . $c . '</em>';
-                    }
-                    if ($style->underline) {
-                        $c = '<u>' . $c . '</u>';
+                    if ($source->title) {
+                        if ($style->bold) {
+                            $c = '<b>' . $c . '</b>';
+                        }
+                        if ($style->italic) {
+                            $c = '<em>' . $c . '</em>';
+                        }
+                        if ($style->underline) {
+                            $c = '<u>' . $c . '</u>';
+                        }
                     }
                     $pContent .= $c;
                 }
@@ -113,6 +115,7 @@ class SourceGetJob extends BaseObject implements JobInterface
                 }
 
                 if (!$source->title) {
+                    // first paragraph is the title
                     $source->title = $pContent;
                     continue;
                 }
