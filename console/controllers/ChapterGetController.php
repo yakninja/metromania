@@ -33,7 +33,7 @@ class ChapterGetController extends Controller
                 [
                     'new' => Chapter::STATUS_NEW,
                     'waiting' => Chapter::STATUS_WAITING,
-                    'export' => Chapter::STATUS_EXPORT,
+                    'export' => Chapter::STATUS_PUBLICATION,
                     'error' => Chapter::STATUS_ERROR,
                     'time' => time() - Yii::$app->params['chapter.getTimeout'],
                 ])
