@@ -27,7 +27,7 @@ $this->params['breadcrumbs'][] = $this->title;
         <?= Html::a('<i class="fas fa-pen"></i> ' . Yii::t('app', 'Update'),
             ['update', 'id' => $model->id], ['class' => 'btn btn-sm btn-primary']) ?>
         <?= Html::a('<i class="fas fa-cogs"></i> ' . Yii::t('app', 'Chapter Export Settings'),
-            ['export-settings', 'id' => $model->id], ['class' => 'btn btn-sm btn-info']) ?>
+            ['export-settings', 'chapter_id' => $model->id], ['class' => 'btn btn-sm btn-info']) ?>
         <?= Html::a('<i class="fas fa-trash"></i> ' . Yii::t('app', 'Delete'), ['delete', 'id' => $model->id], [
             'class' => 'btn btn-sm btn-danger float-right',
             'data' => [
