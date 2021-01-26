@@ -75,6 +75,7 @@ class Ficbook extends Component
                     throw new Exception('Login failed');
                 }
                 // success
+                echo "logged in!\n";
             } else {
                 throw new Exception('No login form found on page');
             }
@@ -128,7 +129,7 @@ class Ficbook extends Component
                 'not_published' => '1',
                 'auto_pub' => '0',
             ];
-            $response = $this->client->post('/home/fanfics/partauthoredit_save',
+            $response = $this->client->post('/home/fanfics/partbetaedit_save',
                 ['form_params' => $formParams]);
             if ($response->getStatusCode() != 200) {
                 throw new Exception('Could not export: invalid status code: ' . $response->getStatusCode());
