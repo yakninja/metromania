@@ -9,7 +9,7 @@ return [
     'user.passwordMinLength' => 8,
     'user.registrationEnabled' => true,
 
-    'source.getTimeout' => 3600,
+    'chapter.getTimeout' => 3600,
 
     'googleDocsApiCredentials' => __DIR__ . '/credentials.json',
     'bsVersion' => '4.x',
