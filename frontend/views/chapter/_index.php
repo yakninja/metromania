@@ -45,8 +45,8 @@ use yii\helpers\Url;
                     '<i class="fas fa-file-import"></i> ' . Yii::t('app', 'Import Chapters'),
                     ['/chapter/import', 'project_id' => $project->id],
                     ['class' => 'btn btn-sm btn-info']),
-            'after' => null,
-            'footer' => false
+            'after' => false,
+            'footer' => ''
         ],
         'columns' => [
             [
