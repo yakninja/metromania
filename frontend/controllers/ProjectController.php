@@ -2,12 +2,12 @@
 
 namespace frontend\controllers;
 
-use common\jobs\SourceGetJob;
+use common\jobs\ChapterGetJob;
+use common\models\project\Chapter;
+use common\models\project\ChapterSearch;
 use common\models\project\Project;
 use common\models\project\ProjectExportSettings;
 use common\models\project\ProjectSearch;
-use common\models\project\Source;
-use common\models\project\SourceSearch;
 use frontend\models\GoogleAuthForm;
 use Google_Client;
 use Google_Service_Docs;
@@ -43,7 +43,7 @@ class ProjectController extends Controller
                 'class' => VerbFilter::class,
                 'actions' => [
                     'delete' => ['POST'],
-                    'get-all-sources' => ['POST'],
+                    'get-all-chapters' => ['POST'],
                     'export-setting-delete' => ['POST'],
                 ],
             ],
@@ -74,13 +74,13 @@ class ProjectController extends Controller
     public function actionView($id)
     {
         $model = $this->findModel($id);
-        $sourceSearchModel = new SourceSearch(['project_id' => $id]);
-        $sourceDataProvider = $sourceSearchModel->search(Yii::$app->request->queryParams);
+        $chapterSearchModel = new ChapterSearch(['project_id' => $id]);
+        $chapterDataProvider = $chapterSearchModel->search(Yii::$app->request->queryParams);
 
         return $this->render('view', [
             'model' => $model,
-            'sourceSearchModel' => $sourceSearchModel,
-            'sourceDataProvider' => $sourceDataProvider,
+            'chapterSearchModel' => $chapterSearchModel,
+            'chapterDataProvider' => $chapterDataProvider,
         ]);
     }
 
@@ -164,17 +164,17 @@ class ProjectController extends Controller
      * @param $project_id
      * @throws NotFoundHttpException if the model cannot be found
      */
-    public function actionGetAllSources($project_id)
+    public function actionGetAllChapters($project_id)
     {
         $project = $this->findModel($project_id);
-        Source::updateAll(['status' => Source::STATUS_WAITING], ['project_id' => $project_id]);
+        Chapter::updateAll(['status' => Chapter::STATUS_WAITING], ['project_id' => $project_id]);
         /** @var Queue $queue */
         $queue = Yii::$app->get('queue');
-        foreach ($project->sources as $source) {
-            $queue->push(new SourceGetJob(['source_id' => $source->id]));
+        foreach ($project->chapters as $chapter) {
+            $queue->push(new ChapterGetJob(['chapter_id' => $chapter->id]));
         }
         Yii::$app->session->addFlash('success', Yii::t('app', '{n} tasks queued',
-            ['n' => count($project->sources)]));
+            ['n' => count($project->chapters)]));
         return $this->redirect(['view', 'id' => $project_id]);
     }
 

@@ -12,8 +12,8 @@ use Yii;
  * @property string|null $url
  * @property string $api_class
  *
- * @property Export[] $exports
- * @property Source[] $sources
+ * @property ChapterExport[] $exports
+ * @property Chapter[] $chapters
  * @property ProjectExportSettings[] $projectExportSettings
  * @property Project[] $projects
  */
@@ -59,17 +59,17 @@ class ExportProvider extends \yii\db\ActiveRecord
      */
     public function getExports()
     {
-        return $this->hasMany(Export::class, ['provider_id' => 'id']);
+        return $this->hasMany(ChapterExport::class, ['provider_id' => 'id']);
     }
 
     /**
-     * Gets query for [[Sources]].
+     * Gets query for [[Chapters]].
      *
      * @return \yii\db\ActiveQuery
      */
-    public function getSources()
+    public function getChapters()
     {
-        return $this->hasMany(Source::class, ['id' => 'source_id'])
+        return $this->hasMany(Chapter::class, ['id' => 'chapter_id'])
             ->viaTable('export', ['provider_id' => 'id']);
     }
 

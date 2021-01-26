@@ -4,8 +4,8 @@ use yii\helpers\Html;
 
 /* @var $this yii\web\View */
 /* @var $model common\models\project\Project */
-/* @var $sourceSearchModel common\models\project\SourceSearch */
-/* @var $sourceDataProvider yii\data\ActiveDataProvider */
+/* @var $chapterSearchModel common\models\project\ChapterSearch */
+/* @var $chapterDataProvider yii\data\ActiveDataProvider */
 
 $this->title = $model->name;
 $this->params['breadcrumbs'][] = ['label' => Yii::t('app', 'Projects'), 'url' => ['index']];
@@ -17,25 +17,26 @@ $this->params['breadcrumbs'][] = $this->title;
     <h1><?= Html::encode($this->title) ?></h1>
 
     <p>
-        <?= Html::a(Yii::t('app', 'Update'), ['update', 'id' => $model->id], ['class' => 'btn btn-primary']) ?>
+        <?= Html::a('<i class="fas fa-pen"></i> ' . Yii::t('app', 'Update'),
+            ['update', 'id' => $model->id], ['class' => 'btn btn-sm btn-primary']) ?>
         <?php
         if (!$model->accessToken) {
-            echo Html::a(Yii::t('app', 'Create Access Token'),
-                ['create-access-token', 'project_id' => $model->id], ['class' => 'btn btn-info']);
+            echo Html::a('<i class="fas fa-plus"></i> ' . Yii::t('app', 'Create Access Token'),
+                ['create-access-token', 'project_id' => $model->id], ['class' => 'btn btn-sm btn-info']);
         } else {
-            echo Html::a(Yii::t('app', 'Get all sources'),
-                ['get-all-sources', 'project_id' => $model->id], [
-                    'class' => 'btn btn-info',
+            echo Html::a('<i class="fas fa-angle-double-down"></i> ' . Yii::t('app', 'Get all chapters'),
+                ['get-all-chapters', 'project_id' => $model->id], [
+                    'class' => 'btn btn-info btn-sm',
                     'data' => [
                         'method' => 'post',
                     ],
                 ]);
         }
         ?>
-        <?= Html::a(Yii::t('app', 'Export Settings'),
-                ['export-settings', 'project_id' => $model->id], ['class' => 'btn btn-info']) ?>
-        <?= Html::a(Yii::t('app', 'Delete'), ['delete', 'id' => $model->id], [
-            'class' => 'btn btn-danger',
+        <?= Html::a('<i class="fas fa-cogs"></i> ' . Yii::t('app', 'Project Export Settings'),
+                ['export-settings', 'project_id' => $model->id], ['class' => 'btn btn-sm btn-info']) ?>
+        <?= Html::a('<i class="fas fa-trash"></i> ' . Yii::t('app', 'Delete'), ['delete', 'id' => $model->id], [
+            'class' => 'btn btn-sm btn-danger float-right',
             'data' => [
                 'confirm' => Yii::t('app', 'Are you sure you want to delete this item?'),
                 'method' => 'post',
@@ -43,10 +44,10 @@ $this->params['breadcrumbs'][] = $this->title;
         ]) ?>
     </p>
 
-    <?= $this->render('/source/_index', [
+    <?= $this->render('/chapter/_index', [
         'project' => $model,
-        'dataProvider' => $sourceDataProvider,
-        'searchModel' => $sourceSearchModel,
+        'dataProvider' => $chapterDataProvider,
+        'searchModel' => $chapterSearchModel,
     ]) ?>
 
 </div>

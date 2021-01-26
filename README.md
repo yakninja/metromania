@@ -23,4 +23,4 @@ Cross-posting your works to multiple publishing sites
 
 ### Production?
 
-- Add to cron once per minute: `php yii source-get`
+- Add to cron once per minute: `php yii chapter-get`

@@ -8,16 +8,16 @@ use yii\helpers\Url;
 /* @var $project common\models\project\Project */
 /* @var $dataProvider yii\data\ActiveDataProvider */
 
-$this->title = Yii::t('app', 'Export Settings');
+$this->title = Yii::t('app', 'Project Export Settings');
 $this->params['breadcrumbs'][] = ['label' => Yii::t('app', 'Projects'), 'url' => ['index']];
 $this->params['breadcrumbs'][] = ['label' => $project->name, 'url' => ['view', 'id' => $project->id]];
 $this->params['breadcrumbs'][] = $this->title;
 ?>
 <div class="project-export-settings">
     <p>
-        <?= Html::a(Yii::t('app', 'Add Export Setting'),
+        <?= Html::a('<i class="fas fa-plus"></i> ' . Yii::t('app', 'Add Export Setting'),
             ['create-export-setting', 'project_id' => $project->id],
-            ['class' => 'btn btn-success']) ?>
+            ['class' => 'btn btn-sm btn-success']) ?>
     </p>
 
     <?= GridView::widget([

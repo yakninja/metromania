@@ -6,9 +6,9 @@ use yii\base\Model;
 use yii\data\ActiveDataProvider;
 
 /**
- * SourceSearch represents the model behind the search form of `common\models\project\Source`.
+ * ChapterSearch represents the model behind the search form of `common\models\project\Chapter`.
  */
-class SourceSearch extends Source
+class ChapterSearch extends Chapter
 {
     /**
      * {@inheritdoc}
@@ -39,7 +39,7 @@ class SourceSearch extends Source
      */
     public function search($params)
     {
-        $query = Source::find();
+        $query = Chapter::find();
 
         // add conditions that should always apply here
 

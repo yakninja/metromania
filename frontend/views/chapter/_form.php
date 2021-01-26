@@ -4,11 +4,11 @@ use yii\helpers\Html;
 use yii\widgets\ActiveForm;
 
 /* @var $this yii\web\View */
-/* @var $model common\models\project\Source */
+/* @var $model common\models\project\Chapter */
 /* @var $form yii\widgets\ActiveForm */
 ?>
 
-<div class="source-form">
+<div class="chapter-form">
 
     <?php $form = ActiveForm::begin(); ?>
 
@@ -19,7 +19,8 @@ use yii\widgets\ActiveForm;
     <?= $form->field($model, 'url')->textInput(['maxlength' => true]) ?>
 
     <div class="form-group">
-        <?= Html::submitButton(Yii::t('app', 'Save'), ['class' => 'btn btn-success']) ?>
+        <?= Html::submitButton('<i class="fas fa-save"></i> ' . Yii::t('app', 'Save'),
+            ['class' => 'btn btn-success']) ?>
     </div>
 
     <?php ActiveForm::end(); ?>

@@ -23,7 +23,7 @@ use yii\helpers\Json;
  *
  * @property User $owner
  * @property ProjectAccessToken $accessToken
- * @property Source[] $sources
+ * @property Chapter[] $chapters
  */
 class Project extends \yii\db\ActiveRecord
 {
@@ -92,13 +92,13 @@ class Project extends \yii\db\ActiveRecord
     }
 
     /**
-     * Gets query for [[Sources]].
+     * Gets query for [[Chapters]].
      *
      * @return \yii\db\ActiveQuery
      */
-    public function getSources()
+    public function getChapters()
     {
-        return $this->hasMany(Source::class, ['project_id' => 'id']);
+        return $this->hasMany(Chapter::class, ['project_id' => 'id']);
     }
 
     /**
@@ -131,14 +131,14 @@ class Project extends \yii\db\ActiveRecord
     }
 
     /**
-     * Summarize counters from all sources
+     * Summarize counters from all chapters
      *
      * @return bool
      * @throws \yii\db\Exception
      */
     public function summarize()
     {
-        $counters = Source::find()
+        $counters = Chapter::find()
             ->select(['edit_count' => new Expression('sum(edit_count)'), 'word_count' => new Expression('sum(word_count)')])
             ->where(['project_id' => $this->id])
             ->createCommand()

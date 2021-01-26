@@ -2,11 +2,13 @@
 
 namespace frontend\controllers;
 
-use common\jobs\SourceGetJob;
+use common\jobs\ChapterGetJob;
+use common\models\project\Chapter;
+use common\models\project\ChapterExport;
 use common\models\project\Project;
-use common\models\project\Source;
-use frontend\models\SourceImportForm;
+use frontend\models\ChapterImportForm;
 use Yii;
+use yii\data\ActiveDataProvider;
 use yii\filters\AccessControl;
 use yii\filters\VerbFilter;
 use yii\queue\Queue;
@@ -14,9 +16,9 @@ use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 
 /**
- * SourceController implements the CRUD actions for Source model.
+ * ChapterController implements the CRUD actions for Chapter model.
  */
-class SourceController extends Controller
+class ChapterController extends Controller
 {
     /**
      * {@inheritdoc}
@@ -45,7 +47,7 @@ class SourceController extends Controller
     }
 
     /**
-     * Displays a single Source model.
+     * Displays a single Chapter model.
      * @param integer $id
      * @return mixed
      * @throws NotFoundHttpException if the model cannot be found
@@ -58,7 +60,7 @@ class SourceController extends Controller
     }
 
     /**
-     * Creates a new Source model.
+     * Creates a new Chapter model.
      * If creation is successful, the browser will be redirected to the 'view' page.
      * @param $project_id
      * @return mixed
@@ -67,10 +69,10 @@ class SourceController extends Controller
     public function actionCreate($project_id)
     {
         $this->findProjectModel($project_id);
-        $model = new Source(['project_id' => $project_id]);
+        $model = new Chapter(['project_id' => $project_id]);
 
         if ($model->load(Yii::$app->request->post()) && $model->save()) {
-            Yii::$app->session->addFlash('success', Yii::t('app', 'Source added'));
+            Yii::$app->session->addFlash('success', Yii::t('app', 'Chapter added'));
             return $this->redirect(['/project/view', 'id' => $model->project_id]);
         }
 
@@ -80,7 +82,7 @@ class SourceController extends Controller
     }
 
     /**
-     * Import multiple sources.
+     * Import multiple chapters.
      * If import is successful, the browser will be redirected to the 'view' page.
      * @param $project_id
      * @return mixed
@@ -89,10 +91,10 @@ class SourceController extends Controller
     public function actionImport($project_id)
     {
         $this->findProjectModel($project_id);
-        $model = new SourceImportForm(['project_id' => $project_id]);
+        $model = new ChapterImportForm(['project_id' => $project_id]);
 
         if ($model->load(Yii::$app->request->post()) && ($n = $model->save()) !== false) {
-            Yii::$app->session->addFlash('success', Yii::t('app', '{n} sources imported', ['n' => $n]));
+            Yii::$app->session->addFlash('success', Yii::t('app', '{n} chapters imported', ['n' => $n]));
             return $this->redirect(['/project/view', 'id' => $model->project_id]);
         }
 
@@ -102,7 +104,7 @@ class SourceController extends Controller
     }
 
     /**
-     * Get source from Google docs (aget)
+     * Get chapter from Google docs (aget)
      * @param $id
      * @return \yii\web\Response
      * @throws NotFoundHttpException
@@ -111,13 +113,50 @@ class SourceController extends Controller
     public function actionGet($id)
     {
         $model = $this->findModel($id);
-        $model->status = Source::STATUS_WAITING;
+        $model->status = Chapter::STATUS_WAITING;
         $model->save();
         /** @var Queue $queue */
         $queue = Yii::$app->get('queue');
-        $queue->push(new SourceGetJob(['source_id' => $id]));
-        Yii::$app->session->addFlash('success', Yii::t('app', 'Source get queued'));
-        return $this->redirect(['/project/view', 'id' => $model->project_id]);
+        $queue->push(new ChapterGetJob(['chapter_id' => $id]));
+        Yii::$app->session->addFlash('success', Yii::t('app', 'Chapter get queued'));
+        return $this->redirect(['view', 'id' => $model->id]);
+    }
+
+    /**
+     * @param $id
+     * @return string
+     * @throws NotFoundHttpException
+     */
+    public function actionExportSettings($chapter_id)
+    {
+        $model = $this->findModel($chapter_id);
+        $dataProvider = new ActiveDataProvider([
+            'query' => ChapterExport::find()->where(['chapter_id' => $chapter_id])
+        ]);
+        return $this->render('export_settings', [
+            'model' => $model,
+            'dataProvider' => $dataProvider,
+        ]);
+    }
+
+
+    /**
+     * @param $chapter_id
+     * @return string|\yii\web\Response
+     * @throws NotFoundHttpException
+     */
+    public function actionCreateExportSetting($chapter_id)
+    {
+        $project = $this->findModel($chapter_id);
+        $model = new ChapterExport(['chapter_id' => $chapter_id]);
+        if ($model->load(Yii::$app->request->post()) && $model->save()) {
+            Yii::$app->session->addFlash('success', Yii::t('app', 'Chapter export setting added'));
+            return $this->redirect(['export-settings', 'chapter_id' => $chapter_id]);
+        }
+        return $this->render('create_export_setting', [
+            'project' => $project,
+            'model' => $model,
+        ]);
     }
 
     public function actionPut($id)
@@ -126,7 +165,7 @@ class SourceController extends Controller
     }
 
     /**
-     * Updates an existing Source model.
+     * Updates an existing Chapter model.
      * If update is successful, the browser will be redirected to the 'view' page.
      * @param integer $id
      * @return mixed
@@ -137,7 +176,7 @@ class SourceController extends Controller
         $model = $this->findModel($id);
 
         if ($model->load(Yii::$app->request->post()) && $model->save()) {
-            Yii::$app->session->addFlash('success', Yii::t('app', 'Source saved'));
+            Yii::$app->session->addFlash('success', Yii::t('app', 'Chapter saved'));
             return $this->redirect(['/project/view', 'id' => $model->project_id]);
         }
 
@@ -147,7 +186,7 @@ class SourceController extends Controller
     }
 
     /**
-     * Deletes an existing Source model.
+     * Deletes an existing Chapter model.
      * If deletion is successful, the browser will be redirected to the 'index' page.
      * @param integer $id
      * @return mixed
@@ -157,21 +196,21 @@ class SourceController extends Controller
     {
         $model = $this->findModel($id);
         $model->delete();
-        Yii::$app->session->addFlash('success', Yii::t('app', 'Source deleted'));
+        Yii::$app->session->addFlash('success', Yii::t('app', 'Chapter deleted'));
 
         return $this->redirect(['/project/view', 'id' => $model->project_id]);
     }
 
     /**
-     * Finds the Source model based on its primary key value.
+     * Finds the Chapter model based on its primary key value.
      * If the model is not found, a 404 HTTP exception will be thrown.
      * @param integer $id
-     * @return Source the loaded model
+     * @return Chapter the loaded model
      * @throws NotFoundHttpException if the model cannot be found
      */
     protected function findModel($id)
     {
-        if (($model = Source::findOne($id)) !== null) {
+        if (($model = Chapter::findOne($id)) !== null) {
             return $model;
         }
 

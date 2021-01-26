@@ -37,7 +37,7 @@ return [
                         'app' => 'app.php',
                         'app/error' => 'error.php',
                     ],
-                ],
+                ]
             ],
         ],
         'formatter' => [

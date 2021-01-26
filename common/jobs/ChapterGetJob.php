@@ -2,8 +2,8 @@
 
 namespace common\jobs;
 
-use common\models\project\Source;
-use common\models\project\SourceParagraph;
+use common\models\project\Chapter;
+use common\models\project\ChapterParagraph;
 use Google_Service_Docs;
 use Yii;
 use yii\base\BaseObject;
@@ -11,47 +11,47 @@ use yii\helpers\Json;
 use yii\queue\JobInterface;
 
 /**
- * Get source
+ * Get chapter
  *
  * @package common\jobs
  */
-class SourceGetJob extends BaseObject implements JobInterface
+class ChapterGetJob extends BaseObject implements JobInterface
 {
     const LOCK_TIME = 60;
 
-    /** @var integer */
-    public int $source_id;
+    /** @var int */
+    public int $chapter_id;
 
     public function execute($queue)
     {
-        $source = Source::findOne($this->source_id);
-        if (!$source) {
-            Yii::error('Could not find source ' . $this->source_id);
+        $chapter = Chapter::findOne($this->chapter_id);
+        if (!$chapter) {
+            Yii::error('Could not find chapter ' . $this->chapter_id);
             return false;
         }
 
-        if ($source->locked_until > time()) {
+        if ($chapter->locked_until > time()) {
             // locked by another job
             return false;
         }
 
-        if (!$source->lock(self::LOCK_TIME)) {
-            Yii::error('Lock failed: ' . $this->source_id);
+        if (!$chapter->lock(self::LOCK_TIME)) {
+            Yii::error('Lock failed: ' . $this->chapter_id);
             return false;
         }
 
-        if (!($accessToken = $source->project->accessToken)) {
-            $source->setError('Project has no access token');
+        if (!($accessToken = $chapter->project->accessToken)) {
+            $chapter->setError('Project has no access token');
             return false;
         }
 
-        if (!($client = $source->project->getGoogleClient())) {
-            $source->setError('Could not get project google client');
+        if (!($client = $chapter->project->getGoogleClient())) {
+            $chapter->setError('Could not get project google client');
             return false;
         }
 
-        if (!preg_match('`/document/d/([^/&?]+)`', $source->url, $r)) {
-            $source->setError('Invalid source URL');
+        if (!preg_match('`/document/d/([^/&?]+)`', $chapter->url, $r)) {
+            $chapter->setError('Invalid chapter URL');
             return false;
         }
 
@@ -68,11 +68,11 @@ class SourceGetJob extends BaseObject implements JobInterface
                 $error_message = $data['error']['message'];
             } catch (\Exception $e) {
             }
-            $source->setError($error_message);
+            $chapter->setError($error_message);
             return false;
         }
 
-        $source->title = null;
+        $chapter->title = null;
 
         $content = $doc->getBody()->getContent();
         $paragraphs = [];
@@ -96,7 +96,7 @@ class SourceGetJob extends BaseObject implements JobInterface
 
                     $style = $textRun->getTextStyle();
                     $c = $textRun->getContent();
-                    if ($source->title) {
+                    if ($chapter->title) {
                         if ($style->bold) {
                             $c = '<b>' . $c . '</b>';
                         }
@@ -114,9 +114,9 @@ class SourceGetJob extends BaseObject implements JobInterface
                     continue;
                 }
 
-                if (!$source->title) {
+                if (!$chapter->title) {
                     // first paragraph is the title
-                    $source->title = $pContent;
+                    $chapter->title = $pContent;
                     continue;
                 }
 
@@ -125,21 +125,21 @@ class SourceGetJob extends BaseObject implements JobInterface
             }
         }
 
-        SourceParagraph::deleteAll(['source_id' => $source->id]);
+        ChapterParagraph::deleteAll(['chapter_id' => $chapter->id]);
         foreach ($paragraphs as $i => $paragraph) {
-            $sp = new SourceParagraph([
-                'source_id' => $source->id,
+            $sp = new ChapterParagraph([
+                'chapter_id' => $chapter->id,
                 'priority' => $i + 1,
                 'content' => $paragraph,
             ]);
             $sp->save();
         }
 
-        $source->word_count = $wordCount;
-        $source->edit_count = count(array_unique($suggestionIds));
-        $source->status = Source::STATUS_OK;
-        $source->locked_until = 0;
-        $source->save();
+        $chapter->word_count = $wordCount;
+        $chapter->edit_count = count(array_unique($suggestionIds));
+        $chapter->status = Chapter::STATUS_OK;
+        $chapter->locked_until = 0;
+        $chapter->save();
 
         return true;
     }

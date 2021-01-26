@@ -1,19 +1,19 @@
 <?php
 
-use frontend\models\SourceImportForm;
+use frontend\models\ChapterImportForm;
 use kartik\widgets\ActiveForm;
 use yii\helpers\Html;
 
 /* @var $this yii\web\View */
-/* @var $model SourceImportForm */
+/* @var $model ChapterImportForm */
 
-$this->title = Yii::t('app', 'Import Sources');
+$this->title = Yii::t('app', 'Import Chapters');
 $this->params['breadcrumbs'][] = ['label' => Yii::t('app', 'Projects'), 'url' => ['/project/index']];
 $this->params['breadcrumbs'][] = ['label' => $model->project->name,
     'url' => ['/project/view', 'id' => $model->project_id]];
 $this->params['breadcrumbs'][] = $this->title;
 ?>
-<div class="source-create">
+<div class="chapter-create">
 
     <?php $form = ActiveForm::begin(); ?>
 
@@ -22,7 +22,7 @@ $this->params['breadcrumbs'][] = $this->title;
         ->hint(Yii::t('app', 'One URL per line')) ?>
 
     <div class="form-group">
-        <?= Html::submitButton(Yii::t('app', 'Save'), ['class' => 'btn btn-success']) ?>
+        <?= Html::submitButton('<i class="fas fa-save"></i> ' . Yii::t('app', 'Save'), ['class' => 'btn btn-success']) ?>
     </div>
 
     <?php ActiveForm::end(); ?>

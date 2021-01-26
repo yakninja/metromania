@@ -5,23 +5,23 @@ namespace common\models\project;
 use Yii;
 
 /**
- * This is the model class for table "source_paragraph".
+ * This is the model class for table "chapter_paragraph".
  *
  * @property int $id
- * @property int $source_id
+ * @property int $chapter_id
  * @property int $priority
  * @property string|null $content
  *
- * @property Source $source
+ * @property Chapter $chapter
  */
-class SourceParagraph extends \yii\db\ActiveRecord
+class ChapterParagraph extends \yii\db\ActiveRecord
 {
     /**
      * {@inheritdoc}
      */
     public static function tableName()
     {
-        return 'source_paragraph';
+        return 'chapter_paragraph';
     }
 
     /**
@@ -30,10 +30,10 @@ class SourceParagraph extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
-            [['source_id', 'priority'], 'required'],
-            [['source_id', 'priority'], 'integer'],
+            [['chapter_id', 'priority'], 'required'],
+            [['chapter_id', 'priority'], 'integer'],
             [['content'], 'string'],
-            [['source_id'], 'exist', 'skipOnError' => true, 'targetClass' => Source::class, 'targetAttribute' => ['source_id' => 'id']],
+            [['chapter_id'], 'exist', 'skipOnError' => true, 'targetClass' => Chapter::class, 'targetAttribute' => ['chapter_id' => 'id']],
         ];
     }
 
@@ -44,19 +44,19 @@ class SourceParagraph extends \yii\db\ActiveRecord
     {
         return [
             'id' => Yii::t('app', 'ID'),
-            'source_id' => Yii::t('app', 'Source ID'),
+            'chapter_id' => Yii::t('app', 'Chapter ID'),
             'priority' => Yii::t('app', 'Priority'),
             'content' => Yii::t('app', 'Content'),
         ];
     }
 
     /**
-     * Gets query for [[Source]].
+     * Gets query for [[Chapter]].
      *
      * @return \yii\db\ActiveQuery
      */
-    public function getSource()
+    public function getChapter()
     {
-        return $this->hasOne(Source::class, ['id' => 'source_id']);
+        return $this->hasOne(Chapter::class, ['id' => 'chapter_id']);
     }
 }

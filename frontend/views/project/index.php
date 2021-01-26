@@ -14,7 +14,8 @@ $this->params['breadcrumbs'][] = $this->title;
 <div class="project-index">
 
     <p>
-        <?= Html::a(Yii::t('app', 'Create Project'), ['create'], ['class' => 'btn btn-success']) ?>
+        <?= Html::a('<i class="fas fa-plus"></i> ' . Yii::t('app', 'Create Project'),
+            ['create'], ['class' => 'btn btn-sm btn-success']) ?>
     </p>
 
     <?= GridView::widget([

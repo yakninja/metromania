@@ -1,7 +1,7 @@
 <?php
 
 /* @var $this yii\web\View */
-/* @var $model \common\models\project\ProjectExportSettings */
+/* @var $model \common\models\project\ChapterExport */
 
 /* @var $form kartik\widgets\ActiveForm */
 
@@ -17,8 +17,7 @@ use yii\helpers\ArrayHelper;
 
     <?= $form->field($model, 'provider_id')
         ->dropDownList(ArrayHelper::map(ExportProvider::find()->all(), 'id', 'name')) ?>
-    <?= $form->field($model, 'username')->textInput(['maxlength' => true]) ?>
-    <?= $form->field($model, 'password')->textInput(['maxlength' => true]) ?>
+    <?= $form->field($model, 'url')->textInput() ?>
 
     <div class="form-group">
         <?= Html::submitButton('<i class="fas fa-save"></i> ' . Yii::t('app', 'Save'), ['class' => 'btn btn-success']) ?>

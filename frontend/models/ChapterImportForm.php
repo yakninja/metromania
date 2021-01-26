@@ -2,19 +2,19 @@
 
 namespace frontend\models;
 
+use common\models\project\Chapter;
 use common\models\project\Project;
-use common\models\project\Source;
 use yii\base\Model;
 
 /**
- * Import multiple Google Docs links as project sources
+ * Import multiple Google Docs links as project chapters
  *
  * @package frontend\models
  * @property string $urls
  * @property int $project_id
  * @property Project $project
  */
-class SourceImportForm extends Model
+class ChapterImportForm extends Model
 {
     public $urls;
     public $project_id;
@@ -38,30 +38,30 @@ class SourceImportForm extends Model
         }
         $n = 0;
         if (preg_match_all('`https://docs\.google\.com/document/d/[0-9a-z_-]+`is', $this->urls, $r)) {
-            $n = Source::find()->select("max(priority)")->where(['project_id' => $this->project_id])
+            $n = Chapter::find()->select("max(priority)")->where(['project_id' => $this->project_id])
                 ->createCommand()->queryScalar();
             foreach ($r[0] as $url) {
-                if (Source::findOne(['project_id' => $this->project_id, 'url' => $url])) {
+                if (Chapter::findOne(['project_id' => $this->project_id, 'url' => $url])) {
                     continue;
                 }
-                $source = new Source([
+                $chapter = new Chapter([
                     'project_id' => $this->project_id,
                     'url' => $url,
                     'priority' => ++$n,
                 ]);
-                if (!$source->save()) {
-                    $this->addError('urls', array_pop($source->firstErrors));
+                if (!$chapter->save()) {
+                    $this->addError('urls', array_pop($chapter->firstErrors));
                     return false;
                 }
             }
         }
         // reindex
         $i = 0;
-        /** @var Source[] $sources */
-        $sources = Source::find()->where(['project_id' => $this->project_id])->orderBy(['priority' => SORT_ASC])->all();
-        foreach ($sources as $source) {
-            $source->priority = ++$i;
-            $source->save();
+        /** @var Chapter[] $chapters */
+        $chapters = Chapter::find()->where(['project_id' => $this->project_id])->orderBy(['priority' => SORT_ASC])->all();
+        foreach ($chapters as $chapter) {
+            $chapter->priority = ++$i;
+            $chapter->save();
         }
         return $n;
     }
