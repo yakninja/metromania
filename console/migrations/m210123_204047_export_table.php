@@ -38,22 +38,23 @@ class m210123_204047_export_table extends Migration
         $this->createIndex('uq-project_export_settings', 'project_export_settings',
             'project_id, provider_id', true);
 
-        $this->createTable('export', [
+        $this->createTable('chapter_export', [
             'id' => $this->primaryKey(),
-            'source_id' => $this->integer()->notNull(),
+            'chapter_id' => $this->integer()->notNull(),
             'provider_id' => $this->integer()->notNull(),
             'created_at' => $this->integer()->notNull(),
             'updated_at' => $this->integer()->notNull(),
             'locked_until' => $this->integer()->notNull()->defaultValue(0),
             'status' => $this->integer()->notNull(),
             'url' => $this->string(255)->notNull(),
+            'error_message' => $this->text(),
         ]);
-        $this->addForeignKey('fk-export-export_provider', 'export', 'provider_id',
+        $this->addForeignKey('fk-chapter_export-export_provider', 'chapter_export', 'provider_id',
             'export_provider', 'id', 'CASCADE', 'CASCADE');
-        $this->addForeignKey('fk-export-source', 'export', 'source_id',
-            'source', 'id', 'CASCADE', 'CASCADE');
-        $this->createIndex('uq-export', 'export',
-            'source_id, provider_id', true);
+        $this->addForeignKey('fk-chapter_export-chapter', 'chapter_export', 'chapter_id',
+            'chapter', 'id', 'CASCADE', 'CASCADE');
+        $this->createIndex('uq-chapter_export', 'chapter_export',
+            'chapter_id, provider_id', true);
     }
 
     /**
@@ -61,7 +62,7 @@ class m210123_204047_export_table extends Migration
      */
     public function safeDown()
     {
-        $this->dropTable('export');
+        $this->dropTable('chapter_export');
         $this->dropTable('project_export_settings');
         $this->dropTable('export_provider');
     }
