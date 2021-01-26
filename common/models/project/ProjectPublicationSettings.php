@@ -5,7 +5,7 @@ namespace common\models\project;
 use Yii;
 
 /**
- * This is the model class for table "project_export_settings".
+ * This is the model class for table "project_publication_settings".
  *
  * @property int $id
  * @property int $project_id
@@ -13,17 +13,17 @@ use Yii;
  * @property string|null $username
  * @property string|null $password
  *
- * @property ExportProvider $provider
+ * @property PublicationProvider $provider
  * @property Project $project
  */
-class ProjectExportSettings extends \yii\db\ActiveRecord
+class ProjectPublicationSettings extends \yii\db\ActiveRecord
 {
     /**
      * {@inheritdoc}
      */
     public static function tableName()
     {
-        return 'project_export_settings';
+        return 'project_publication_settings';
     }
 
     /**
@@ -36,7 +36,7 @@ class ProjectExportSettings extends \yii\db\ActiveRecord
             [['project_id', 'provider_id'], 'integer'],
             [['username', 'password'], 'string', 'max' => 128],
             [['project_id', 'provider_id'], 'unique', 'targetAttribute' => ['project_id', 'provider_id']],
-            [['provider_id'], 'exist', 'skipOnError' => true, 'targetClass' => ExportProvider::class, 'targetAttribute' => ['provider_id' => 'id']],
+            [['provider_id'], 'exist', 'skipOnError' => true, 'targetClass' => PublicationProvider::class, 'targetAttribute' => ['provider_id' => 'id']],
             [['project_id'], 'exist', 'skipOnError' => true, 'targetClass' => Project::class, 'targetAttribute' => ['project_id' => 'id']],
         ];
     }
@@ -62,7 +62,7 @@ class ProjectExportSettings extends \yii\db\ActiveRecord
      */
     public function getProvider()
     {
-        return $this->hasOne(ExportProvider::class, ['id' => 'provider_id']);
+        return $this->hasOne(PublicationProvider::class, ['id' => 'provider_id']);
     }
 
     /**

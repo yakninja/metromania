@@ -84,7 +84,9 @@ use yii\helpers\Url;
                 }
             ],
             [
-                'attribute' => 'edit_count',
+                'label' => Yii::t('app', 'Edit Count'),
+                'attribute' => 'with_edits',
+                'filter' => ['1' => Yii::t('app', 'With edits'), '0' => Yii::t('app', 'No edits')],
                 'value' => function (Chapter $model) {
                     return $model->edit_count ? Yii::$app->formatter->asInteger($model->edit_count) : '—';
                 }

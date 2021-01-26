@@ -6,7 +6,7 @@ use Yii;
 use yii\behaviors\TimestampBehavior;
 
 /**
- * This is the model class for table "export".
+ * This is the model class for table "publication".
  *
  * @property int $id
  * @property int $chapter_id
@@ -18,15 +18,15 @@ use yii\behaviors\TimestampBehavior;
  * @property string $url
  * @property string $error_message
  *
- * @property ExportProvider $provider
+ * @property PublicationProvider $provider
  * @property Chapter $chapter
  */
-class ChapterExport extends \yii\db\ActiveRecord
+class ChapterPublication extends \yii\db\ActiveRecord
 {
     const STATUS_NEW = 0;
     const STATUS_WAITING = 1;
     const STATUS_GET = 2;
-    const STATUS_EXPORT = 3;
+    const STATUS_PUBLICATION = 3;
     const STATUS_OK = 10;
     const STATUS_ERROR = -1;
 
@@ -36,7 +36,7 @@ class ChapterExport extends \yii\db\ActiveRecord
             self::STATUS_NEW => Yii::t('app', 'Status: new'),
             self::STATUS_WAITING => Yii::t('app', 'Status: waiting'),
             self::STATUS_GET => Yii::t('app', 'Status: get'),
-            self::STATUS_EXPORT => Yii::t('app', 'Status: export'),
+            self::STATUS_PUBLICATION => Yii::t('app', 'Status: publication'),
             self::STATUS_ERROR => Yii::t('app', 'Status: error'),
             self::STATUS_OK => Yii::t('app', 'Status: OK'),
         ];
@@ -53,7 +53,7 @@ class ChapterExport extends \yii\db\ActiveRecord
      */
     public static function tableName()
     {
-        return 'chapter_export';
+        return 'chapter_publication';
     }
 
     /**
@@ -67,7 +67,7 @@ class ChapterExport extends \yii\db\ActiveRecord
             [['url'], 'string', 'max' => 255],
             ['url', 'url'],
             [['chapter_id', 'provider_id'], 'unique', 'targetAttribute' => ['chapter_id', 'provider_id']],
-            [['provider_id'], 'exist', 'skipOnError' => true, 'targetClass' => ExportProvider::class, 'targetAttribute' => ['provider_id' => 'id']],
+            [['provider_id'], 'exist', 'skipOnError' => true, 'targetClass' => PublicationProvider::class, 'targetAttribute' => ['provider_id' => 'id']],
             [['chapter_id'], 'exist', 'skipOnError' => true, 'targetClass' => Chapter::class, 'targetAttribute' => ['chapter_id' => 'id']],
             ['status', 'default', 'value' => self::STATUS_NEW],
             ['status', 'in', 'range' => array_keys(self::statusLabels())],
@@ -99,7 +99,7 @@ class ChapterExport extends \yii\db\ActiveRecord
      */
     public function getProvider()
     {
-        return $this->hasOne(ExportProvider::class, ['id' => 'provider_id']);
+        return $this->hasOne(PublicationProvider::class, ['id' => 'provider_id']);
     }
 
     /**
@@ -111,4 +111,46 @@ class ChapterExport extends \yii\db\ActiveRecord
     {
         return $this->hasOne(Chapter::class, ['id' => 'chapter_id']);
     }
+
+    /**
+     * Lock this record for $time seconds. Using updated_at to avoid concurrent locking
+     *
+     * @param int $time
+     * @param int $lock_status
+     * @return bool true if lock was successful
+     */
+    public function lock(int $time, $lock_status = Chapter::STATUS_PUBLICATION)
+    {
+        $row_count = ChapterPublication::updateAll(
+            [
+                'locked_until' => time() + $time,
+                'updated_at' => time(),
+                'status' => $lock_status,
+                'error_message' => null,
+            ],
+            [
+                'id' => $this->id,
+                'updated_at' => $this->updated_at,
+            ],
+        );
+        if ($row_count) {
+            $this->refresh();
+            return true;
+        }
+        return false;
+    }
+
+    /**
+     * @param $error_message
+     * @return bool
+     */
+    public function setError($error_message)
+    {
+        Yii::error($error_message);
+        $this->error_message = $error_message;
+        $this->status = Chapter::STATUS_ERROR;
+        $this->locked_until = 0;
+        return $this->save();
+    }
+
 }

@@ -3,8 +3,9 @@
 namespace frontend\controllers;
 
 use common\jobs\ChapterGetJob;
+use common\jobs\ChapterPublishJob;
 use common\models\project\Chapter;
-use common\models\project\ChapterExport;
+use common\models\project\ChapterPublication;
 use common\models\project\Project;
 use frontend\models\ChapterImportForm;
 use Yii;
@@ -40,7 +41,7 @@ class ChapterController extends Controller
                 'actions' => [
                     'delete' => ['POST'],
                     'get' => ['POST'],
-                    'put' => ['POST'],
+                    'publish' => ['POST'],
                 ],
             ],
         ];
@@ -127,13 +128,13 @@ class ChapterController extends Controller
      * @return string
      * @throws NotFoundHttpException
      */
-    public function actionExportSettings($chapter_id)
+    public function actionPublicationSettings($chapter_id)
     {
         $model = $this->findModel($chapter_id);
         $dataProvider = new ActiveDataProvider([
-            'query' => ChapterExport::find()->where(['chapter_id' => $chapter_id])
+            'query' => ChapterPublication::find()->where(['chapter_id' => $chapter_id])
         ]);
-        return $this->render('export_settings', [
+        return $this->render('publication_settings', [
             'model' => $model,
             'dataProvider' => $dataProvider,
         ]);
@@ -145,23 +146,33 @@ class ChapterController extends Controller
      * @return string|\yii\web\Response
      * @throws NotFoundHttpException
      */
-    public function actionCreateExportSetting($chapter_id)
+    public function actionCreatePublicationSetting($chapter_id)
     {
         $project = $this->findModel($chapter_id);
-        $model = new ChapterExport(['chapter_id' => $chapter_id]);
+        $model = new ChapterPublication(['chapter_id' => $chapter_id]);
         if ($model->load(Yii::$app->request->post()) && $model->save()) {
-            Yii::$app->session->addFlash('success', Yii::t('app', 'Chapter export setting added'));
-            return $this->redirect(['export-settings', 'chapter_id' => $chapter_id]);
+            Yii::$app->session->addFlash('success', Yii::t('app', 'Chapter publication setting added'));
+            return $this->redirect(['publication-settings', 'chapter_id' => $chapter_id]);
         }
-        return $this->render('create_export_setting', [
+        return $this->render('create_publication_setting', [
             'project' => $project,
             'model' => $model,
         ]);
     }
 
-    public function actionPut($id)
+    /**
+     * @param $chapter_id
+     * @return \yii\web\Response
+     * @throws NotFoundHttpException
+     */
+    public function actionPublish($chapter_id)
     {
-        $model = $this->findModel($id);
+        $model = $this->findModel($chapter_id);
+        /** @var Queue $queue */
+        $queue = Yii::$app->get('queue');
+        $queue->push(new ChapterPublishJob(['chapter_id' => $model->id]));
+        Yii::$app->session->addFlash('success', Yii::t('app', 'Chapter publication queued'));
+        return $this->redirect(['view', 'id' => $chapter_id]);
     }
 
     /**
@@ -202,6 +213,42 @@ class ChapterController extends Controller
     }
 
     /**
+     * Updates an existing ProjectPublicationSetting model.
+     * If update is successful, the browser will be redirected to the 'view' page.
+     * @param integer $id
+     * @return mixed
+     * @throws NotFoundHttpException if the model cannot be found
+     */
+    public function actionPublicationSettingUpdate($id)
+    {
+        $model = $this->findPublicationSettingModel($id);
+
+        if ($model->load(Yii::$app->request->post()) && $model->save()) {
+            Yii::$app->session->addFlash('success', Yii::t('app', 'Chapter publication setting saved'));
+            return $this->redirect(['publication-settings', 'chapter_id' => $model->chapter_id]);
+        }
+
+        return $this->render('update_publication_setting', [
+            'model' => $model,
+        ]);
+    }
+
+    /**
+     * @param $id
+     * @return \yii\web\Response
+     * @throws NotFoundHttpException
+     * @throws \Throwable
+     * @throws \yii\db\StaleObjectException
+     */
+    public function actionPublicationSettingDelete($id)
+    {
+        $model = $this->findPublicationSettingModel($id);
+        $model->delete();
+        Yii::$app->session->addFlash('success', Yii::t('app', 'Chapter publication setting saved'));
+        return $this->redirect(['publication-settings', 'chapter_id' => $model->chapter_id]);
+    }
+
+    /**
      * Finds the Chapter model based on its primary key value.
      * If the model is not found, a 404 HTTP exception will be thrown.
      * @param integer $id
@@ -227,6 +274,15 @@ class ChapterController extends Controller
     protected function findProjectModel($id)
     {
         if (($model = Project::findOne($id)) !== null) {
+            return $model;
+        }
+
+        throw new NotFoundHttpException(Yii::t('app', 'The requested page does not exist.'));
+    }
+
+    private function findPublicationSettingModel(int $id)
+    {
+        if (($model = ChapterPublication::findOne($id)) !== null) {
             return $model;
         }
 

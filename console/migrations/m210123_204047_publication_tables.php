@@ -3,42 +3,42 @@
 use yii\db\Migration;
 
 /**
- * Class m210123_204047_export_table
+ * Class m210123_204047_publication_tables
  */
-class m210123_204047_export_table extends Migration
+class m210123_204047_publication_tables extends Migration
 {
     /**
      * {@inheritdoc}
      */
     public function safeUp()
     {
-        $this->createTable('export_provider', [
+        $this->createTable('publication_provider', [
             'id' => $this->primaryKey(),
             'name' => $this->string()->notNull()->unique(),
             'url' => $this->string(255)->null(),
             'api_class' => $this->string(255)->notNull(),
         ]);
-        $this->insert('export_provider', [
+        $this->insert('publication_provider', [
             'name' => 'Ficbook',
             'url' => 'https://ficbook.net',
             'api_class' => 'common\apis\Ficbook',
         ]);
 
-        $this->createTable('project_export_settings', [
+        $this->createTable('project_publication_settings', [
             'id' => $this->primaryKey(),
             'project_id' => $this->integer()->notNull(),
             'provider_id' => $this->integer()->notNull(),
             'username' => $this->string(128)->null(),
             'password' => $this->string(128)->null(),
         ]);
-        $this->addForeignKey('fk-project_export_settings-project', 'project_export_settings', 'project_id',
+        $this->addForeignKey('fk-project_publication_settings-project', 'project_publication_settings', 'project_id',
             'project', 'id', 'CASCADE', 'CASCADE');
-        $this->addForeignKey('fk-project_export_settings-export_provider', 'project_export_settings', 'provider_id',
-            'export_provider', 'id', 'CASCADE', 'CASCADE');
-        $this->createIndex('uq-project_export_settings', 'project_export_settings',
+        $this->addForeignKey('fk-project_publication_settings-publication_provider', 'project_publication_settings', 'provider_id',
+            'publication_provider', 'id', 'CASCADE', 'CASCADE');
+        $this->createIndex('uq-project_publication_settings', 'project_publication_settings',
             'project_id, provider_id', true);
 
-        $this->createTable('chapter_export', [
+        $this->createTable('chapter_publication', [
             'id' => $this->primaryKey(),
             'chapter_id' => $this->integer()->notNull(),
             'provider_id' => $this->integer()->notNull(),
@@ -49,11 +49,11 @@ class m210123_204047_export_table extends Migration
             'url' => $this->string(255)->notNull(),
             'error_message' => $this->text(),
         ]);
-        $this->addForeignKey('fk-chapter_export-export_provider', 'chapter_export', 'provider_id',
-            'export_provider', 'id', 'CASCADE', 'CASCADE');
-        $this->addForeignKey('fk-chapter_export-chapter', 'chapter_export', 'chapter_id',
+        $this->addForeignKey('fk-chapter_publication-publication_provider', 'chapter_publication', 'provider_id',
+            'publication_provider', 'id', 'CASCADE', 'CASCADE');
+        $this->addForeignKey('fk-chapter_publication-chapter', 'chapter_publication', 'chapter_id',
             'chapter', 'id', 'CASCADE', 'CASCADE');
-        $this->createIndex('uq-chapter_export', 'chapter_export',
+        $this->createIndex('uq-chapter_publication', 'chapter_publication',
             'chapter_id, provider_id', true);
     }
 
@@ -62,9 +62,9 @@ class m210123_204047_export_table extends Migration
      */
     public function safeDown()
     {
-        $this->dropTable('chapter_export');
-        $this->dropTable('project_export_settings');
-        $this->dropTable('export_provider');
+        $this->dropTable('chapter_publication');
+        $this->dropTable('project_publication_settings');
+        $this->dropTable('publication_provider');
     }
 
     /*
@@ -76,7 +76,7 @@ class m210123_204047_export_table extends Migration
 
     public function down()
     {
-        echo "m210123_204047_export_table cannot be reverted.\n";
+        echo "m210123_204047_publication_table cannot be reverted.\n";
 
         return false;
     }

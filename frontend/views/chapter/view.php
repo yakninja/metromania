@@ -19,15 +19,22 @@ $this->params['breadcrumbs'][] = $this->title;
     <p>
         <?= Html::a('<i class="fas fa-angle-double-down"></i> ' . Yii::t('app', 'Get Chapter'),
             ['get', 'id' => $model->id], [
-            'class' => 'btn btn-sm btn-info',
-            'data' => [
-                'method' => 'post',
-            ],
-        ]) ?>
+                'class' => 'btn btn-sm btn-info',
+                'data' => [
+                    'method' => 'post',
+                ],
+            ]) ?>
         <?= Html::a('<i class="fas fa-pen"></i> ' . Yii::t('app', 'Update'),
             ['update', 'id' => $model->id], ['class' => 'btn btn-sm btn-primary']) ?>
-        <?= Html::a('<i class="fas fa-cogs"></i> ' . Yii::t('app', 'Chapter Export Settings'),
-            ['export-settings', 'chapter_id' => $model->id], ['class' => 'btn btn-sm btn-info']) ?>
+        <?= Html::a('<i class="fas fa-cogs"></i> ' . Yii::t('app', 'Chapter Publication Settings'),
+            ['publication-settings', 'chapter_id' => $model->id], ['class' => 'btn btn-sm btn-info']) ?>
+        <?php if ($model->publications): ?>
+            <?= Html::a('<i class="fas fa-upload"></i> ' . Yii::t('app', 'Publish Chapter'),
+                ['publish', 'chapter_id' => $model->id], [
+                    'class' => 'btn btn-sm btn-info',
+                    'data' => ['method' => 'post']
+                ]) ?>
+        <?php endif ?>
         <?= Html::a('<i class="fas fa-trash"></i> ' . Yii::t('app', 'Delete'), ['delete', 'id' => $model->id], [
             'class' => 'btn btn-sm btn-danger float-right',
             'data' => [

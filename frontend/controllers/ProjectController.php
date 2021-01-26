@@ -6,7 +6,7 @@ use common\jobs\ChapterGetJob;
 use common\models\project\Chapter;
 use common\models\project\ChapterSearch;
 use common\models\project\Project;
-use common\models\project\ProjectExportSettings;
+use common\models\project\ProjectPublicationSettings;
 use common\models\project\ProjectSearch;
 use frontend\models\GoogleAuthForm;
 use Google_Client;
@@ -44,7 +44,7 @@ class ProjectController extends Controller
                 'actions' => [
                     'delete' => ['POST'],
                     'get-all-chapters' => ['POST'],
-                    'export-setting-delete' => ['POST'],
+                    'publication-setting-delete' => ['POST'],
                 ],
             ],
         ];
@@ -125,22 +125,22 @@ class ProjectController extends Controller
     }
 
     /**
-     * Updates an existing ProjectExportSetting model.
+     * Updates an existing ProjectPublicationSetting model.
      * If update is successful, the browser will be redirected to the 'view' page.
      * @param integer $id
      * @return mixed
      * @throws NotFoundHttpException if the model cannot be found
      */
-    public function actionExportSettingUpdate($id)
+    public function actionPublicationSettingUpdate($id)
     {
-        $model = $this->findExportSettingModel($id);
+        $model = $this->findPublicationSettingModel($id);
 
         if ($model->load(Yii::$app->request->post()) && $model->save()) {
-            Yii::$app->session->addFlash('success', Yii::t('app', 'Project export setting saved'));
-            return $this->redirect(['export-settings', 'project_id' => $model->project_id]);
+            Yii::$app->session->addFlash('success', Yii::t('app', 'Project publication setting saved'));
+            return $this->redirect(['publication-settings', 'project_id' => $model->project_id]);
         }
 
-        return $this->render('update_export_setting', [
+        return $this->render('update_publication_setting', [
             'model' => $model,
         ]);
     }
@@ -152,12 +152,12 @@ class ProjectController extends Controller
      * @throws \Throwable
      * @throws \yii\db\StaleObjectException
      */
-    public function actionExportSettingDelete($id)
+    public function actionPublicationSettingDelete($id)
     {
-        $model = $this->findExportSettingModel($id);
+        $model = $this->findPublicationSettingModel($id);
         $model->delete();
-        Yii::$app->session->addFlash('success', Yii::t('app', 'Project export setting saved'));
-        return $this->redirect(['export-settings', 'project_id' => $model->project_id]);
+        Yii::$app->session->addFlash('success', Yii::t('app', 'Project publication setting saved'));
+        return $this->redirect(['publication-settings', 'project_id' => $model->project_id]);
     }
 
     /**
@@ -183,13 +183,13 @@ class ProjectController extends Controller
      * @return string
      * @throws NotFoundHttpException
      */
-    public function actionExportSettings($project_id)
+    public function actionPublicationSettings($project_id)
     {
         $project = $this->findModel($project_id);
         $dataProvider = new ActiveDataProvider([
-            'query' => ProjectExportSettings::find()->where(['project_id' => $project_id])
+            'query' => ProjectPublicationSettings::find()->where(['project_id' => $project_id])
         ]);
-        return $this->render('export_settings', [
+        return $this->render('publication_settings', [
             'project' => $project,
             'dataProvider' => $dataProvider,
         ]);
@@ -200,15 +200,15 @@ class ProjectController extends Controller
      * @return string|\yii\web\Response
      * @throws NotFoundHttpException
      */
-    public function actionCreateExportSetting($project_id)
+    public function actionCreatePublicationSetting($project_id)
     {
         $project = $this->findModel($project_id);
-        $model = new ProjectExportSettings(['project_id' => $project_id]);
+        $model = new ProjectPublicationSettings(['project_id' => $project_id]);
         if ($model->load(Yii::$app->request->post()) && $model->save()) {
-            Yii::$app->session->addFlash('success', Yii::t('app', 'Project export setting added'));
-            return $this->redirect(['export-settings', 'project_id' => $project_id]);
+            Yii::$app->session->addFlash('success', Yii::t('app', 'Project publication setting added'));
+            return $this->redirect(['publication-settings', 'project_id' => $project_id]);
         }
-        return $this->render('create_export_setting', [
+        return $this->render('create_publication_setting', [
             'project' => $project,
             'model' => $model,
         ]);
@@ -273,9 +273,9 @@ class ProjectController extends Controller
         throw new NotFoundHttpException(Yii::t('app', 'The requested page does not exist.'));
     }
 
-    private function findExportSettingModel(int $id)
+    private function findPublicationSettingModel(int $id)
     {
-        if (($model = ProjectExportSettings::findOne($id)) !== null) {
+        if (($model = ProjectPublicationSettings::findOne($id)) !== null) {
             return $model;
         }
 

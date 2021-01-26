@@ -93,7 +93,7 @@ class Ficbook extends Component
      * @return bool
      * @throws Exception
      */
-    public function export(string $url, string $title, string $content)
+    public function publish(string $url, string $title, string $content)
     {
         try {
             $response = $this->client->get($url);

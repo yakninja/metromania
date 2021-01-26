@@ -8,15 +8,15 @@ use yii\helpers\Url;
 /* @var $project common\models\project\Project */
 /* @var $dataProvider yii\data\ActiveDataProvider */
 
-$this->title = Yii::t('app', 'Project Export Settings');
+$this->title = Yii::t('app', 'Project Publication Settings');
 $this->params['breadcrumbs'][] = ['label' => Yii::t('app', 'Projects'), 'url' => ['index']];
 $this->params['breadcrumbs'][] = ['label' => $project->name, 'url' => ['view', 'id' => $project->id]];
 $this->params['breadcrumbs'][] = $this->title;
 ?>
-<div class="project-export-settings">
+<div class="project-publication-settings">
     <p>
-        <?= Html::a('<i class="fas fa-plus"></i> ' . Yii::t('app', 'Add Export Setting'),
-            ['create-export-setting', 'project_id' => $project->id],
+        <?= Html::a('<i class="fas fa-plus"></i> ' . Yii::t('app', 'Add Publication Setting'),
+            ['create-publication-setting', 'project_id' => $project->id],
             ['class' => 'btn btn-sm btn-success']) ?>
     </p>
 
@@ -26,14 +26,14 @@ $this->params['breadcrumbs'][] = $this->title;
         'columns' => [
             [
                 'attribute' => 'provider.name',
-                'label' => Yii::t('app', 'Export Provider'),
+                'label' => Yii::t('app', 'Publication Provider'),
             ],
             'username',
             [
                 'class' => 'kartik\grid\ActionColumn',
                 'template' => '{update} {delete}',
                 'urlCreator' => function ($action, $model, $key, $index) {
-                    $url = Url::to(['/project/export-setting-' . $action, 'id' => $model->id]);
+                    $url = Url::to(['/project/publication-setting-' . $action, 'id' => $model->id]);
                     return $url;
                 }
             ],

@@ -5,26 +5,26 @@ namespace common\models\project;
 use Yii;
 
 /**
- * This is the model class for table "export_provider".
+ * This is the model class for table "publication_provider".
  *
  * @property int $id
  * @property string $name
  * @property string|null $url
  * @property string $api_class
  *
- * @property ChapterExport[] $exports
+ * @property ChapterPublication[] $publications
  * @property Chapter[] $chapters
- * @property ProjectExportSettings[] $projectExportSettings
+ * @property ProjectPublicationSettings[] $projectPublicationSettings
  * @property Project[] $projects
  */
-class ExportProvider extends \yii\db\ActiveRecord
+class PublicationProvider extends \yii\db\ActiveRecord
 {
     /**
      * {@inheritdoc}
      */
     public static function tableName()
     {
-        return 'export_provider';
+        return 'publication_provider';
     }
 
     /**
@@ -53,13 +53,13 @@ class ExportProvider extends \yii\db\ActiveRecord
     }
 
     /**
-     * Gets query for [[Exports]].
+     * Gets query for [[Publications]].
      *
      * @return \yii\db\ActiveQuery
      */
-    public function getExports()
+    public function getPublications()
     {
-        return $this->hasMany(ChapterExport::class, ['provider_id' => 'id']);
+        return $this->hasMany(ChapterPublication::class, ['provider_id' => 'id']);
     }
 
     /**
@@ -70,17 +70,17 @@ class ExportProvider extends \yii\db\ActiveRecord
     public function getChapters()
     {
         return $this->hasMany(Chapter::class, ['id' => 'chapter_id'])
-            ->viaTable('export', ['provider_id' => 'id']);
+            ->viaTable('publication', ['provider_id' => 'id']);
     }
 
     /**
-     * Gets query for [[ProjectExportSettings]].
+     * Gets query for [[ProjectPublicationSettings]].
      *
      * @return \yii\db\ActiveQuery
      */
-    public function getProjectExportSettings()
+    public function getProjectPublicationSettings()
     {
-        return $this->hasMany(ProjectExportSettings::class, ['provider_id' => 'id']);
+        return $this->hasMany(ProjectPublicationSettings::class, ['provider_id' => 'id']);
     }
 
     /**
@@ -91,6 +91,6 @@ class ExportProvider extends \yii\db\ActiveRecord
     public function getProjects()
     {
         return $this->hasMany(Project::class, ['id' => 'project_id'])
-            ->viaTable('project_export_settings', ['provider_id' => 'id']);
+            ->viaTable('project_publication_settings', ['provider_id' => 'id']);
     }
 }

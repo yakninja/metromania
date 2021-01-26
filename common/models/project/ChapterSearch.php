@@ -10,6 +10,8 @@ use yii\data\ActiveDataProvider;
  */
 class ChapterSearch extends Chapter
 {
+    public $with_edits;
+
     /**
      * {@inheritdoc}
      */
@@ -18,6 +20,7 @@ class ChapterSearch extends Chapter
         return [
             [['id', 'project_id', 'status'], 'integer'],
             [['title', 'url'], 'safe'],
+            ['with_edits', 'boolean'],
         ];
     }
 
@@ -45,6 +48,7 @@ class ChapterSearch extends Chapter
 
         $dataProvider = new ActiveDataProvider([
             'query' => $query,
+            'sort' => ['defaultOrder' => ['priority' => SORT_ASC]],
         ]);
 
         $this->load($params);
@@ -61,6 +65,10 @@ class ChapterSearch extends Chapter
             'project_id' => $this->project_id,
             'status' => $this->status,
         ]);
+
+        if (trim($this->with_edits) != '') {
+            $query->andWhere([$this->with_edits ? '<>' : '=', 'edit_count', 0]);
+        }
 
         $query->andFilterWhere(['like', 'title', $this->title])
             ->andFilterWhere(['like', 'url', $this->url]);

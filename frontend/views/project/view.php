@@ -33,8 +33,8 @@ $this->params['breadcrumbs'][] = $this->title;
                 ]);
         }
         ?>
-        <?= Html::a('<i class="fas fa-cogs"></i> ' . Yii::t('app', 'Project Export Settings'),
-                ['export-settings', 'project_id' => $model->id], ['class' => 'btn btn-sm btn-info']) ?>
+        <?= Html::a('<i class="fas fa-cogs"></i> ' . Yii::t('app', 'Project Publication Settings'),
+                ['publication-settings', 'project_id' => $model->id], ['class' => 'btn btn-sm btn-info']) ?>
         <?= Html::a('<i class="fas fa-trash"></i> ' . Yii::t('app', 'Delete'), ['delete', 'id' => $model->id], [
             'class' => 'btn btn-sm btn-danger float-right',
             'data' => [

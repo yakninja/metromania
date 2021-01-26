@@ -24,13 +24,15 @@ use yii\db\Expression;
  *
  * @property Project $project
  * @property ChapterParagraph[] $paragraphs
+ * @property ChapterPublication[] $publications
+ * @property string $content
  */
 class Chapter extends \yii\db\ActiveRecord
 {
     const STATUS_NEW = 0;
     const STATUS_WAITING = 1;
     const STATUS_GET = 2;
-    const STATUS_EXPORT = 3;
+    const STATUS_PUBLICATION = 3;
     const STATUS_OK = 10;
     const STATUS_ERROR = -1;
 
@@ -40,7 +42,7 @@ class Chapter extends \yii\db\ActiveRecord
             self::STATUS_NEW => Yii::t('app', 'Status: new'),
             self::STATUS_WAITING => Yii::t('app', 'Status: waiting'),
             self::STATUS_GET => Yii::t('app', 'Status: get'),
-            self::STATUS_EXPORT => Yii::t('app', 'Status: export'),
+            self::STATUS_PUBLICATION => Yii::t('app', 'Status: publication'),
             self::STATUS_ERROR => Yii::t('app', 'Status: error'),
             self::STATUS_OK => Yii::t('app', 'Status: OK'),
         ];
@@ -141,6 +143,25 @@ class Chapter extends \yii\db\ActiveRecord
     {
         return $this->hasMany(ChapterParagraph::class, ['chapter_id' => 'id'])
             ->orderBy(['priority' => SORT_ASC]);
+    }
+
+    /**
+     * Gets query for [[ChapterPublications]].
+     *
+     * @return \yii\db\ActiveQuery
+     */
+    public function getPublications()
+    {
+        return $this->hasMany(ChapterPublication::class, ['chapter_id' => 'id']);
+    }
+
+    public function getContent()
+    {
+        $content = '';
+        foreach ($this->paragraphs as $p) {
+            $content .= trim($p->content) . "\n\n";
+        }
+        return $content;
     }
 
     /**
