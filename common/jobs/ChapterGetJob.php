@@ -83,6 +83,9 @@ class ChapterGetJob extends BaseObject implements JobInterface
                 $pContent = '';
                 foreach ($p->getElements() as $element) {
                     $textRun = $element->getTextRun();
+                    if (!$textRun) {
+                        continue;
+                    }
 
                     if ($textRun->suggestedInsertionIds) {
                         $suggestionIds = array_merge($suggestionIds, $textRun->suggestedInsertionIds);
