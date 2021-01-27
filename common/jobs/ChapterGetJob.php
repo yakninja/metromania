@@ -128,12 +128,14 @@ class ChapterGetJob extends BaseObject implements JobInterface
             }
         }
 
-        $hash = md5($title . "\n" . implode("\n", $paragraphs) . "\n" . implode("\n", $suggestionIds));
+        $suggestionIds = array_unique($suggestionIds);
+        sort($suggestionIds);
+
+        $hash = md5($title . "\n" .
+            implode("\n", $paragraphs) . "\n" .
+            implode("\n", $suggestionIds));
 
         if ($hash != $chapter->hash) {
-            $chapter->title = $title;
-            $chapter->hash = $hash;
-            $chapter->content_updated_at = time();
             ChapterParagraph::deleteAll(['chapter_id' => $chapter->id]);
             foreach ($paragraphs as $i => $paragraph) {
                 $sp = new ChapterParagraph([
@@ -143,8 +145,11 @@ class ChapterGetJob extends BaseObject implements JobInterface
                 ]);
                 $sp->save();
             }
+            $chapter->title = $title;
             $chapter->word_count = $wordCount;
-            $chapter->edit_count = count(array_unique($suggestionIds));
+            $chapter->edit_count = count($suggestionIds);
+            $chapter->hash = $hash;
+            $chapter->content_updated_at = time();
         }
         $chapter->status = Chapter::STATUS_OK;
         $chapter->locked_until = 0;
