@@ -132,6 +132,8 @@ class ChapterGetJob extends BaseObject implements JobInterface
 
         if ($hash != $chapter->hash) {
             $chapter->title = $title;
+            $chapter->hash = $hash;
+            $chapter->content_updated_at = time();
             ChapterParagraph::deleteAll(['chapter_id' => $chapter->id]);
             foreach ($paragraphs as $i => $paragraph) {
                 $sp = new ChapterParagraph([
