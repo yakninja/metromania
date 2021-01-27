@@ -60,6 +60,16 @@ $this->params['breadcrumbs'][] = $this->title;
             'created_at:datetime',
             'updated_at:datetime',
             [
+                'attribute' => 'content_updated_at',
+                'value' => function (Chapter $model) {
+                    $f = Yii::$app->formatter;
+                    return $model->content_updated_at ?
+                        $f->asDatetime($model->content_updated_at) :
+                        $f->nullDisplay;
+                },
+                'format' => 'raw',
+            ],
+            [
                 'attribute' => 'locked_until',
                 'value' => function (Chapter $model) {
                     $f = Yii::$app->formatter;
@@ -79,6 +89,7 @@ $this->params['breadcrumbs'][] = $this->title;
             'word_count:integer',
             'edit_count:integer',
             'error_message:ntext',
+            'hash',
         ],
     ]) ?>
 

@@ -72,7 +72,7 @@ class ChapterGetJob extends BaseObject implements JobInterface
             return false;
         }
 
-        $chapter->title = null;
+        $title = null;
 
         $content = $doc->getBody()->getContent();
         $paragraphs = [];
@@ -99,7 +99,7 @@ class ChapterGetJob extends BaseObject implements JobInterface
 
                     $style = $textRun->getTextStyle();
                     $c = $textRun->getContent();
-                    if ($chapter->title) {
+                    if ($title) {
                         if ($style->bold) {
                             $c = '<b>' . $c . '</b>';
                         }
@@ -117,9 +117,9 @@ class ChapterGetJob extends BaseObject implements JobInterface
                     continue;
                 }
 
-                if (!$chapter->title) {
+                if (!$title) {
                     // first paragraph is the title
-                    $chapter->title = $pContent;
+                    $title = $pContent;
                     continue;
                 }
 
@@ -128,18 +128,22 @@ class ChapterGetJob extends BaseObject implements JobInterface
             }
         }
 
-        ChapterParagraph::deleteAll(['chapter_id' => $chapter->id]);
-        foreach ($paragraphs as $i => $paragraph) {
-            $sp = new ChapterParagraph([
-                'chapter_id' => $chapter->id,
-                'priority' => $i + 1,
-                'content' => $paragraph,
-            ]);
-            $sp->save();
-        }
+        $hash = md5($title . "\n" . implode("\n", $paragraphs) . "\n" . implode("\n", $suggestionIds));
 
-        $chapter->word_count = $wordCount;
-        $chapter->edit_count = count(array_unique($suggestionIds));
+        if ($hash != $chapter->hash) {
+            $chapter->title = $title;
+            ChapterParagraph::deleteAll(['chapter_id' => $chapter->id]);
+            foreach ($paragraphs as $i => $paragraph) {
+                $sp = new ChapterParagraph([
+                    'chapter_id' => $chapter->id,
+                    'priority' => $i + 1,
+                    'content' => $paragraph,
+                ]);
+                $sp->save();
+            }
+            $chapter->word_count = $wordCount;
+            $chapter->edit_count = count(array_unique($suggestionIds));
+        }
         $chapter->status = Chapter::STATUS_OK;
         $chapter->locked_until = 0;
         $chapter->save();

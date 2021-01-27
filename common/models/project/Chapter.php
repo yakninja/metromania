@@ -14,6 +14,7 @@ use yii\db\Expression;
  * @property string|null $title
  * @property int $created_at
  * @property int $updated_at
+ * @property int $content_updated_at
  * @property int $locked_until
  * @property int $priority
  * @property int $status
@@ -21,6 +22,7 @@ use yii\db\Expression;
  * @property int $edit_count
  * @property int $word_count
  * @property string $error_message
+ * @property string $hash
  *
  * @property Project $project
  * @property ChapterParagraph[] $paragraphs
@@ -70,13 +72,15 @@ class Chapter extends \yii\db\ActiveRecord
     {
         return [
             [['!project_id', 'url'], 'required'],
-            [['project_id', 'priority', '!status', '!edit_count', '!word_count'], 'integer'],
+            [['project_id', 'priority', '!status', '!edit_count', '!word_count',
+                '!content_updated_at'], 'integer'],
             [['title'], 'string', 'max' => 128],
             [['url'], 'string', 'max' => 255],
             [['project_id'], 'exist', 'skipOnError' => true, 'targetClass' => Project::class, 'targetAttribute' => ['project_id' => 'id']],
             ['status', 'default', 'value' => self::STATUS_NEW],
             ['status', 'in', 'range' => array_keys(self::statusLabels())],
             ['error_message', 'string'],
+            ['hash', 'string'],
         ];
     }
 
@@ -91,6 +95,7 @@ class Chapter extends \yii\db\ActiveRecord
             'title' => Yii::t('app', 'Title'),
             'created_at' => Yii::t('app', 'Created At'),
             'updated_at' => Yii::t('app', 'Updated At'),
+            'content_updated_at' => Yii::t('app', 'Content Updated At'),
             'locked_until' => Yii::t('app', 'Locked Until'),
             'priority' => Yii::t('app', 'Priority'),
             'status' => Yii::t('app', 'Status'),
@@ -98,6 +103,7 @@ class Chapter extends \yii\db\ActiveRecord
             'word_count' => Yii::t('app', 'Word Count'),
             'edit_count' => Yii::t('app', 'Edit Count'),
             'error_message' => Yii::t('app', 'Error Message'),
+            'hash' => Yii::t('app', 'Hash'),
         ];
     }
 
