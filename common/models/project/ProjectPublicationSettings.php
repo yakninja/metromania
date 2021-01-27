@@ -9,11 +9,11 @@ use Yii;
  *
  * @property int $id
  * @property int $project_id
- * @property int $provider_id
+ * @property int $service_id
  * @property string|null $username
  * @property string|null $password
  *
- * @property PublicationProvider $provider
+ * @property PublicationService $provider
  * @property Project $project
  */
 class ProjectPublicationSettings extends \yii\db\ActiveRecord
@@ -32,11 +32,11 @@ class ProjectPublicationSettings extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
-            [['!project_id', 'provider_id'], 'required'],
-            [['project_id', 'provider_id'], 'integer'],
+            [['!project_id', 'service_id'], 'required'],
+            [['project_id', 'service_id'], 'integer'],
             [['username', 'password'], 'string', 'max' => 128],
-            [['project_id', 'provider_id'], 'unique', 'targetAttribute' => ['project_id', 'provider_id']],
-            [['provider_id'], 'exist', 'skipOnError' => true, 'targetClass' => PublicationProvider::class, 'targetAttribute' => ['provider_id' => 'id']],
+            [['project_id', 'service_id'], 'unique', 'targetAttribute' => ['project_id', 'service_id']],
+            [['service_id'], 'exist', 'skipOnError' => true, 'targetClass' => PublicationService::class, 'targetAttribute' => ['service_id' => 'id']],
             [['project_id'], 'exist', 'skipOnError' => true, 'targetClass' => Project::class, 'targetAttribute' => ['project_id' => 'id']],
         ];
     }
@@ -49,20 +49,20 @@ class ProjectPublicationSettings extends \yii\db\ActiveRecord
         return [
             'id' => Yii::t('app', 'ID'),
             'project_id' => Yii::t('app', 'Project ID'),
-            'provider_id' => Yii::t('app', 'Provider ID'),
+            'service_id' => Yii::t('app', 'Service ID'),
             'username' => Yii::t('app', 'Username'),
             'password' => Yii::t('app', 'Password'),
         ];
     }
 
     /**
-     * Gets query for [[Provider]].
+     * Gets query for [[PublicationService]].
      *
      * @return \yii\db\ActiveQuery
      */
-    public function getProvider()
+    public function getService()
     {
-        return $this->hasOne(PublicationProvider::class, ['id' => 'provider_id']);
+        return $this->hasOne(PublicationService::class, ['id' => 'service_id']);
     }
 
     /**

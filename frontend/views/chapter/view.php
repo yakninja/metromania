@@ -12,11 +12,12 @@ $this->params['breadcrumbs'][] = ['label' => Yii::t('app', 'Projects'), 'url' =>
 $this->params['breadcrumbs'][] = ['label' => $model->project->name,
     'url' => ['/project/view', 'id' => $model->project_id]];
 $this->params['breadcrumbs'][] = $this->title;
-\yii\web\YiiAsset::register($this);
 ?>
 <div class="chapter-view">
 
     <p>
+        <?= Html::a('<i class="fas fa-pen"></i> ' . Yii::t('app', 'Update'),
+            ['update', 'id' => $model->id], ['class' => 'btn btn-sm btn-primary']) ?>
         <?= Html::a('<i class="fas fa-angle-double-down"></i> ' . Yii::t('app', 'Get Chapter'),
             ['get', 'id' => $model->id], [
                 'class' => 'btn btn-sm btn-info',
@@ -24,8 +25,6 @@ $this->params['breadcrumbs'][] = $this->title;
                     'method' => 'post',
                 ],
             ]) ?>
-        <?= Html::a('<i class="fas fa-pen"></i> ' . Yii::t('app', 'Update'),
-            ['update', 'id' => $model->id], ['class' => 'btn btn-sm btn-primary']) ?>
         <?= Html::a('<i class="fas fa-cogs"></i> ' . Yii::t('app', 'Chapter Publication Settings'),
             ['publication-settings', 'chapter_id' => $model->id], ['class' => 'btn btn-sm btn-info']) ?>
         <?php if ($model->publications): ?>

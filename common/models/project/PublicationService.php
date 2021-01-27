@@ -5,7 +5,7 @@ namespace common\models\project;
 use Yii;
 
 /**
- * This is the model class for table "publication_provider".
+ * This is the model class for table "publication_service".
  *
  * @property int $id
  * @property string $name
@@ -17,14 +17,14 @@ use Yii;
  * @property ProjectPublicationSettings[] $projectPublicationSettings
  * @property Project[] $projects
  */
-class PublicationProvider extends \yii\db\ActiveRecord
+class PublicationService extends \yii\db\ActiveRecord
 {
     /**
      * {@inheritdoc}
      */
     public static function tableName()
     {
-        return 'publication_provider';
+        return 'publication_service';
     }
 
     /**
@@ -59,7 +59,7 @@ class PublicationProvider extends \yii\db\ActiveRecord
      */
     public function getPublications()
     {
-        return $this->hasMany(ChapterPublication::class, ['provider_id' => 'id']);
+        return $this->hasMany(ChapterPublication::class, ['service_id' => 'id']);
     }
 
     /**
@@ -70,7 +70,7 @@ class PublicationProvider extends \yii\db\ActiveRecord
     public function getChapters()
     {
         return $this->hasMany(Chapter::class, ['id' => 'chapter_id'])
-            ->viaTable('publication', ['provider_id' => 'id']);
+            ->viaTable('publication', ['service_id' => 'id']);
     }
 
     /**
@@ -80,7 +80,7 @@ class PublicationProvider extends \yii\db\ActiveRecord
      */
     public function getProjectPublicationSettings()
     {
-        return $this->hasMany(ProjectPublicationSettings::class, ['provider_id' => 'id']);
+        return $this->hasMany(ProjectPublicationSettings::class, ['service_id' => 'id']);
     }
 
     /**
@@ -91,6 +91,6 @@ class PublicationProvider extends \yii\db\ActiveRecord
     public function getProjects()
     {
         return $this->hasMany(Project::class, ['id' => 'project_id'])
-            ->viaTable('project_publication_settings', ['provider_id' => 'id']);
+            ->viaTable('project_publication_settings', ['service_id' => 'id']);
     }
 }

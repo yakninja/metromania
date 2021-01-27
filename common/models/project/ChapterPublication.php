@@ -10,7 +10,7 @@ use yii\behaviors\TimestampBehavior;
  *
  * @property int $id
  * @property int $chapter_id
- * @property int $provider_id
+ * @property int $service_id
  * @property int $created_at
  * @property int $updated_at
  * @property int $locked_until
@@ -18,7 +18,7 @@ use yii\behaviors\TimestampBehavior;
  * @property string $url
  * @property string $error_message
  *
- * @property PublicationProvider $provider
+ * @property PublicationService $service
  * @property Chapter $chapter
  */
 class ChapterPublication extends \yii\db\ActiveRecord
@@ -62,12 +62,12 @@ class ChapterPublication extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
-            [['!chapter_id', 'provider_id', 'url'], 'required'],
-            [['chapter_id', 'provider_id', 'status'], 'integer'],
+            [['!chapter_id', 'service_id', 'url'], 'required'],
+            [['chapter_id', 'service_id', 'status'], 'integer'],
             [['url'], 'string', 'max' => 255],
             ['url', 'url'],
-            [['chapter_id', 'provider_id'], 'unique', 'targetAttribute' => ['chapter_id', 'provider_id']],
-            [['provider_id'], 'exist', 'skipOnError' => true, 'targetClass' => PublicationProvider::class, 'targetAttribute' => ['provider_id' => 'id']],
+            [['chapter_id', 'service_id'], 'unique', 'targetAttribute' => ['chapter_id', 'service_id']],
+            [['service_id'], 'exist', 'skipOnError' => true, 'targetClass' => PublicationService::class, 'targetAttribute' => ['service_id' => 'id']],
             [['chapter_id'], 'exist', 'skipOnError' => true, 'targetClass' => Chapter::class, 'targetAttribute' => ['chapter_id' => 'id']],
             ['status', 'default', 'value' => self::STATUS_NEW],
             ['status', 'in', 'range' => array_keys(self::statusLabels())],
@@ -83,7 +83,7 @@ class ChapterPublication extends \yii\db\ActiveRecord
         return [
             'id' => Yii::t('app', 'ID'),
             'chapter_id' => Yii::t('app', 'Chapter ID'),
-            'provider_id' => Yii::t('app', 'Provider ID'),
+            'service_id' => Yii::t('app', 'Service id'),
             'created_at' => Yii::t('app', 'Created At'),
             'updated_at' => Yii::t('app', 'Updated At'),
             'locked_until' => Yii::t('app', 'Locked Until'),
@@ -93,13 +93,13 @@ class ChapterPublication extends \yii\db\ActiveRecord
     }
 
     /**
-     * Gets query for [[Provider]].
+     * Gets query for [[PublicationService]].
      *
      * @return \yii\db\ActiveQuery
      */
-    public function getProvider()
+    public function getService()
     {
-        return $this->hasOne(PublicationProvider::class, ['id' => 'provider_id']);
+        return $this->hasOne(PublicationService::class, ['id' => 'service_id']);
     }
 
     /**

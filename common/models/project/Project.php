@@ -24,6 +24,7 @@ use yii\helpers\Json;
  * @property User $owner
  * @property ProjectAccessToken $accessToken
  * @property Chapter[] $chapters
+ * @property ProjectPublicationSettings[] $publicationSettings
  */
 class Project extends \yii\db\ActiveRecord
 {
@@ -99,6 +100,16 @@ class Project extends \yii\db\ActiveRecord
     public function getChapters()
     {
         return $this->hasMany(Chapter::class, ['project_id' => 'id']);
+    }
+
+    /**
+     * Gets query for [[ProjectPublicationSettings]].
+     *
+     * @return \yii\db\ActiveQuery
+     */
+    public function getPublicationSettings()
+    {
+        return $this->hasMany(ProjectPublicationSettings::class, ['project_id' => 'id']);
     }
 
     /**

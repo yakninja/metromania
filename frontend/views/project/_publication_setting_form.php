@@ -5,7 +5,7 @@
 
 /* @var $form kartik\widgets\ActiveForm */
 
-use common\models\project\PublicationProvider;
+use common\models\project\PublicationService;
 use kartik\widgets\ActiveForm;
 use yii\bootstrap4\Html;
 use yii\helpers\ArrayHelper;
@@ -15,8 +15,8 @@ use yii\helpers\ArrayHelper;
 <div class="publication-setting-form">
     <?php $form = ActiveForm::begin(); ?>
 
-    <?= $form->field($model, 'provider_id')
-        ->dropDownList(ArrayHelper::map(PublicationProvider::find()->all(), 'id', 'name')) ?>
+    <?= $form->field($model, 'service_id')
+        ->dropDownList(ArrayHelper::map(PublicationService::find()->all(), 'id', 'name')) ?>
     <?= $form->field($model, 'username')->textInput(['maxlength' => true]) ?>
     <?= $form->field($model, 'password')->textInput(['maxlength' => true]) ?>
 

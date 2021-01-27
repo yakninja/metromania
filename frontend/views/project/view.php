@@ -10,7 +10,6 @@ use yii\helpers\Html;
 $this->title = $model->name;
 $this->params['breadcrumbs'][] = ['label' => Yii::t('app', 'Projects'), 'url' => ['index']];
 $this->params['breadcrumbs'][] = $this->title;
-\yii\web\YiiAsset::register($this);
 ?>
 <div class="project-view">
 
@@ -34,7 +33,13 @@ $this->params['breadcrumbs'][] = $this->title;
         }
         ?>
         <?= Html::a('<i class="fas fa-cogs"></i> ' . Yii::t('app', 'Project Publication Settings'),
-                ['publication-settings', 'project_id' => $model->id], ['class' => 'btn btn-sm btn-info']) ?>
+            ['publication-settings', 'project_id' => $model->id], ['class' => 'btn btn-sm btn-info']) ?>
+
+        <?php if ($model->publicationSettings): ?>
+            <?= Html::a('<i class="fas fa-upload"></i> ' . Yii::t('app', 'Publish...'),
+                ['publish', 'id' => $model->id], ['class' => 'btn btn-sm btn-info']) ?>
+        <?php endif ?>
+
         <?= Html::a('<i class="fas fa-trash"></i> ' . Yii::t('app', 'Delete'), ['delete', 'id' => $model->id], [
             'class' => 'btn btn-sm btn-danger float-right',
             'data' => [

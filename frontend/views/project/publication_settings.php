@@ -25,8 +25,8 @@ $this->params['breadcrumbs'][] = $this->title;
         'resizableColumns' => false,
         'columns' => [
             [
-                'attribute' => 'provider.name',
-                'label' => Yii::t('app', 'Publication Provider'),
+                'attribute' => 'service.name',
+                'label' => Yii::t('app', 'Publication Service'),
             ],
             'username',
             [

@@ -9,6 +9,7 @@ use common\models\project\Project;
 use common\models\project\ProjectPublicationSettings;
 use common\models\project\ProjectSearch;
 use frontend\models\GoogleAuthForm;
+use frontend\models\ProjectPublicationForm;
 use Google_Client;
 use Google_Service_Docs;
 use Yii;
@@ -240,6 +241,32 @@ class ProjectController extends Controller
             'model' => $model,
             'project' => $project,
             'authUrl' => $authUrl,
+        ]);
+    }
+
+    /**
+     * @param $id
+     * @return string
+     * @throws NotFoundHttpException
+     */
+    public function actionPublish($id)
+    {
+        $this->findModel($id);
+        $model = new ProjectPublicationForm(['project_id' => $id]);
+        if ($model->load(Yii::$app->request->post()) && ($n = $model->save()) !== false) {
+            Yii::$app->session->addFlash('success', Yii::t('app', '{n} tasks queued', ['n' => $n]));
+            return $this->redirect(['view', 'id' => $id]);
+        }
+
+        $chapterStatuses = Chapter::find()
+            ->select("status, count(*) count")
+            ->groupBy('status')
+            ->asArray()
+            ->all();
+
+        return $this->render('publish', [
+            'model' => $model,
+            'chapterStatuses' => $chapterStatuses,
         ]);
     }
 
