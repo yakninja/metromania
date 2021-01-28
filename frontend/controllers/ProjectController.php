@@ -258,15 +258,9 @@ class ProjectController extends Controller
             return $this->redirect(['view', 'id' => $id]);
         }
 
-        $chapterStatuses = Chapter::find()
-            ->select("status, count(*) count")
-            ->groupBy('status')
-            ->asArray()
-            ->all();
-
         return $this->render('publish', [
             'model' => $model,
-            'chapterStatuses' => $chapterStatuses,
+            'chapterStats' => $model->project->getChapterStats(),
         ]);
     }
 

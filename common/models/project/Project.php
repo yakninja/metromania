@@ -8,6 +8,7 @@ use Google_Service_Docs;
 use Yii;
 use yii\behaviors\TimestampBehavior;
 use yii\db\Expression;
+use yii\helpers\ArrayHelper;
 use yii\helpers\Json;
 
 /**
@@ -157,5 +158,47 @@ class Project extends \yii\db\ActiveRecord
         $this->word_count = $counters['word_count'];
         $this->edit_count = $counters['edit_count'];
         return $this->save();
+    }
+
+    /**
+     * How many chapters in project has what status
+     *
+     * @return array
+     */
+    public function getChapterStats()
+    {
+        $stats = ArrayHelper::map(Chapter::find()
+            ->select("status, count(*) count")
+            ->where(['project_id' => $this->id])
+            ->groupBy('status')
+            ->asArray()
+            ->all(), 'status', 'count');
+
+        $stats['total'] = array_sum(array_values($stats));
+
+        $stats['with_edits'] = Chapter::find()
+            ->select("count(*)")
+            ->where(['project_id' => $this->id])
+            ->andWhere('edit_count > 0')
+            ->scalar();
+
+        $stats['having_service'] = [];
+        $pubServiceIds = PublicationService::find()->select('id')->column();
+
+        foreach ($pubServiceIds as $id) {
+            $stats['having_service'][$id] = ChapterPublication::find()
+                ->innerJoinWith('chapter')
+                ->where(['chapter.project_id' => $this->id, 'service_id' => $id])
+                ->count();
+        }
+
+        $stats['total_publications'] = array_sum(array_values($stats['having_service']));
+        $stats['changed_content'] = ChapterPublication::find()
+            ->innerJoinWith('chapter')
+            ->where(['chapter.project_id' => $this->id])
+            ->andWhere('chapter.hash <> chapter_publication.hash')
+            ->count();
+
+        return $stats;
     }
 }
