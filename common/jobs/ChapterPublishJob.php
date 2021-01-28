@@ -24,7 +24,7 @@ class ChapterPublishJob extends BaseObject implements JobInterface
     public int $chapter_id;
 
     /** @var int|null */
-    public $publication_provider_id;
+    public $service_id;
 
     public function execute($queue)
     {
@@ -47,8 +47,8 @@ class ChapterPublishJob extends BaseObject implements JobInterface
         echo "chapter locked\n";
 
         $query = ChapterPublication::find()->where(['chapter_id' => $this->chapter_id]);
-        if ($this->publication_provider_id) {
-            $query->andWhere(['provider_id' => $this->publication_provider_id]);
+        if ($this->service_id) {
+            $query->andWhere(['service_id' => $this->service_id]);
         }
         /** @var ChapterPublication[] $publications */
         $publications = $query->all();
@@ -64,7 +64,7 @@ class ChapterPublishJob extends BaseObject implements JobInterface
             }
             $projectPublicationSettings = ProjectPublicationSettings::findOne([
                 'project_id' => $chapter->project_id,
-                'provider_id' => $publication->provider_id,
+                'service_id' => $publication->service_id,
             ]);
 
             if (!$projectPublicationSettings) {
@@ -74,7 +74,7 @@ class ChapterPublishJob extends BaseObject implements JobInterface
 
             try {
                 /** @var Ficbook $api */
-                $api = Yii::createObject($publication->provider->api_class);
+                $api = Yii::createObject($publication->service->api_class);
                 echo "got api\n";
             } catch (Exception $e) {
                 $publication->setError($e->getMessage());
@@ -100,6 +100,8 @@ class ChapterPublishJob extends BaseObject implements JobInterface
 
             $publication->status = ChapterPublication::STATUS_OK;
             $publication->locked_until = 0;
+            $publication->published_at = time();
+            $publication->hash = $publication->chapter->hash;
             $publication->save();
             echo "publication unlocked\n";
         }

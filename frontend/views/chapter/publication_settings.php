@@ -44,14 +44,37 @@ $this->params['breadcrumbs'][] = $this->title;
                 'filter' => ChapterPublication::statusLabels(),
                 'format' => 'raw',
             ],
-            'updated_at:datetime',
+            [
+                'attribute' => 'published_at',
+                'value' => function (ChapterPublication $model) {
+                    $f = Yii::$app->formatter;
+                    return $model->published_at ?
+                        $f->asDatetime($model->published_at) :
+                        $f->nullDisplay;
+                },
+                'format' => 'raw',
+            ],
             [
                 'class' => 'kartik\grid\ActionColumn',
-                'template' => '{update} {delete}',
-                'urlCreator' => function ($action, $model, $key, $index) {
-                    $url = Url::to(['/chapter/publication-setting-' . $action, 'id' => $model->id]);
+                'template' => '{publish} {update} {delete}',
+                'urlCreator' => function ($action, ChapterPublication $model, $key, $index) {
+                    if ($action == 'publish') {
+                        $url = Url::to(['/chapter/publish', 'chapter_id' => $model->chapter_id,
+                            'service_id' => $model->service_id]);
+                    } else {
+                        $url = Url::to(['/chapter/publication-setting-' . $action, 'id' => $model->id]);
+                    }
                     return $url;
-                }
+                },
+                'buttons' => [
+                    'publish' => function ($url, $model) {
+                        return Html::a('<span class="fas fa-upload"></span>', $url, [
+                            'title' => Yii::t('app', 'Publish'),
+                            'data' => ['method' => 'post'],
+                        ]);
+
+                    }
+                ],
             ],
         ],
     ]); ?>

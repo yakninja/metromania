@@ -26,6 +26,7 @@ $providers = ArrayHelper::map(PublicationService::find()->all(), 'id', 'name');
     <?= $form->field($model, 'service_id')->checkboxList($providers) ?>
 
     <?= $form->field($model, 'not_having_edits')->checkbox() ?>
+    <?= $form->field($model, 'only_if_changed')->checkbox() ?>
 
     <div class="form-group">
         <?= Html::submitButton('<i class="fas fa-upload"></i> ' . Yii::t('app', 'Publish'),

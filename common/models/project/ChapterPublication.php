@@ -14,9 +14,11 @@ use yii\behaviors\TimestampBehavior;
  * @property int $created_at
  * @property int $updated_at
  * @property int $locked_until
+ * @property int $published_at
  * @property int $status
  * @property string $url
  * @property string $error_message
+ * @property string $hash
  *
  * @property PublicationService $service
  * @property Chapter $chapter
@@ -72,6 +74,7 @@ class ChapterPublication extends \yii\db\ActiveRecord
             ['status', 'default', 'value' => self::STATUS_NEW],
             ['status', 'in', 'range' => array_keys(self::statusLabels())],
             ['error_message', 'string'],
+            ['hash', 'string', 'max' => 40],
         ];
     }
 
@@ -83,12 +86,14 @@ class ChapterPublication extends \yii\db\ActiveRecord
         return [
             'id' => Yii::t('app', 'ID'),
             'chapter_id' => Yii::t('app', 'Chapter ID'),
-            'service_id' => Yii::t('app', 'Service id'),
+            'service_id' => Yii::t('app', 'Service ID'),
             'created_at' => Yii::t('app', 'Created At'),
             'updated_at' => Yii::t('app', 'Updated At'),
+            'published_at' => Yii::t('app', 'Published At'),
             'locked_until' => Yii::t('app', 'Locked Until'),
             'status' => Yii::t('app', 'Status'),
             'url' => Yii::t('app', 'Url'),
+            'hash' => Yii::t('app', 'Hash'),
         ];
     }
 

@@ -162,15 +162,16 @@ class ChapterController extends Controller
 
     /**
      * @param $chapter_id
+     * @param $service_id
      * @return \yii\web\Response
      * @throws NotFoundHttpException
      */
-    public function actionPublish($chapter_id)
+    public function actionPublish($chapter_id, $service_id=null)
     {
         $model = $this->findModel($chapter_id);
         /** @var Queue $queue */
         $queue = Yii::$app->get('queue');
-        $queue->push(new ChapterPublishJob(['chapter_id' => $model->id]));
+        $queue->push(new ChapterPublishJob(['chapter_id' => $model->id, 'service_id' => $service_id]));
         Yii::$app->session->addFlash('success', Yii::t('app', 'Chapter publication queued'));
         return $this->redirect(['view', 'id' => $chapter_id]);
     }

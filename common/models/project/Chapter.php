@@ -80,7 +80,7 @@ class Chapter extends \yii\db\ActiveRecord
             ['status', 'default', 'value' => self::STATUS_NEW],
             ['status', 'in', 'range' => array_keys(self::statusLabels())],
             ['error_message', 'string'],
-            ['hash', 'string'],
+            ['hash', 'string', 'max' => 40],
         ];
     }
 

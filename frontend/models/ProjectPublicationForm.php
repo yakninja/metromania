@@ -19,13 +19,14 @@ class ProjectPublicationForm extends Model
     public $project_id;
     public $service_id;
     public $not_having_edits = true;
+    public $only_if_changed = true;
 
     public function rules()
     {
         return [
             [['project_id'], 'exist', 'skipOnError' => true, 'targetClass' => Project::class, 'targetAttribute' => ['project_id' => 'id']],
 
-            ['not_having_edits', 'boolean'],
+            [['not_having_edits', 'only_if_changed'], 'boolean'],
 
             ['service_id', 'required'],
             ['service_id', 'each', 'rule' => ['exist', 'skipOnError' => true, 'targetClass' => PublicationService::class]],
@@ -48,8 +49,9 @@ class ProjectPublicationForm extends Model
     public function attributeLabels()
     {
         return [
-            'service_id' => Yii::t('app', 'Publication Provider'),
+            'service_id' => Yii::t('app', 'Publication Service'),
             'not_having_edits' => Yii::t('app', 'Not Having Edits Only'),
+            'only_if_changed' => Yii::t('app', 'Only If Content Changed'),
         ];
     }
 
