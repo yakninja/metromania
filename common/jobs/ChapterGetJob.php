@@ -2,8 +2,8 @@
 
 namespace common\jobs;
 
-use common\models\project\Chapter;
-use common\models\project\ChapterParagraph;
+use common\models\chapter\Chapter;
+use common\models\chapter\ChapterParagraph;
 use Google_Service_Docs;
 use Yii;
 use yii\base\BaseObject;
@@ -78,9 +78,11 @@ class ChapterGetJob extends BaseObject implements JobInterface
         $paragraphs = [];
         $suggestionIds = [];
         $wordCount = 0;
+        $c = 0;
         foreach ($content as $contentElement) {
             if ($p = $contentElement->getParagraph()) {
                 $pContent = '';
+                $grayCharacters = 0;
                 foreach ($p->getElements() as $element) {
                     $textRun = $element->getTextRun();
                     if (!$textRun) {
@@ -99,6 +101,19 @@ class ChapterGetJob extends BaseObject implements JobInterface
 
                     $style = $textRun->getTextStyle();
                     $c = $textRun->getContent();
+
+                    if ($chapter->ignore_gray_text
+                        && $title
+                        && ($fgColor = $textRun->getTextStyle()->getForegroundColor())
+                        && ($rgbColor = $fgColor->getColor()->getRgbColor())) {
+                        if ($rgbColor->red == $rgbColor->green && $rgbColor->green == $rgbColor->blue
+                            && $rgbColor->red > 0) {
+                            // gray!
+                            $grayCharacters += mb_strlen($c);
+                            echo "$grayCharacters $c\n";
+                        }
+                    }
+
                     if ($title) {
                         if ($style->bold) {
                             $c = '<b>' . $c . '</b>';
@@ -120,6 +135,11 @@ class ChapterGetJob extends BaseObject implements JobInterface
                 if (!$title) {
                     // first paragraph is the title
                     $title = $pContent;
+                    continue;
+                }
+
+                if ($chapter->ignore_gray_text && $grayCharacters > (mb_strlen($pContent) / 2)) {
+                    // paragraph is mostly gray, skip
                     continue;
                 }
 

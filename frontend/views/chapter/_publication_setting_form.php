@@ -1,11 +1,11 @@
 <?php
 
 /* @var $this yii\web\View */
-/* @var $model \common\models\project\ChapterPublication */
+/* @var $model \common\models\chapter\ChapterPublication */
 
 /* @var $form kartik\widgets\ActiveForm */
 
-use common\models\project\PublicationService;
+use common\models\PublicationService;
 use kartik\widgets\ActiveForm;
 use yii\bootstrap4\Html;
 use yii\helpers\ArrayHelper;

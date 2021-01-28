@@ -1,7 +1,8 @@
 <?php
 
-namespace common\models\project;
+namespace common\models\chapter;
 
+use common\models\project\Project;
 use Yii;
 use yii\behaviors\TimestampBehavior;
 use yii\db\Expression;
@@ -23,6 +24,7 @@ use yii\db\Expression;
  * @property int $word_count
  * @property string $error_message
  * @property string $hash
+ * @property boolean $ignore_gray_text
  *
  * @property Project $project
  * @property ChapterParagraph[] $paragraphs
@@ -81,6 +83,7 @@ class Chapter extends \yii\db\ActiveRecord
             ['status', 'in', 'range' => array_keys(self::statusLabels())],
             ['error_message', 'string'],
             ['hash', 'string', 'max' => 40],
+            ['ignore_gray_text', 'boolean'],
         ];
     }
 
@@ -104,6 +107,7 @@ class Chapter extends \yii\db\ActiveRecord
             'edit_count' => Yii::t('app', 'Edit Count'),
             'error_message' => Yii::t('app', 'Error Message'),
             'hash' => Yii::t('app', 'Hash'),
+            'ignore_gray_text' => Yii::t('app', 'Ignore Gray Text'),
         ];
     }
 

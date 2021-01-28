@@ -46,7 +46,7 @@ return [
     'Enter the code in the field below' => 'Введите код доступа в поле ниже',
     'Error Message' => 'Сообщение об ошибке',
     'Get Chapter' => 'Забрать главу',
-    'Get all chapters' => 'Загрузить все главы',
+    'Get all chapters' => 'Забрать все главы',
     'Hash' => 'Хеш',
     'ID' => 'ID',
     'If you forgot your password you can {reset_it}' => 'Если вы забыли пароль, можете {reset_it}',

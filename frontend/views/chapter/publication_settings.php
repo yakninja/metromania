@@ -1,12 +1,12 @@
 <?php
 
-use common\models\project\ChapterPublication;
+use common\models\chapter\ChapterPublication;
 use kartik\grid\GridView;
 use yii\helpers\Html;
 use yii\helpers\Url;
 
 /* @var $this yii\web\View */
-/* @var $model common\models\project\Chapter */
+/* @var $model common\models\chapter\Chapter */
 /* @var $dataProvider yii\data\ActiveDataProvider */
 
 $this->title = Yii::t('app', 'Chapter Publication Settings');

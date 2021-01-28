@@ -3,7 +3,7 @@
 namespace console\controllers;
 
 use common\jobs\ChapterGetJob;
-use common\models\project\Chapter;
+use common\models\chapter\Chapter;
 use Yii;
 use yii\console\Controller;
 use yii\console\ExitCode;

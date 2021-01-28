@@ -3,7 +3,7 @@
 namespace frontend\models;
 
 use common\models\project\Project;
-use common\models\project\PublicationService;
+use common\models\PublicationService;
 use Yii;
 use yii\base\Model;
 

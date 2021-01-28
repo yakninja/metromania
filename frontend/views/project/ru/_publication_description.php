@@ -1,6 +1,6 @@
 <?php
 
-use common\models\project\Chapter;
+use common\models\chapter\Chapter;
 use yii\bootstrap4\Html;
 
 /** @var \frontend\models\ProjectPublicationForm $model */

@@ -1,14 +1,14 @@
 <?php
 
 
-use common\models\project\Chapter;
+use common\models\chapter\Chapter;
 use kartik\grid\GridView;
 use yii\helpers\Html;
 use yii\helpers\Url;
 
 /* @var $this yii\web\View */
 /* @var $project common\models\project\Project */
-/* @var $searchModel common\models\project\ChapterSearch */
+/* @var $searchModel common\models\chapter\ChapterSearch */
 /* @var $dataProvider yii\data\ActiveDataProvider */
 
 ?>

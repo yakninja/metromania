@@ -1,11 +1,11 @@
 <?php
 
-use common\models\project\Chapter;
+use common\models\chapter\Chapter;
 use yii\helpers\Html;
 use yii\widgets\DetailView;
 
 /* @var $this yii\web\View */
-/* @var $model common\models\project\Chapter */
+/* @var $model common\models\chapter\Chapter */
 
 $this->title = $model->title;
 $this->params['breadcrumbs'][] = ['label' => Yii::t('app', 'Projects'), 'url' => ['/project/index']];
@@ -87,6 +87,7 @@ $this->params['breadcrumbs'][] = $this->title;
             ],
             'word_count:integer',
             'edit_count:integer',
+            'ignore_gray_text:boolean',
             'error_message:ntext',
             'hash',
         ],

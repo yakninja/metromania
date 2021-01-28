@@ -1,7 +1,7 @@
 <?php
 
 /* @var $this yii\web\View */
-/* @var $model common\models\project\Chapter */
+/* @var $model common\models\chapter\Chapter */
 
 $this->title = Yii::t('app', 'Update Chapter');
 $this->params['breadcrumbs'][] = ['label' => Yii::t('app', 'Projects'), 'url' => ['/project/index']];

@@ -2,6 +2,7 @@
 
 namespace common\models\project;
 
+use common\models\PublicationService;
 use Yii;
 
 /**

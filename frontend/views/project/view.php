@@ -4,7 +4,7 @@ use yii\helpers\Html;
 
 /* @var $this yii\web\View */
 /* @var $model common\models\project\Project */
-/* @var $chapterSearchModel common\models\project\ChapterSearch */
+/* @var $chapterSearchModel common\models\chapter\ChapterSearch */
 /* @var $chapterDataProvider yii\data\ActiveDataProvider */
 
 $this->title = $model->name;

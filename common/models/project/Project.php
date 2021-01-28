@@ -2,6 +2,9 @@
 
 namespace common\models\project;
 
+use common\models\chapter\Chapter;
+use common\models\chapter\ChapterPublication;
+use common\models\PublicationService;
 use common\models\User;
 use Google_Client;
 use Google_Service_Docs;

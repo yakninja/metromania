@@ -1,7 +1,8 @@
 <?php
 
-namespace common\models\project;
+namespace common\models\chapter;
 
+use common\models\PublicationService;
 use Yii;
 use yii\behaviors\TimestampBehavior;
 

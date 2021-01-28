@@ -2,7 +2,7 @@
 
 namespace frontend\models;
 
-use common\models\project\Chapter;
+use common\models\chapter\Chapter;
 use common\models\project\Project;
 use yii\base\Model;
 

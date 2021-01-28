@@ -1,12 +1,12 @@
 <?php
 
-namespace common\models\project;
+namespace common\models\chapter;
 
 use yii\base\Model;
 use yii\data\ActiveDataProvider;
 
 /**
- * ChapterSearch represents the model behind the search form of `common\models\project\Chapter`.
+ * ChapterSearch represents the model behind the search form of `common\models\chapter\Chapter`.
  */
 class ChapterSearch extends Chapter
 {

@@ -4,8 +4,8 @@ namespace frontend\controllers;
 
 use common\jobs\ChapterGetJob;
 use common\jobs\ChapterPublishJob;
-use common\models\project\Chapter;
-use common\models\project\ChapterPublication;
+use common\models\chapter\Chapter;
+use common\models\chapter\ChapterPublication;
 use common\models\project\Project;
 use frontend\models\ChapterImportForm;
 use Yii;

@@ -3,8 +3,8 @@
 namespace frontend\controllers;
 
 use common\jobs\ChapterGetJob;
-use common\models\project\Chapter;
-use common\models\project\ChapterSearch;
+use common\models\chapter\Chapter;
+use common\models\chapter\ChapterSearch;
 use common\models\project\Project;
 use common\models\project\ProjectPublicationSettings;
 use common\models\project\ProjectSearch;

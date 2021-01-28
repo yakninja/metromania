@@ -1,6 +1,6 @@
 <?php
 
-use common\models\project\PublicationService;
+use common\models\PublicationService;
 use kartik\form\ActiveForm;
 use yii\helpers\ArrayHelper;
 use yii\helpers\Html;

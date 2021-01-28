@@ -3,8 +3,8 @@
 namespace common\jobs;
 
 use common\apis\Ficbook;
-use common\models\project\Chapter;
-use common\models\project\ChapterPublication;
+use common\models\chapter\Chapter;
+use common\models\chapter\ChapterPublication;
 use common\models\project\ProjectPublicationSettings;
 use Yii;
 use yii\base\BaseObject;

@@ -1,7 +1,7 @@
 <?php
 
 /* @var $this yii\web\View */
-/* @var $model \common\models\project\ChapterPublication */
+/* @var $model \common\models\chapter\ChapterPublication */
 /* @var $authUrl string */
 
 $this->title = Yii::t('app', 'Add Publication Setting');
