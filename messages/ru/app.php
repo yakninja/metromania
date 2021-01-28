@@ -140,5 +140,5 @@ return [
     '{n} chapters imported' => '{n, plural, one{# глава импортирована} few{# главы импортировано} many{# глав импортировано} other{# главы импортировано}}',
     '{n} out of {total} chapters' => '{n} из {total}',
     '{n} tasks queued' => '{n, plural, one{# задача} few{# задачи} many{# задач} other{# задачи}} в очереди',
-    '{n} out of {total} publications' => '{n} из {total}',
+    '{n} out of {total} tasks' => '{n} из {total} задач',
 ];
