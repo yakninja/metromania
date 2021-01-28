@@ -18,6 +18,7 @@ use yii\queue\JobInterface;
 class ChapterGetJob extends BaseObject implements JobInterface
 {
     const LOCK_TIME = 60;
+    const GRAY_TRESHOLD = 0.4;
 
     /** @var int */
     public int $chapter_id;
@@ -107,10 +108,9 @@ class ChapterGetJob extends BaseObject implements JobInterface
                         && ($fgColor = $textRun->getTextStyle()->getForegroundColor())
                         && ($rgbColor = $fgColor->getColor()->getRgbColor())) {
                         if ($rgbColor->red == $rgbColor->green && $rgbColor->green == $rgbColor->blue
-                            && $rgbColor->red > 0) {
+                            && $rgbColor->red >= self::GRAY_TRESHOLD) {
                             // gray!
                             $grayCharacters += mb_strlen($c);
-                            echo "$grayCharacters $c\n";
                         }
                     }
 
