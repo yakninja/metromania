@@ -50,6 +50,7 @@ class ChapterPublication extends \yii\db\ActiveRecord
             'timestamp' => TimestampBehavior::class,
         ];
     }
+
     /**
      * {@inheritdoc}
      */
@@ -69,6 +70,7 @@ class ChapterPublication extends \yii\db\ActiveRecord
             [['url'], 'string', 'max' => 255],
             ['url', 'url'],
             [['chapter_id', 'service_id'], 'unique', 'targetAttribute' => ['chapter_id', 'service_id']],
+            [['service_id', 'url'], 'unique', 'targetAttribute' => ['service_id', 'url']],
             [['service_id'], 'exist', 'skipOnError' => true, 'targetClass' => PublicationService::class, 'targetAttribute' => ['service_id' => 'id']],
             [['chapter_id'], 'exist', 'skipOnError' => true, 'targetClass' => Chapter::class, 'targetAttribute' => ['chapter_id' => 'id']],
             ['status', 'default', 'value' => self::STATUS_NEW],
