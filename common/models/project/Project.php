@@ -196,7 +196,7 @@ class Project extends \yii\db\ActiveRecord
         $stats['changed_content'] = ChapterPublication::find()
             ->innerJoinWith('chapter')
             ->where(['chapter.project_id' => $this->id])
-            ->andWhere('chapter.hash <> chapter_publication.hash')
+            ->andWhere('chapter.hash <> chapter_publication.hash OR chapter_publication.hash IS NULL')
             ->count();
 
         return $stats;
