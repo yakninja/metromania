@@ -115,6 +115,7 @@ class ChapterController extends Controller
     {
         $model = $this->findModel($id);
         $model->status = Chapter::STATUS_WAITING;
+        $model->warning_message = null;
         $model->save();
         /** @var Queue $queue */
         $queue = Yii::$app->get('queue');

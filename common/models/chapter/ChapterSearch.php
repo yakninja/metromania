@@ -18,8 +18,8 @@ class ChapterSearch extends Chapter
     public function rules()
     {
         return [
-            [['id', 'project_id', 'status'], 'integer'],
-            [['title', 'url'], 'safe'],
+            [['id', 'project_id'], 'integer'],
+            [['title', 'url', 'status'], 'safe'],
             ['with_edits', 'boolean'],
         ];
     }
@@ -63,8 +63,13 @@ class ChapterSearch extends Chapter
         $query->andFilterWhere([
             'id' => $this->id,
             'project_id' => $this->project_id,
-            'status' => $this->status,
         ]);
+
+        if ($this->status == 'warnings') {
+            $query->andWhere("warning_message IS NOT NULL");
+        } else {
+            $query->andFilterWhere(['status' => $this->status]);
+        }
 
         if (trim($this->with_edits) != '') {
             $query->andWhere([$this->with_edits ? '<>' : '=', 'edit_count', 0]);

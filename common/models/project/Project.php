@@ -201,6 +201,7 @@ class Project extends \yii\db\ActiveRecord
             ->where(['chapter.project_id' => $this->id])
             ->andWhere('chapter.hash <> chapter_publication.hash OR chapter_publication.hash IS NULL')
             ->count();
+        $stats['warnings'] = Chapter::find()->where('warning_message is not null')->count();
 
         return $stats;
     }

@@ -1,5 +1,6 @@
 <?php
 
+use common\models\chapter\Chapter;
 use yii\helpers\Html;
 
 /* @var $this yii\web\View */
@@ -10,10 +11,25 @@ use yii\helpers\Html;
 $this->title = $model->name;
 $this->params['breadcrumbs'][] = ['label' => Yii::t('app', 'Projects'), 'url' => ['index']];
 $this->params['breadcrumbs'][] = $this->title;
+
+$stats = $model->getChapterStats();
+$warnings = [];
+if ($n = @$stats[Chapter::STATUS_ERROR]) {
+    $warnings[] = Yii::t('app', '{n} chapters {with_errors}', ['n' => $n,
+        'with_errors' => Html::a(Yii::t('app', 'with errors'),
+            ['view', 'id' => $model->id, 'ChapterSearch[status]' => Chapter::STATUS_ERROR])]);
+}
+if ($n = $stats['warnings']) {
+    $warnings[] = Yii::t('app', '{n} chapters {with_warnings}', ['n' => $n,
+        'with_warnings' => Html::a(Yii::t('app', 'with warnings'),
+            ['view', 'id' => $model->id, 'ChapterSearch[status]' => 'warnings'])]);
+}
 ?>
 <div class="project-view">
 
     <h1><?= Html::encode($this->title) ?></h1>
+
+    <?php if ($warnings) echo '<p>' . implode(', ', $warnings) . '</p>' ?>
 
     <p>
         <?= Html::a('<i class="fas fa-pen"></i> ' . Yii::t('app', 'Update'),

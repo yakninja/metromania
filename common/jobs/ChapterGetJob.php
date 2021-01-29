@@ -8,6 +8,7 @@ use Google_Service_Docs;
 use Yii;
 use yii\base\BaseObject;
 use yii\helpers\Json;
+use yii\helpers\StringHelper;
 use yii\queue\JobInterface;
 
 /**
@@ -80,6 +81,7 @@ class ChapterGetJob extends BaseObject implements JobInterface
         $suggestionIds = [];
         $wordCount = 0;
         $c = 0;
+        $paragraphCount = 0;
         foreach ($content as $contentElement) {
             if ($p = $contentElement->getParagraph()) {
                 $pContent = '';
@@ -140,10 +142,19 @@ class ChapterGetJob extends BaseObject implements JobInterface
 
                 if ($chapter->ignore_gray_text && $grayCharacters > (mb_strlen($pContent) / 2)) {
                     // paragraph is mostly gray, skip
+                    if (preg_match('`[а-яё]+`ui', $c, $r)) {
+                        // cyrillic gray text - that's not ok, issue warning
+                        $excerpt = StringHelper::truncate($r[0], 10);
+                        $chapter->warning_message = Yii::t('app',
+                            'Cyrillic chars in paragraph {n}: {excerpt}',
+                            ['n' => $paragraphCount + 1, 'excerpt' => $excerpt]);
+                        $chapter->save();
+                    }
                     continue;
                 }
 
                 $paragraphs[] = $pContent;
+                $paragraphCount++;
                 $wordCount += count(preg_split('~[^\p{L}\p{N}\']+~u', $pContent));
             }
         }

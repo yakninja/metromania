@@ -23,6 +23,7 @@ use yii\db\Expression;
  * @property int $edit_count
  * @property int $word_count
  * @property string $error_message
+ * @property string $warning_message
  * @property string $hash
  * @property boolean $ignore_gray_text
  *
@@ -81,7 +82,7 @@ class Chapter extends \yii\db\ActiveRecord
             [['project_id'], 'exist', 'skipOnError' => true, 'targetClass' => Project::class, 'targetAttribute' => ['project_id' => 'id']],
             ['status', 'default', 'value' => self::STATUS_NEW],
             ['status', 'in', 'range' => array_keys(self::statusLabels())],
-            ['error_message', 'string'],
+            [['error_message', 'warning_message'], 'string'],
             ['hash', 'string', 'max' => 40],
             ['ignore_gray_text', 'boolean'],
         ];
@@ -106,6 +107,7 @@ class Chapter extends \yii\db\ActiveRecord
             'word_count' => Yii::t('app', 'Word Count'),
             'edit_count' => Yii::t('app', 'Edit Count'),
             'error_message' => Yii::t('app', 'Error Message'),
+            'warning_message' => Yii::t('app', 'Warning Message'),
             'hash' => Yii::t('app', 'Hash'),
             'ignore_gray_text' => Yii::t('app', 'Ignore Gray Text'),
         ];

@@ -168,7 +168,8 @@ class ProjectController extends Controller
     public function actionGetAllChapters($project_id)
     {
         $project = $this->findModel($project_id);
-        Chapter::updateAll(['status' => Chapter::STATUS_WAITING], ['project_id' => $project_id]);
+        Chapter::updateAll(['status' => Chapter::STATUS_WAITING, 'warning_message' => null],
+            ['project_id' => $project_id]);
         /** @var Queue $queue */
         $queue = Yii::$app->get('queue');
         foreach ($project->chapters as $chapter) {

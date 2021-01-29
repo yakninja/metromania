@@ -89,6 +89,7 @@ $this->params['breadcrumbs'][] = $this->title;
             'edit_count:integer',
             'ignore_gray_text:boolean',
             'error_message:ntext',
+            'warning_message:ntext',
             'hash',
         ],
     ]) ?>

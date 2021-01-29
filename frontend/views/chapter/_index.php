@@ -11,6 +11,8 @@ use yii\helpers\Url;
 /* @var $searchModel common\models\chapter\ChapterSearch */
 /* @var $dataProvider yii\data\ActiveDataProvider */
 
+$statusFilter = Chapter::statusLabels();
+$statusFilter['warnings'] = Yii::t('app', 'With Warnings');
 ?>
 
 <div class="project-index">
@@ -99,9 +101,13 @@ use yii\helpers\Url;
                         $value = Html::tag('span', $value,
                             ['class' => 'badge badge-danger', 'title' => $model->error_message]);
                     }
+                    if($model->warning_message) {
+                        $value .= ' '. Html::tag('span', $model->warning_message,
+                            ['class' => 'badge badge-warning']);
+                    }
                     return $value;
                 },
-                'filter' => Chapter::statusLabels(),
+                'filter' => $statusFilter,
                 'format' => 'raw',
             ],
             'updated_at:datetime',

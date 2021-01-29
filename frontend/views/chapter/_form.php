@@ -14,9 +14,12 @@ use yii\widgets\ActiveForm;
 
     <?= $form->field($model, 'title')->textInput(['maxlength' => true]) ?>
 
-    <?= $form->field($model, 'priority')->textInput() ?>
+    <?= $form->field($model, 'priority')->textInput(['maxlength' => true]) ?>
 
     <?= $form->field($model, 'url')->textInput(['maxlength' => true]) ?>
+
+    <?= $form->field($model, 'error_message')->textInput(['disabled' => true]) ?>
+    <?= $form->field($model, 'warning_message')->textInput(['disabled' => true]) ?>
 
     <?= $form->field($model, 'ignore_gray_text')->checkbox() ?>
 
