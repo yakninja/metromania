@@ -168,15 +168,22 @@ class ProjectController extends Controller
     public function actionGetAllChapters($project_id)
     {
         $project = $this->findModel($project_id);
-        Chapter::updateAll(['status' => Chapter::STATUS_WAITING, 'warning_message' => null],
-            ['project_id' => $project_id]);
+        $query = Chapter::find()->where(['project_id' => $project_id]);
+        if (Yii::$app->request->isPost && ($id = Yii::$app->request->post('id'))) {
+            $query->andWhere(['id' => $id]);
+        }
         /** @var Queue $queue */
         $queue = Yii::$app->get('queue');
-        foreach ($project->chapters as $chapter) {
+        $n = 0;
+        foreach ($query->all() as $chapter) {
+            /** @var Chapter $chapter */
+            $chapter->warning_message = null;
+            $chapter->status = Chapter::STATUS_WAITING;
+            $chapter->save();
             $queue->push(new ChapterGetJob(['chapter_id' => $chapter->id]));
+            $n++;
         }
-        Yii::$app->session->addFlash('success', Yii::t('app', '{n} tasks queued',
-            ['n' => count($project->chapters)]));
+        Yii::$app->session->addFlash('success', Yii::t('app', '{n} tasks queued', ['n' => $n]));
         return $this->redirect(['view', 'id' => $project_id]);
     }
 

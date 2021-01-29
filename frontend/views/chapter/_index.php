@@ -4,6 +4,7 @@
 use common\models\chapter\Chapter;
 use kartik\grid\GridView;
 use yii\helpers\Html;
+use yii\helpers\Json;
 use yii\helpers\Url;
 
 /* @var $this yii\web\View */
@@ -13,11 +14,32 @@ use yii\helpers\Url;
 
 $statusFilter = Chapter::statusLabels();
 $statusFilter['warnings'] = Yii::t('app', 'With Warnings');
+
+$getUrl = Json::encode(Url::to(['/project/get-all-chapters', 'project_id' => $searchModel->project_id]));
+$js = <<<JS
+$('.kv-batch-get').click(function(){
+    var ids = $('#chapter-grid').yiiGridView('getSelectedRows');
+    if(!ids.length) return false;
+    $.ajax({
+        type: 'POST',
+        url: {$getUrl},
+        data : {id: ids},
+        success : function() {
+            window.location.reload();
+        }
+    });
+    return false;
+});
+JS;
+
+$this->registerJs($js);
+
 ?>
 
-<div class="project-index">
+<div class="chapter-index">
 
     <?= GridView::widget([
+        'id' => 'chapter-grid',
         'dataProvider' => $dataProvider,
         'filterModel' => $searchModel,
         'resizableColumns' => false,
@@ -46,7 +68,10 @@ $statusFilter['warnings'] = Yii::t('app', 'With Warnings');
                 Html::a(
                     '<i class="fas fa-file-import"></i> ' . Yii::t('app', 'Import Chapters'),
                     ['/chapter/import', 'project_id' => $project->id],
-                    ['class' => 'btn btn-sm btn-info']),
+                    ['class' => 'btn btn-sm btn-info']) . ' ' .
+                Html::button(
+                    '<i class="fas fa-angle-double-down"></i> ' . Yii::t('app', 'Get selected'),
+                    ['type' => 'button', 'class' => 'btn btn-sm btn-info kv-batch-get']),
             'after' => false,
             'footer' => ''
         ],
@@ -101,9 +126,9 @@ $statusFilter['warnings'] = Yii::t('app', 'With Warnings');
                         $value = Html::tag('span', $value,
                             ['class' => 'badge badge-danger', 'title' => $model->error_message]);
                     }
-                    if($model->warning_message) {
-                        $value .= ' '. Html::tag('span', $model->warning_message,
-                            ['class' => 'badge badge-warning']);
+                    if ($model->warning_message) {
+                        $value .= ' ' . Html::tag('span', $model->warning_message,
+                                ['class' => 'badge badge-warning']);
                     }
                     return $value;
                 },
