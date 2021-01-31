@@ -268,7 +268,6 @@ class ProjectController extends Controller
 
         return $this->render('publish', [
             'model' => $model,
-            'chapterStats' => $model->project->getChapterStats(),
         ]);
     }
 

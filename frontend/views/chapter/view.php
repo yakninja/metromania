@@ -18,7 +18,7 @@ $this->params['breadcrumbs'][] = $this->title;
     <p>
         <?= Html::a('<i class="fas fa-pen"></i> ' . Yii::t('app', 'Update'),
             ['update', 'id' => $model->id], ['class' => 'btn btn-sm btn-primary']) ?>
-        <?= Html::a('<i class="fas fa-angle-double-down"></i> ' . Yii::t('app', 'Get Chapter'),
+        <?= Html::a('<i class="fas fa-sync"></i> ' . Yii::t('app', 'Get Chapter'),
             ['get', 'id' => $model->id], [
                 'class' => 'btn btn-sm btn-info',
                 'data' => [

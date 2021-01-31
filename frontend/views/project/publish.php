@@ -14,6 +14,8 @@ $this->params['breadcrumbs'][] = ['label' => Yii::t('app', 'Projects'), 'url' =>
 $this->params['breadcrumbs'][] = ['label' => $model->project->name, 'url' => ['view', 'id' => $model->project->id]];
 $this->params['breadcrumbs'][] = $this->title;
 
+$chapterStats = $model->project->getChapterStats();
+
 $providers = ArrayHelper::map(PublicationService::find()->all(), 'id',
     function (PublicationService $model) use ($chapterStats) {
         $value = $model->name;

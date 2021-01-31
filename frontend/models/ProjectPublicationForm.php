@@ -2,10 +2,13 @@
 
 namespace frontend\models;
 
+use common\jobs\ChapterPublishJob;
+use common\models\chapter\ChapterPublication;
 use common\models\project\Project;
 use common\models\PublicationService;
 use Yii;
 use yii\base\Model;
+use yii\queue\Queue;
 
 /**
  * Export project's chapters
@@ -24,12 +27,14 @@ class ProjectPublicationForm extends Model
     public function rules()
     {
         return [
-            [['project_id'], 'exist', 'skipOnError' => true, 'targetClass' => Project::class, 'targetAttribute' => ['project_id' => 'id']],
+            [['project_id'], 'exist', 'skipOnError' => true, 'targetClass' => Project::class,
+                'targetAttribute' => ['project_id' => 'id']],
 
             [['not_having_edits', 'only_if_changed'], 'boolean'],
 
             ['service_id', 'required'],
-            ['service_id', 'each', 'rule' => ['exist', 'skipOnError' => true, 'targetClass' => PublicationService::class]],
+            ['service_id', 'each', 'rule' => ['exist', 'skipOnError' => true, 'targetClass' => PublicationService::class,
+                'targetAttribute' => ['service_id' => 'id']]],
         ];
     }
 
@@ -42,7 +47,29 @@ class ProjectPublicationForm extends Model
         if (!$this->validate()) {
             return false;
         }
+
+        $query = ChapterPublication::find()
+            ->innerJoinWith('chapter')
+            ->where(['project_id' => $this->project_id, 'service_id' => $this->service_id]);
+
+        if ($this->not_having_edits) {
+            $query->andWhere('chapter.edit_count = 0');
+        }
+
+        if ($this->only_if_changed) {
+            $query->andWhere('(chapter_publication.hash IS NULL 
+                OR chapter.hash <> chapter_publication.hash)');
+        }
+
+        /** @var Queue $queue */
+        $queue = Yii::$app->get('queue');
         $n = 0;
+        foreach ($query->all() as $publication) {
+            /** @var ChapterPublication $publication */
+            $queue->push(new ChapterPublishJob(['chapter_id' => $publication->id,
+                'service_id' => $publication->service_id]));
+            $n++;
+        }
         return $n;
     }
 

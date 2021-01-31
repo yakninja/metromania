@@ -52,12 +52,12 @@ class ChapterGetJob extends BaseObject implements JobInterface
             return false;
         }
 
-        if (!preg_match('`/document/d/([^/&?]+)`', $chapter->url, $r)) {
+        if (!preg_match('`/document(/u/[0-9]+)?/d/([^/&?]+)`', $chapter->url, $r)) {
             $chapter->setError('Invalid chapter URL');
             return false;
         }
 
-        $documentId = $r[1];
+        $documentId = $r[2];
 
         $service = new Google_Service_Docs($client);
 

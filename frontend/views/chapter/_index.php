@@ -70,7 +70,7 @@ $this->registerJs($js);
                     ['/chapter/import', 'project_id' => $project->id],
                     ['class' => 'btn btn-sm btn-info']) . ' ' .
                 Html::button(
-                    '<i class="fas fa-angle-double-down"></i> ' . Yii::t('app', 'Get selected'),
+                    '<i class="fas fa-sync"></i> ' . Yii::t('app', 'Get selected'),
                     ['type' => 'button', 'class' => 'btn btn-sm btn-info kv-batch-get']),
             'after' => false,
             'footer' => ''

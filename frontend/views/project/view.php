@@ -39,7 +39,7 @@ if ($n = $stats['warnings']) {
             echo Html::a('<i class="fas fa-plus"></i> ' . Yii::t('app', 'Create Access Token'),
                 ['create-access-token', 'project_id' => $model->id], ['class' => 'btn btn-sm btn-info']);
         } else {
-            echo Html::a('<i class="fas fa-angle-double-down"></i> ' . Yii::t('app', 'Get all chapters'),
+            echo Html::a('<i class="fas fa-sync"></i> ' . Yii::t('app', 'Get all chapters'),
                 ['get-all-chapters', 'project_id' => $model->id], [
                     'class' => 'btn btn-info btn-sm',
                     'data' => [
