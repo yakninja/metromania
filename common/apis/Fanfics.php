@@ -5,15 +5,16 @@ namespace common\apis;
 use GuzzleHttp\Client;
 use GuzzleHttp\Cookie\FileCookieJar;
 use GuzzleHttp\Exception\GuzzleException;
+use PHPHtmlParser\Contracts\DomInterface;
 use PHPHtmlParser\Dom;
 use Yii;
 use yii\base\Component;
 use yii\base\Exception;
 use yii\helpers\Json;
 
-class Ficbook extends Component
+class Fanfics extends Component
 {
-    const BASE_URL = 'https://ficbook.net';
+    const BASE_URL = 'https://fanfics.me';
     const STATUS_IN_PROGRESS = '1';
     const STATUS_FINISHED = '2';
     const STATUS_FROZEN = '3';
@@ -40,6 +41,22 @@ class Ficbook extends Component
         ]);
     }
 
+    private function isLoggedIn(DomInterface $dom)
+    {
+        if (($nodes = $dom->find('a.light')) && count($nodes)) {
+            foreach ($nodes as $node) {
+                /** @var Dom\Node\HtmlNode $node */
+                if (trim($node->innerText) == 'Выход' &&
+                    substr($node->href, 0, 11) == '/autent.php') {
+                    // already logged in
+                    return true;
+                }
+            }
+        }
+        // not logged in
+        return false;
+    }
+
     /**
      * @param string $username
      * @param string $password
@@ -58,19 +75,19 @@ class Ficbook extends Component
         $dom = new Dom;
         try {
             $dom->loadStr($response->getBody());
-            if ($dom->find('a[href=/logout]')[0]) {
-                // already logged in
+            if ($this->isLoggedIn($dom)) {
                 return true;
             }
-            if ($dom->find('#mainLoginForm')[0]) {
+
+            if ($dom->find('form[name="autent"]')[0]) {
                 // logging in
                 $this->client->post(
-                    '/login_check',
-                    ['form_params' => ['login' => $username, 'password' => $password, 'remember' => 'on']]
+                    '/autent.php',
+                    ['form_params' => ['name' => $username, 'pass' => $password]]
                 );
                 $response = $this->client->get('/');
                 $dom->loadStr($response->getBody());
-                if (!$dom->find('a[href=/logout]')[0]) {
+                if (!$this->isLoggedIn($dom)) {
                     // failed
                     throw new Exception('Login failed');
                 }
@@ -96,6 +113,17 @@ class Ficbook extends Component
      */
     public function publish(string $url, string $title, string $content)
     {
+        $parts = parse_url($url);
+        if (empty($parts['query'])) {
+            throw new Exception('Invalid chapter URL');
+        }
+        parse_str($parts['query'], $params);
+        if (empty($params['id']) || @$params['chapter'] === '') {
+            throw new Exception('Fic/chapter id not found in url');
+        }
+        $fic_id = $params['id'];
+        $chapter_id = $params['chapter'];
+
         try {
             $response = $this->client->get($url);
         } catch (GuzzleException $e) {
@@ -104,37 +132,60 @@ class Ficbook extends Component
         $dom = new Dom;
         try {
             $dom->loadStr($response->getBody());
-            /** @var Dom\Node\HtmlNode */
-            if (!($editIcon = $dom->find('article svg.ic_edit')[0])) {
+            /** @var Dom\Node\HtmlNode $node */
+            $editLink = null;
+            if ($nodes = $dom->find('a.small_link')) {
+                foreach ($nodes as $node) {
+                    if (trim($node->innerText) == 'Редактировать текст главы') {
+                        $editLink = $node;
+                        break;
+                    }
+                }
+            }
+
+            if (!$editLink) {
                 throw new Exception('Can\'t find the edit link for the destination');
             }
-            $link = $editIcon->parent->href;
-            if (!preg_match('`/home/myfics/([0-9]+)/parts/([0-9]+)`', $link, $r)) {
-                throw new Exception('Can\'t parse the edit link for fanfic id/part id');
-            }
-            $fanficId = $r[1];
-            $partId = $r[2];
-            $response = $this->client->get($link);
+
+            $response = $this->client->get($editLink->href);
             $dom->loadStr($response->getBody());
+
+            if (!($nodes = $dom->find('#newChapter')) || !($form = $nodes[0])) {
+                throw new Exception('Can\'t find the chapter edit form');
+            }
+            $action = "https://fanfics.me/section_fic_write_post.php?" .
+                "action=edit_fic_chapter_edit_take&fic_id={$fic_id}";
+
+            echo "$action\n";
+
             $formParams = [
-                'part_id' => $partId,
-                'fanfic_id' => $fanficId,
-                'title' => $title,
-                'content' => $content,
-                'comment_direction' => '0',
-                'comment' => '',
-                'change_description' => '',
-                'status' => self::STATUS_IN_PROGRESS,
-                'not_published' => '1',
-                'auto_pub' => '0',
+                'partTitle' => '',
+                'partAnnotation' => '',
+                'chapter_fic_id' => $chapter_id,
+                'chapterName' => $title,
+                'chapterText' => $content,
+                'changes_comment' => '',
+                'draft' => 'on',
+                'goto' => 'contents',
             ];
-            $response = $this->client->post('/home/fanfics/partauthoredit_save',
-                ['form_params' => $formParams]);
+            var_dump($formParams);
+            $response = $this->client
+                ->post($action, [
+                    'form_params' => $formParams,
+                    'headers' => [
+                        'X-Requested-With' => 'XMLHttpRequest',
+                        'Referer' => $editLink->href,
+                    ],
+                ]);
             if ($response->getStatusCode() != 200) {
                 throw new Exception('Could not export: invalid status code: ' . $response->getStatusCode());
             }
-            $responseData = Json::decode($response->getBody());
-            if (!$responseData || !@$responseData['result']) {
+            try {
+                $responseData = Json::decode($response->getBody());
+            } catch (\Exception $e) {
+                throw new Exception('Invalid result (could not parse)');
+            }
+            if (!$responseData || !@$responseData['q']) {
                 throw new Exception('Invalid result');
             }
         } catch (\Exception $e) {
