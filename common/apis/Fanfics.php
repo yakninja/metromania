@@ -15,9 +15,6 @@ use yii\helpers\Json;
 class Fanfics extends Component
 {
     const BASE_URL = 'https://fanfics.me';
-    const STATUS_IN_PROGRESS = '1';
-    const STATUS_FINISHED = '2';
-    const STATUS_FROZEN = '3';
 
     public $userAgent = 'Mozilla/5.0 (Macintosh; Intel Mac OS X 11_1_0) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/88.0.4324.96 Safari/537.36';
     public $cookieFile;
