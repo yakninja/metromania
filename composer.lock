@@ -510,16 +510,16 @@
         },
         {
             "name": "google/apiclient-services",
-            "version": "v0.212.0",
+            "version": "v0.213.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/googleapis/google-api-php-client-services.git",
-                "reference": "2c4bd512502ad9cdfec8ea711ea1592c79d345e5"
+                "reference": "260311821505438eb9208b068da0d849b8ea9baa"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/googleapis/google-api-php-client-services/zipball/2c4bd512502ad9cdfec8ea711ea1592c79d345e5",
-                "reference": "2c4bd512502ad9cdfec8ea711ea1592c79d345e5",
+                "url": "https://api.github.com/repos/googleapis/google-api-php-client-services/zipball/260311821505438eb9208b068da0d849b8ea9baa",
+                "reference": "260311821505438eb9208b068da0d849b8ea9baa",
                 "shasum": ""
             },
             "require": {
@@ -546,7 +546,7 @@
             "keywords": [
                 "google"
             ],
-            "time": "2021-09-12T11:18:27+00:00"
+            "time": "2021-09-19T11:18:26+00:00"
         },
         {
             "name": "google/auth",
@@ -822,16 +822,16 @@
         },
         {
             "name": "kartik-v/bootstrap-fileinput",
-            "version": "v5.2.3",
+            "version": "v5.2.5",
             "source": {
                 "type": "git",
                 "url": "https://github.com/kartik-v/bootstrap-fileinput.git",
-                "reference": "a3340fd757a2a46fdeede677e366fce2e4f89d3a"
+                "reference": "b2526e4c88fe7b14540bb4f0efd52c1e86be82a4"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/kartik-v/bootstrap-fileinput/zipball/a3340fd757a2a46fdeede677e366fce2e4f89d3a",
-                "reference": "a3340fd757a2a46fdeede677e366fce2e4f89d3a",
+                "url": "https://api.github.com/repos/kartik-v/bootstrap-fileinput/zipball/b2526e4c88fe7b14540bb4f0efd52c1e86be82a4",
+                "reference": "b2526e4c88fe7b14540bb4f0efd52c1e86be82a4",
                 "shasum": ""
             },
             "type": "library",
@@ -856,7 +856,7 @@
                     "homepage": "http://www.krajee.com/"
                 }
             ],
-            "description": "An enhanced HTML 5 file input for Bootstrap 3.x with features for file preview for many file types, multiple selection, ajax uploads, and more.",
+            "description": "An enhanced HTML 5 file input for Bootstrap 5.x, 4.x, and 3.x with features for file preview for many file types, multiple selection, ajax uploads, and more.",
             "homepage": "https://github.com/kartik-v/bootstrap-fileinput",
             "keywords": [
                 "ajax",
@@ -877,26 +877,26 @@
                     "type": "open_collective"
                 }
             ],
-            "time": "2021-07-25T06:58:43+00:00"
+            "time": "2021-09-19T12:57:33+00:00"
         },
         {
             "name": "kartik-v/bootstrap-popover-x",
-            "version": "v1.4.9",
+            "version": "v1.5.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/kartik-v/bootstrap-popover-x.git",
-                "reference": "3a6403b2e0d2a4e67ef6e1ff884fdcde0aaa7358"
+                "reference": "7328d69d66cd816cb9861a7a6ef29cbebb56f793"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/kartik-v/bootstrap-popover-x/zipball/3a6403b2e0d2a4e67ef6e1ff884fdcde0aaa7358",
-                "reference": "3a6403b2e0d2a4e67ef6e1ff884fdcde0aaa7358",
+                "url": "https://api.github.com/repos/kartik-v/bootstrap-popover-x/zipball/7328d69d66cd816cb9861a7a6ef29cbebb56f793",
+                "reference": "7328d69d66cd816cb9861a7a6ef29cbebb56f793",
                 "shasum": ""
             },
             "type": "library",
             "extra": {
                 "branch-alias": {
-                    "dev-master": "1.4.x-dev"
+                    "dev-master": "1.5.x-dev"
                 }
             },
             "autoload": {
@@ -932,20 +932,20 @@
                     "type": "open_collective"
                 }
             ],
-            "time": "2021-09-11T09:51:13+00:00"
+            "time": "2021-09-19T14:25:49+00:00"
         },
         {
             "name": "kartik-v/bootstrap-star-rating",
-            "version": "v4.1.1",
+            "version": "v4.1.2",
             "source": {
                 "type": "git",
                 "url": "https://github.com/kartik-v/bootstrap-star-rating.git",
-                "reference": "a06ddc61651fdeddf7467482a344d40ee76632ed"
+                "reference": "c301efed4c82e9d5f11a0845ae428ba60931b44e"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/kartik-v/bootstrap-star-rating/zipball/a06ddc61651fdeddf7467482a344d40ee76632ed",
-                "reference": "a06ddc61651fdeddf7467482a344d40ee76632ed",
+                "url": "https://api.github.com/repos/kartik-v/bootstrap-star-rating/zipball/c301efed4c82e9d5f11a0845ae428ba60931b44e",
+                "reference": "c301efed4c82e9d5f11a0845ae428ba60931b44e",
                 "shasum": ""
             },
             "type": "library",
@@ -982,7 +982,7 @@
                     "type": "open_collective"
                 }
             ],
-            "time": "2021-09-11T11:59:44+00:00"
+            "time": "2021-09-20T03:06:01+00:00"
         },
         {
             "name": "kartik-v/dependent-dropdown",
@@ -7945,7 +7945,6 @@
                     "type": "github"
                 }
             ],
-            "abandoned": true,
             "time": "2020-11-30T07:30:19+00:00"
         },
         {
