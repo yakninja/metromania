@@ -824,16 +824,16 @@
         },
         {
             "name": "kartik-v/bootstrap-fileinput",
-            "version": "v5.2.5",
+            "version": "v5.2.6",
             "source": {
                 "type": "git",
                 "url": "https://github.com/kartik-v/bootstrap-fileinput.git",
-                "reference": "b2526e4c88fe7b14540bb4f0efd52c1e86be82a4"
+                "reference": "642849327db63231922558b580e985e27beddfc1"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/kartik-v/bootstrap-fileinput/zipball/b2526e4c88fe7b14540bb4f0efd52c1e86be82a4",
-                "reference": "b2526e4c88fe7b14540bb4f0efd52c1e86be82a4",
+                "url": "https://api.github.com/repos/kartik-v/bootstrap-fileinput/zipball/642849327db63231922558b580e985e27beddfc1",
+                "reference": "642849327db63231922558b580e985e27beddfc1",
                 "shasum": ""
             },
             "type": "library",
@@ -879,20 +879,20 @@
                     "type": "open_collective"
                 }
             ],
-            "time": "2021-09-19T12:57:33+00:00"
+            "time": "2021-09-23T15:32:41+00:00"
         },
         {
             "name": "kartik-v/bootstrap-popover-x",
-            "version": "v1.5.0",
+            "version": "v1.5.1",
             "source": {
                 "type": "git",
                 "url": "https://github.com/kartik-v/bootstrap-popover-x.git",
-                "reference": "7328d69d66cd816cb9861a7a6ef29cbebb56f793"
+                "reference": "36c382739c4f61ee44263a426e6447abed5ff0bd"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/kartik-v/bootstrap-popover-x/zipball/7328d69d66cd816cb9861a7a6ef29cbebb56f793",
-                "reference": "7328d69d66cd816cb9861a7a6ef29cbebb56f793",
+                "url": "https://api.github.com/repos/kartik-v/bootstrap-popover-x/zipball/36c382739c4f61ee44263a426e6447abed5ff0bd",
+                "reference": "36c382739c4f61ee44263a426e6447abed5ff0bd",
                 "shasum": ""
             },
             "type": "library",
@@ -934,7 +934,7 @@
                     "type": "open_collective"
                 }
             ],
-            "time": "2021-09-19T14:25:49+00:00"
+            "time": "2021-09-25T03:53:47+00:00"
         },
         {
             "name": "kartik-v/bootstrap-star-rating",
@@ -7226,16 +7226,16 @@
         },
         {
             "name": "phpunit/phpunit",
-            "version": "8.5.20",
+            "version": "8.5.21",
             "source": {
                 "type": "git",
                 "url": "https://github.com/sebastianbergmann/phpunit.git",
-                "reference": "9deefba183198398a09b927a6ac6bc1feb0b7b70"
+                "reference": "50a58a60b85947b0bee4c8ecfe0f4bbdcf20e984"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/sebastianbergmann/phpunit/zipball/9deefba183198398a09b927a6ac6bc1feb0b7b70",
-                "reference": "9deefba183198398a09b927a6ac6bc1feb0b7b70",
+                "url": "https://api.github.com/repos/sebastianbergmann/phpunit/zipball/50a58a60b85947b0bee4c8ecfe0f4bbdcf20e984",
+                "reference": "50a58a60b85947b0bee4c8ecfe0f4bbdcf20e984",
                 "shasum": ""
             },
             "require": {
@@ -7315,7 +7315,7 @@
                     "type": "github"
                 }
             ],
-            "time": "2021-08-31T06:44:38+00:00"
+            "time": "2021-09-25T07:37:20+00:00"
         },
         {
             "name": "psr/event-dispatcher",
