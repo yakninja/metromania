@@ -512,16 +512,16 @@
         },
         {
             "name": "google/apiclient-services",
-            "version": "v0.214.0",
+            "version": "v0.215.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/googleapis/google-api-php-client-services.git",
-                "reference": "f3823c7d217a0fae0da661df9f92f937bdd10a95"
+                "reference": "1d4d488c09a9bb5f361f8d7ddd8dbb37cb7786ac"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/googleapis/google-api-php-client-services/zipball/f3823c7d217a0fae0da661df9f92f937bdd10a95",
-                "reference": "f3823c7d217a0fae0da661df9f92f937bdd10a95",
+                "url": "https://api.github.com/repos/googleapis/google-api-php-client-services/zipball/1d4d488c09a9bb5f361f8d7ddd8dbb37cb7786ac",
+                "reference": "1d4d488c09a9bb5f361f8d7ddd8dbb37cb7786ac",
                 "shasum": ""
             },
             "require": {
@@ -548,7 +548,7 @@
             "keywords": [
                 "google"
             ],
-            "time": "2021-09-26T11:20:28+00:00"
+            "time": "2021-10-02T11:20:11+00:00"
         },
         {
             "name": "google/auth",
@@ -2238,12 +2238,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/kartik-v/yii2-widget-select2.git",
-                "reference": "bf9a48785c5c7956284923a2ef0f7604a746d7c4"
+                "reference": "d0ea066fabcc7958d30afde981921cf1abcd2e7e"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/kartik-v/yii2-widget-select2/zipball/bf9a48785c5c7956284923a2ef0f7604a746d7c4",
-                "reference": "bf9a48785c5c7956284923a2ef0f7604a746d7c4",
+                "url": "https://api.github.com/repos/kartik-v/yii2-widget-select2/zipball/d0ea066fabcc7958d30afde981921cf1abcd2e7e",
+                "reference": "d0ea066fabcc7958d30afde981921cf1abcd2e7e",
                 "shasum": ""
             },
             "require": {
@@ -2290,7 +2290,7 @@
                     "type": "open_collective"
                 }
             ],
-            "time": "2021-09-28T15:05:25+00:00"
+            "time": "2021-10-03T10:19:38+00:00"
         },
         {
             "name": "kartik-v/yii2-widget-sidenav",
@@ -2692,16 +2692,16 @@
         },
         {
             "name": "monolog/monolog",
-            "version": "2.3.4",
+            "version": "2.3.5",
             "source": {
                 "type": "git",
                 "url": "https://github.com/Seldaek/monolog.git",
-                "reference": "437e7a1c50044b92773b361af77620efb76fff59"
+                "reference": "fd4380d6fc37626e2f799f29d91195040137eba9"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/Seldaek/monolog/zipball/437e7a1c50044b92773b361af77620efb76fff59",
-                "reference": "437e7a1c50044b92773b361af77620efb76fff59",
+                "url": "https://api.github.com/repos/Seldaek/monolog/zipball/fd4380d6fc37626e2f799f29d91195040137eba9",
+                "reference": "fd4380d6fc37626e2f799f29d91195040137eba9",
                 "shasum": ""
             },
             "require": {
@@ -2717,7 +2717,7 @@
                 "elasticsearch/elasticsearch": "^7",
                 "graylog2/gelf-php": "^1.4.2",
                 "mongodb/mongodb": "^1.8",
-                "php-amqplib/php-amqplib": "~2.4",
+                "php-amqplib/php-amqplib": "~2.4 || ^3",
                 "php-console/php-console": "^3.1.3",
                 "phpspec/prophecy": "^1.6.1",
                 "phpstan/phpstan": "^0.12.91",
@@ -2783,7 +2783,7 @@
                     "type": "tidelift"
                 }
             ],
-            "time": "2021-09-15T11:27:21+00:00"
+            "time": "2021-10-01T21:08:31+00:00"
         },
         {
             "name": "mpdf/mpdf",
@@ -5713,16 +5713,16 @@
         },
         {
             "name": "yiisoft/yii2-redis",
-            "version": "2.0.15",
+            "version": "2.0.16",
             "source": {
                 "type": "git",
                 "url": "https://github.com/yiisoft/yii2-redis.git",
-                "reference": "2d11252cb9d04091469a08b5ebb1faedc11fb2b1"
+                "reference": "1b9efe97d8add594256b51089fbf7a56f31e3c9c"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/yiisoft/yii2-redis/zipball/2d11252cb9d04091469a08b5ebb1faedc11fb2b1",
-                "reference": "2d11252cb9d04091469a08b5ebb1faedc11fb2b1",
+                "url": "https://api.github.com/repos/yiisoft/yii2-redis/zipball/1b9efe97d8add594256b51089fbf7a56f31e3c9c",
+                "reference": "1b9efe97d8add594256b51089fbf7a56f31e3c9c",
                 "shasum": ""
             },
             "require": {
@@ -5776,7 +5776,7 @@
                     "type": "tidelift"
                 }
             ],
-            "time": "2021-05-05T22:10:20+00:00"
+            "time": "2021-10-04T11:28:17+00:00"
         },
         {
             "name": "yiisoft/yii2-shell",
@@ -6802,16 +6802,16 @@
         },
         {
             "name": "phpdocumentor/type-resolver",
-            "version": "1.5.0",
+            "version": "1.5.1",
             "source": {
                 "type": "git",
                 "url": "https://github.com/phpDocumentor/TypeResolver.git",
-                "reference": "30f38bffc6f24293dadd1823936372dfa9e86e2f"
+                "reference": "a12f7e301eb7258bb68acd89d4aefa05c2906cae"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/phpDocumentor/TypeResolver/zipball/30f38bffc6f24293dadd1823936372dfa9e86e2f",
-                "reference": "30f38bffc6f24293dadd1823936372dfa9e86e2f",
+                "url": "https://api.github.com/repos/phpDocumentor/TypeResolver/zipball/a12f7e301eb7258bb68acd89d4aefa05c2906cae",
+                "reference": "a12f7e301eb7258bb68acd89d4aefa05c2906cae",
                 "shasum": ""
             },
             "require": {
@@ -6844,7 +6844,7 @@
                 }
             ],
             "description": "A PSR-5 based resolver of Class names, Types and Structural Element Names",
-            "time": "2021-09-17T15:28:14+00:00"
+            "time": "2021-10-02T14:08:47+00:00"
         },
         {
             "name": "phpspec/php-diff",
