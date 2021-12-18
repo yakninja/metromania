@@ -32,7 +32,7 @@
             "version": "3.6.0",
             "source": {
                 "type": "git",
-                "url": "https://github.com/jquery/jquery-dist.git",
+                "url": "git@github.com:jquery/jquery-dist.git",
                 "reference": "e786e3d9707ffd9b0dd330ca135b66344dcef85a"
             },
             "dist": {
@@ -909,16 +909,16 @@
         },
         {
             "name": "kartik-v/bootstrap-fileinput",
-            "version": "v5.2.6",
+            "version": "v5.2.7",
             "source": {
                 "type": "git",
                 "url": "https://github.com/kartik-v/bootstrap-fileinput.git",
-                "reference": "642849327db63231922558b580e985e27beddfc1"
+                "reference": "02e2e6bccad31373bb2224fccdb8e9a3166124b9"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/kartik-v/bootstrap-fileinput/zipball/642849327db63231922558b580e985e27beddfc1",
-                "reference": "642849327db63231922558b580e985e27beddfc1",
+                "url": "https://api.github.com/repos/kartik-v/bootstrap-fileinput/zipball/02e2e6bccad31373bb2224fccdb8e9a3166124b9",
+                "reference": "02e2e6bccad31373bb2224fccdb8e9a3166124b9",
                 "shasum": ""
             },
             "type": "library",
@@ -964,7 +964,7 @@
                     "type": "open_collective"
                 }
             ],
-            "time": "2021-09-23T15:32:41+00:00"
+            "time": "2021-12-17T16:05:03+00:00"
         },
         {
             "name": "kartik-v/bootstrap-popover-x",
