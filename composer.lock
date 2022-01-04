@@ -509,7 +509,7 @@
         },
         {
             "name": "google/apiclient-services",
-            "version": "v0.227.0",
+            "version": "v0.228.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/googleapis/google-api-php-client-services.git",
