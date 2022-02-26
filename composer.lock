@@ -1279,16 +1279,17 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/kartik-v/yii2-grid.git",
-                "reference": "09f8e76d6cd7c42b6067201dfbe9894e6293b2f8"
+                "reference": "7f8c9270dde525b60960b8c4cb2d40d861b3bdb9"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/kartik-v/yii2-grid/zipball/09f8e76d6cd7c42b6067201dfbe9894e6293b2f8",
-                "reference": "09f8e76d6cd7c42b6067201dfbe9894e6293b2f8",
+                "url": "https://api.github.com/repos/kartik-v/yii2-grid/zipball/7f8c9270dde525b60960b8c4cb2d40d861b3bdb9",
+                "reference": "7f8c9270dde525b60960b8c4cb2d40d861b3bdb9",
                 "shasum": ""
             },
             "require": {
-                "kartik-v/yii2-dialog": "~1.0"
+                "kartik-v/yii2-dialog": "~1.0",
+                "kartik-v/yii2-krajee-base": ">=3.0.3"
             },
             "suggest": {
                 "kartik-v/yii2-bootstrap4-dropdown": "For enabling dropdown support when using with Bootstrap v4.x",
@@ -1331,7 +1332,7 @@
                     "type": "open_collective"
                 }
             ],
-            "time": "2022-02-04T04:34:47+00:00"
+            "time": "2022-02-26T18:18:49+00:00"
         },
         {
             "name": "kartik-v/yii2-helpers",
@@ -1438,16 +1439,16 @@
         },
         {
             "name": "kartik-v/yii2-krajee-base",
-            "version": "v3.0.2",
+            "version": "v3.0.3",
             "source": {
                 "type": "git",
                 "url": "https://github.com/kartik-v/yii2-krajee-base.git",
-                "reference": "23234fce6abc4b6f3f9ba1c7f66f56fbebcde139"
+                "reference": "1952ddb26b9d782848e1913d7cf6311a24f87803"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/kartik-v/yii2-krajee-base/zipball/23234fce6abc4b6f3f9ba1c7f66f56fbebcde139",
-                "reference": "23234fce6abc4b6f3f9ba1c7f66f56fbebcde139",
+                "url": "https://api.github.com/repos/kartik-v/yii2-krajee-base/zipball/1952ddb26b9d782848e1913d7cf6311a24f87803",
+                "reference": "1952ddb26b9d782848e1913d7cf6311a24f87803",
                 "shasum": ""
             },
             "suggest": {
@@ -1487,7 +1488,7 @@
                 "widget",
                 "yii2"
             ],
-            "time": "2022-01-10T03:59:20+00:00"
+            "time": "2022-02-26T17:37:42+00:00"
         },
         {
             "name": "kartik-v/yii2-mpdf",
@@ -2209,12 +2210,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/kartik-v/yii2-widget-select2.git",
-                "reference": "714f009292ee27cd7a80a46aeb209a92bec1e0df"
+                "reference": "0d98d6c3ac82f583128f805d262f3b5ac646b58d"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/kartik-v/yii2-widget-select2/zipball/714f009292ee27cd7a80a46aeb209a92bec1e0df",
-                "reference": "714f009292ee27cd7a80a46aeb209a92bec1e0df",
+                "url": "https://api.github.com/repos/kartik-v/yii2-widget-select2/zipball/0d98d6c3ac82f583128f805d262f3b5ac646b58d",
+                "reference": "0d98d6c3ac82f583128f805d262f3b5ac646b58d",
                 "shasum": ""
             },
             "require": {
@@ -2261,7 +2262,7 @@
                     "type": "open_collective"
                 }
             ],
-            "time": "2022-02-11T02:35:31+00:00"
+            "time": "2022-02-22T15:26:05+00:00"
         },
         {
             "name": "kartik-v/yii2-widget-sidenav",
@@ -3219,16 +3220,16 @@
         },
         {
             "name": "php-http/httplug",
-            "version": "2.2.0",
+            "version": "2.3.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/php-http/httplug.git",
-                "reference": "191a0a1b41ed026b717421931f8d3bd2514ffbf9"
+                "reference": "f640739f80dfa1152533976e3c112477f69274eb"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/php-http/httplug/zipball/191a0a1b41ed026b717421931f8d3bd2514ffbf9",
-                "reference": "191a0a1b41ed026b717421931f8d3bd2514ffbf9",
+                "url": "https://api.github.com/repos/php-http/httplug/zipball/f640739f80dfa1152533976e3c112477f69274eb",
+                "reference": "f640739f80dfa1152533976e3c112477f69274eb",
                 "shasum": ""
             },
             "require": {
@@ -3273,7 +3274,7 @@
                 "client",
                 "http"
             ],
-            "time": "2020-07-13T15:43:23+00:00"
+            "time": "2022-02-21T09:52:22+00:00"
         },
         {
             "name": "php-http/promise",
