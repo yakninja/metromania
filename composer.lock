@@ -32,7 +32,7 @@
             "version": "3.6.0",
             "source": {
                 "type": "git",
-                "url": "git@github.com:jquery/jquery-dist.git",
+                "url": "https://github.com/jquery/jquery-dist.git",
                 "reference": "e786e3d9707ffd9b0dd330ca135b66344dcef85a"
             },
             "dist": {
@@ -505,16 +505,16 @@
         },
         {
             "name": "google/apiclient-services",
-            "version": "v0.239.0",
+            "version": "v0.240.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/googleapis/google-api-php-client-services.git",
-                "reference": "ce8e34d618bdef9e824fd1728d505a468818712c"
+                "reference": "c6d39cda24d7ada02ecf8c464a1c8adb02607ba7"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/googleapis/google-api-php-client-services/zipball/ce8e34d618bdef9e824fd1728d505a468818712c",
-                "reference": "ce8e34d618bdef9e824fd1728d505a468818712c",
+                "url": "https://api.github.com/repos/googleapis/google-api-php-client-services/zipball/c6d39cda24d7ada02ecf8c464a1c8adb02607ba7",
+                "reference": "c6d39cda24d7ada02ecf8c464a1c8adb02607ba7",
                 "shasum": ""
             },
             "require": {
@@ -541,7 +541,7 @@
             "keywords": [
                 "google"
             ],
-            "time": "2022-03-13T01:20:35+00:00"
+            "time": "2022-03-21T01:20:11+00:00"
         },
         {
             "name": "google/auth",
@@ -596,16 +596,16 @@
         },
         {
             "name": "guzzlehttp/guzzle",
-            "version": "7.4.1",
+            "version": "7.4.2",
             "source": {
                 "type": "git",
                 "url": "https://github.com/guzzle/guzzle.git",
-                "reference": "ee0a041b1760e6a53d2a39c8c34115adc2af2c79"
+                "reference": "ac1ec1cd9b5624694c3a40be801d94137afb12b4"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/guzzle/guzzle/zipball/ee0a041b1760e6a53d2a39c8c34115adc2af2c79",
-                "reference": "ee0a041b1760e6a53d2a39c8c34115adc2af2c79",
+                "url": "https://api.github.com/repos/guzzle/guzzle/zipball/ac1ec1cd9b5624694c3a40be801d94137afb12b4",
+                "reference": "ac1ec1cd9b5624694c3a40be801d94137afb12b4",
                 "shasum": ""
             },
             "require": {
@@ -638,12 +638,12 @@
                 }
             },
             "autoload": {
-                "psr-4": {
-                    "GuzzleHttp\\": "src/"
-                },
                 "files": [
                     "src/functions_include.php"
-                ]
+                ],
+                "psr-4": {
+                    "GuzzleHttp\\": "src/"
+                }
             },
             "notification-url": "https://packagist.org/downloads/",
             "license": [
@@ -712,7 +712,7 @@
                     "type": "tidelift"
                 }
             ],
-            "time": "2021-12-06T18:43:05+00:00"
+            "time": "2022-03-20T14:16:28+00:00"
         },
         {
             "name": "guzzlehttp/promises",
@@ -796,16 +796,16 @@
         },
         {
             "name": "guzzlehttp/psr7",
-            "version": "1.8.3",
+            "version": "1.8.5",
             "source": {
                 "type": "git",
                 "url": "https://github.com/guzzle/psr7.git",
-                "reference": "1afdd860a2566ed3c2b0b4a3de6e23434a79ec85"
+                "reference": "337e3ad8e5716c15f9657bd214d16cc5e69df268"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/guzzle/psr7/zipball/1afdd860a2566ed3c2b0b4a3de6e23434a79ec85",
-                "reference": "1afdd860a2566ed3c2b0b4a3de6e23434a79ec85",
+                "url": "https://api.github.com/repos/guzzle/psr7/zipball/337e3ad8e5716c15f9657bd214d16cc5e69df268",
+                "reference": "337e3ad8e5716c15f9657bd214d16cc5e69df268",
                 "shasum": ""
             },
             "require": {
@@ -830,12 +830,12 @@
                 }
             },
             "autoload": {
-                "psr-4": {
-                    "GuzzleHttp\\Psr7\\": "src/"
-                },
                 "files": [
                     "src/functions_include.php"
-                ]
+                ],
+                "psr-4": {
+                    "GuzzleHttp\\Psr7\\": "src/"
+                }
             },
             "notification-url": "https://packagist.org/downloads/",
             "license": [
@@ -898,7 +898,7 @@
                     "type": "tidelift"
                 }
             ],
-            "time": "2021-10-05T13:56:00+00:00"
+            "time": "2022-03-20T21:51:18+00:00"
         },
         {
             "name": "kartik-v/bootstrap-fileinput",
@@ -1877,16 +1877,16 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/kartik-v/yii2-widget-datetimepicker.git",
-                "reference": "881985a5e482a4e37d1901c7857912ba5af3f298"
+                "reference": "85b22d38553ca207f86be198f37e6531347e9a23"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/kartik-v/yii2-widget-datetimepicker/zipball/881985a5e482a4e37d1901c7857912ba5af3f298",
-                "reference": "881985a5e482a4e37d1901c7857912ba5af3f298",
+                "url": "https://api.github.com/repos/kartik-v/yii2-widget-datetimepicker/zipball/85b22d38553ca207f86be198f37e6531347e9a23",
+                "reference": "85b22d38553ca207f86be198f37e6531347e9a23",
                 "shasum": ""
             },
             "require": {
-                "kartik-v/yii2-krajee-base": ">=2.0.0"
+                "kartik-v/yii2-krajee-base": ">=3.0.4"
             },
             "type": "yii2-extension",
             "extra": {
@@ -1923,7 +1923,7 @@
                 "widget",
                 "yii2"
             ],
-            "time": "2021-10-28T03:39:38+00:00"
+            "time": "2022-03-18T17:42:22+00:00"
         },
         {
             "name": "kartik-v/yii2-widget-depdrop",
