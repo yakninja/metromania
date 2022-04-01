@@ -2212,12 +2212,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/kartik-v/yii2-widget-select2.git",
-                "reference": "25fbe4b93b8acbac325fa4f594a983be1e84a780"
+                "reference": "2346248bb09377bd4f0a585d7cad10be103d72ca"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/kartik-v/yii2-widget-select2/zipball/25fbe4b93b8acbac325fa4f594a983be1e84a780",
-                "reference": "25fbe4b93b8acbac325fa4f594a983be1e84a780",
+                "url": "https://api.github.com/repos/kartik-v/yii2-widget-select2/zipball/2346248bb09377bd4f0a585d7cad10be103d72ca",
+                "reference": "2346248bb09377bd4f0a585d7cad10be103d72ca",
                 "shasum": ""
             },
             "require": {
@@ -2264,7 +2264,7 @@
                     "type": "open_collective"
                 }
             ],
-            "time": "2022-03-04T10:11:54+00:00"
+            "time": "2022-03-29T13:25:36+00:00"
         },
         {
             "name": "kartik-v/yii2-widget-sidenav",
@@ -5605,16 +5605,16 @@
         },
         {
             "name": "yiisoft/yii2-queue",
-            "version": "2.3.3",
+            "version": "2.3.4",
             "source": {
                 "type": "git",
                 "url": "https://github.com/yiisoft/yii2-queue.git",
-                "reference": "68321f9aad0de980f1883c0f4623c11623f43c3a"
+                "reference": "ed30b5f46ddadd62587a4963dec35f9b756c408b"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/yiisoft/yii2-queue/zipball/68321f9aad0de980f1883c0f4623c11623f43c3a",
-                "reference": "68321f9aad0de980f1883c0f4623c11623f43c3a",
+                "url": "https://api.github.com/repos/yiisoft/yii2-queue/zipball/ed30b5f46ddadd62587a4963dec35f9b756c408b",
+                "reference": "ed30b5f46ddadd62587a4963dec35f9b756c408b",
                 "shasum": ""
             },
             "require": {
@@ -5653,16 +5653,16 @@
             "autoload": {
                 "psr-4": {
                     "yii\\queue\\": "src",
-                    "yii\\queue\\amqp\\": "src/drivers/amqp",
-                    "yii\\queue\\amqp_interop\\": "src/drivers/amqp_interop",
-                    "yii\\queue\\beanstalk\\": "src/drivers/beanstalk",
                     "yii\\queue\\db\\": "src/drivers/db",
-                    "yii\\queue\\file\\": "src/drivers/file",
-                    "yii\\queue\\gearman\\": "src/drivers/gearman",
-                    "yii\\queue\\redis\\": "src/drivers/redis",
-                    "yii\\queue\\sync\\": "src/drivers/sync",
                     "yii\\queue\\sqs\\": "src/drivers/sqs",
-                    "yii\\queue\\stomp\\": "src/drivers/stomp"
+                    "yii\\queue\\amqp\\": "src/drivers/amqp",
+                    "yii\\queue\\file\\": "src/drivers/file",
+                    "yii\\queue\\sync\\": "src/drivers/sync",
+                    "yii\\queue\\redis\\": "src/drivers/redis",
+                    "yii\\queue\\stomp\\": "src/drivers/stomp",
+                    "yii\\queue\\gearman\\": "src/drivers/gearman",
+                    "yii\\queue\\beanstalk\\": "src/drivers/beanstalk",
+                    "yii\\queue\\amqp_interop\\": "src/drivers/amqp_interop"
                 }
             },
             "notification-url": "https://packagist.org/downloads/",
@@ -5702,7 +5702,7 @@
                     "type": "tidelift"
                 }
             ],
-            "time": "2021-12-30T08:42:00+00:00"
+            "time": "2022-03-31T07:41:51+00:00"
         },
         {
             "name": "yiisoft/yii2-redis",
@@ -6841,16 +6841,16 @@
         },
         {
             "name": "phpdocumentor/type-resolver",
-            "version": "1.6.0",
+            "version": "1.6.1",
             "source": {
                 "type": "git",
                 "url": "https://github.com/phpDocumentor/TypeResolver.git",
-                "reference": "93ebd0014cab80c4ea9f5e297ea48672f1b87706"
+                "reference": "77a32518733312af16a44300404e945338981de3"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/phpDocumentor/TypeResolver/zipball/93ebd0014cab80c4ea9f5e297ea48672f1b87706",
-                "reference": "93ebd0014cab80c4ea9f5e297ea48672f1b87706",
+                "url": "https://api.github.com/repos/phpDocumentor/TypeResolver/zipball/77a32518733312af16a44300404e945338981de3",
+                "reference": "77a32518733312af16a44300404e945338981de3",
                 "shasum": ""
             },
             "require": {
@@ -6883,7 +6883,7 @@
                 }
             ],
             "description": "A PSR-5 based resolver of Class names, Types and Structural Element Names",
-            "time": "2022-01-04T19:58:01+00:00"
+            "time": "2022-03-15T21:29:03+00:00"
         },
         {
             "name": "phpspec/php-diff",
@@ -7265,16 +7265,16 @@
         },
         {
             "name": "phpunit/phpunit",
-            "version": "8.5.25",
+            "version": "8.5.26",
             "source": {
                 "type": "git",
                 "url": "https://github.com/sebastianbergmann/phpunit.git",
-                "reference": "9ff23f4dfde040ccd3b8db876192d1184b934158"
+                "reference": "ef117c59fc4c54a979021b26d08a3373e386606d"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/sebastianbergmann/phpunit/zipball/9ff23f4dfde040ccd3b8db876192d1184b934158",
-                "reference": "9ff23f4dfde040ccd3b8db876192d1184b934158",
+                "url": "https://api.github.com/repos/sebastianbergmann/phpunit/zipball/ef117c59fc4c54a979021b26d08a3373e386606d",
+                "reference": "ef117c59fc4c54a979021b26d08a3373e386606d",
                 "shasum": ""
             },
             "require": {
@@ -7354,7 +7354,7 @@
                     "type": "github"
                 }
             ],
-            "time": "2022-03-16T16:24:13+00:00"
+            "time": "2022-04-01T12:34:39+00:00"
         },
         {
             "name": "psr/event-dispatcher",
