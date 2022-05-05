@@ -1281,12 +1281,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/kartik-v/yii2-grid.git",
-                "reference": "c42bf9e477fbd41432fba713859f85f71e9eadf2"
+                "reference": "b7f5f5fa46d6d12eef22f57363d4088ebf0fe5fd"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/kartik-v/yii2-grid/zipball/c42bf9e477fbd41432fba713859f85f71e9eadf2",
-                "reference": "c42bf9e477fbd41432fba713859f85f71e9eadf2",
+                "url": "https://api.github.com/repos/kartik-v/yii2-grid/zipball/b7f5f5fa46d6d12eef22f57363d4088ebf0fe5fd",
+                "reference": "b7f5f5fa46d6d12eef22f57363d4088ebf0fe5fd",
                 "shasum": ""
             },
             "require": {
@@ -1334,7 +1334,7 @@
                     "type": "open_collective"
                 }
             ],
-            "time": "2022-05-03T09:07:18+00:00"
+            "time": "2022-05-05T11:00:19+00:00"
         },
         {
             "name": "kartik-v/yii2-helpers",
@@ -1825,12 +1825,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/kartik-v/yii2-widget-datepicker.git",
-                "reference": "9d28ec5180e65c1966ffd9f18df33967999446a2"
+                "reference": "0ed90241847f93f8d3dafd307f3ab5eec35159f5"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/kartik-v/yii2-widget-datepicker/zipball/9d28ec5180e65c1966ffd9f18df33967999446a2",
-                "reference": "9d28ec5180e65c1966ffd9f18df33967999446a2",
+                "url": "https://api.github.com/repos/kartik-v/yii2-widget-datepicker/zipball/0ed90241847f93f8d3dafd307f3ab5eec35159f5",
+                "reference": "0ed90241847f93f8d3dafd307f3ab5eec35159f5",
                 "shasum": ""
             },
             "require": {
@@ -1871,7 +1871,7 @@
                 "widget",
                 "yii2"
             ],
-            "time": "2022-04-18T08:33:34+00:00"
+            "time": "2022-05-04T04:54:39+00:00"
         },
         {
             "name": "kartik-v/yii2-widget-datetimepicker",
