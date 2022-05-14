@@ -385,23 +385,28 @@
         },
         {
             "name": "firebase/php-jwt",
-            "version": "v6.1.2",
+            "version": "v6.2.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/firebase/php-jwt.git",
-                "reference": "c297139da7c6873dbd67cbd1093f09ec0bbd0c50"
+                "reference": "d28e6df83830252650da4623c78aaaf98fb385f3"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/firebase/php-jwt/zipball/c297139da7c6873dbd67cbd1093f09ec0bbd0c50",
-                "reference": "c297139da7c6873dbd67cbd1093f09ec0bbd0c50",
+                "url": "https://api.github.com/repos/firebase/php-jwt/zipball/d28e6df83830252650da4623c78aaaf98fb385f3",
+                "reference": "d28e6df83830252650da4623c78aaaf98fb385f3",
                 "shasum": ""
             },
             "require": {
                 "php": "^7.1||^8.0"
             },
             "require-dev": {
-                "phpunit/phpunit": "^7.5||9.5"
+                "guzzlehttp/guzzle": "^6.5||^7.4",
+                "phpspec/prophecy-phpunit": "^1.1",
+                "phpunit/phpunit": "^7.5||^9.5",
+                "psr/cache": "^1.0||^2.0",
+                "psr/http-client": "^1.0",
+                "psr/http-factory": "^1.0"
             },
             "suggest": {
                 "paragonie/sodium_compat": "Support EdDSA (Ed25519) signatures when libsodium is not present"
@@ -434,7 +439,7 @@
                 "jwt",
                 "php"
             ],
-            "time": "2022-04-21T14:37:18+00:00"
+            "time": "2022-05-13T20:54:50+00:00"
         },
         {
             "name": "google/apiclient",
@@ -904,16 +909,16 @@
         },
         {
             "name": "kartik-v/bootstrap-fileinput",
-            "version": "v5.2.7",
+            "version": "v5.2.8",
             "source": {
                 "type": "git",
                 "url": "https://github.com/kartik-v/bootstrap-fileinput.git",
-                "reference": "02e2e6bccad31373bb2224fccdb8e9a3166124b9"
+                "reference": "89be70dbb9470dd8a56ef27508e344fcfccdb5af"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/kartik-v/bootstrap-fileinput/zipball/02e2e6bccad31373bb2224fccdb8e9a3166124b9",
-                "reference": "02e2e6bccad31373bb2224fccdb8e9a3166124b9",
+                "url": "https://api.github.com/repos/kartik-v/bootstrap-fileinput/zipball/89be70dbb9470dd8a56ef27508e344fcfccdb5af",
+                "reference": "89be70dbb9470dd8a56ef27508e344fcfccdb5af",
                 "shasum": ""
             },
             "type": "library",
@@ -959,7 +964,7 @@
                     "type": "open_collective"
                 }
             ],
-            "time": "2021-12-17T16:05:03+00:00"
+            "time": "2022-05-10T14:17:20+00:00"
         },
         {
             "name": "kartik-v/bootstrap-popover-x",
