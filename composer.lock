@@ -32,7 +32,7 @@
             "version": "3.6.0",
             "source": {
                 "type": "git",
-                "url": "git@github.com:jquery/jquery-dist.git",
+                "url": "https://github.com/jquery/jquery-dist.git",
                 "reference": "e786e3d9707ffd9b0dd330ca135b66344dcef85a"
             },
             "dist": {
@@ -509,16 +509,16 @@
         },
         {
             "name": "google/apiclient-services",
-            "version": "v0.252.0",
+            "version": "v0.253.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/googleapis/google-api-php-client-services.git",
-                "reference": "9941c959f6a1f781e49019b78f453d54554dff73"
+                "reference": "70c62b17f7821526cb52c6f125254dc51f256109"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/googleapis/google-api-php-client-services/zipball/9941c959f6a1f781e49019b78f453d54554dff73",
-                "reference": "9941c959f6a1f781e49019b78f453d54554dff73",
+                "url": "https://api.github.com/repos/googleapis/google-api-php-client-services/zipball/70c62b17f7821526cb52c6f125254dc51f256109",
+                "reference": "70c62b17f7821526cb52c6f125254dc51f256109",
                 "shasum": ""
             },
             "require": {
@@ -545,7 +545,7 @@
             "keywords": [
                 "google"
             ],
-            "time": "2022-06-06T01:20:11+00:00"
+            "time": "2022-06-13T01:06:12+00:00"
         },
         {
             "name": "google/auth",
@@ -3127,16 +3127,16 @@
         },
         {
             "name": "paragonie/constant_time_encoding",
-            "version": "v2.6.1",
+            "version": "v2.6.2",
             "source": {
                 "type": "git",
                 "url": "https://github.com/paragonie/constant_time_encoding.git",
-                "reference": "d6e1d5d0fb2458dfdd7018ec2f74be120353a3b9"
+                "reference": "c1b1d82d109846ba58a4664dc5480c69ad2fc097"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/paragonie/constant_time_encoding/zipball/d6e1d5d0fb2458dfdd7018ec2f74be120353a3b9",
-                "reference": "d6e1d5d0fb2458dfdd7018ec2f74be120353a3b9",
+                "url": "https://api.github.com/repos/paragonie/constant_time_encoding/zipball/c1b1d82d109846ba58a4664dc5480c69ad2fc097",
+                "reference": "c1b1d82d109846ba58a4664dc5480c69ad2fc097",
                 "shasum": ""
             },
             "require": {
@@ -3185,7 +3185,7 @@
                 "hex2bin",
                 "rfc4648"
             ],
-            "time": "2022-06-11T00:43:46+00:00"
+            "time": "2022-06-13T05:29:16+00:00"
         },
         {
             "name": "paragonie/random_compat",
