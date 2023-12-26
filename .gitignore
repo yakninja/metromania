@@ -44,3 +44,5 @@ phpunit.phar
 /common/config/credentials.json
 /frontend/web/.htaccess
 /common/runtime/cookies.json
+/redis/data/dump.rdb
+/supervisord/logs/*
