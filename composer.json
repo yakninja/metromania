@@ -25,7 +25,8 @@
     "voskobovich/yii2-linker-behavior": "^4.1",
     "yiisoft/yii2-redis": "^2.0",
     "guzzlehttp/guzzle": "^7.0",
-    "paquettg/php-html-parser": "^3.1"
+    "paquettg/php-html-parser": "^3.1",
+    "phpseclib/phpseclib": "^3.0.36"
   },
   "require-dev": {
     "yiisoft/yii2-debug": "~2.1.0",
