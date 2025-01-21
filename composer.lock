@@ -168,16 +168,16 @@
         },
         {
             "name": "components/flag-icon-css",
-            "version": "v7.2.3",
+            "version": "v7.3.2",
             "source": {
                 "type": "git",
                 "url": "https://github.com/lipis/flag-icons.git",
-                "reference": "5667d75be0c0396f29fdc73e2b2e341d0e702843"
+                "reference": "fe15c16e7463d0c66d6c5730e9d0e832438d98e1"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/lipis/flag-icons/zipball/5667d75be0c0396f29fdc73e2b2e341d0e702843",
-                "reference": "5667d75be0c0396f29fdc73e2b2e341d0e702843",
+                "url": "https://api.github.com/repos/lipis/flag-icons/zipball/fe15c16e7463d0c66d6c5730e9d0e832438d98e1",
+                "reference": "fe15c16e7463d0c66d6c5730e9d0e832438d98e1",
                 "shasum": ""
             },
             "type": "library",
@@ -203,9 +203,9 @@
             ],
             "support": {
                 "issues": "https://github.com/lipis/flag-icons/issues",
-                "source": "https://github.com/lipis/flag-icons/tree/v7.2.3"
+                "source": "https://github.com/lipis/flag-icons/tree/v7.3.2"
             },
-            "time": "2024-05-29T11:01:19+00:00"
+            "time": "2025-01-17T14:03:50+00:00"
         },
         {
             "name": "doctrine/deprecations",
